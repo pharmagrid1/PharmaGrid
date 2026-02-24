@@ -1,1 +1,7 @@
-<p>products-page works!</p>
+<h2>Products</h2>
+
+@for(product of products; track product.id){
+    <div>
+        <p>{{product.name}} - ${{product.price}}</p>
+    </div>
+}
