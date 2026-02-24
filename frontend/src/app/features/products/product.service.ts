@@ -3,10 +3,18 @@ import { HttpClient } from "@angular/common/http";
 import { Observable } from "rxjs";
 
 export interface Product{
-    id:number;
-    name:string;
-    price:number;
+   
+  id: number;
+  brand: string;
+  name: string;
+  price: number;
+  skinType: string;
+  image: string;
 }
+
+
+
+
 
 @Injectable({
     providedIn:'root'

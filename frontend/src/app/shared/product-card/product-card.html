@@ -1,0 +1,21 @@
+<mat-card class="product-card mat-elevation-z1">
+
+    <img mat-card-image [src]="image"  />
+
+    <mat-card-content>
+        <p class="brand">{{brand}}</p>
+        <h3 class="name">{{name}}</h3>
+
+        <mat-chip color="tertiary" selected>
+            {{skinType}}
+        </mat-chip>
+
+        <p class="price">€{{price}}</p>
+    </mat-card-content>
+
+    <mat-card-actions>
+        <button mat-stroked-button color="primary">
+            View Details
+        </button>
+    </mat-card-actions>
+</mat-card>
