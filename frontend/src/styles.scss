@@ -1,1 +1,52 @@
-/* You can add global styles to this file, and also import other style files */
+@use '@angular/material' as mat;
+
+@include mat.core();
+
+//defining custom palettes
+
+$pharmacy-green: mat.define-palette((
+   50: #e6f2ed,
+  100: #cce5db,
+  200: #99cbb8,
+  300: #66b095,
+  400: #339672,
+  500: #1f6f54, // PRIMARY BASE
+  600: #195a44,
+  700: #134534,
+  800: #0d3024,
+  900: #071b14,
+  contrast: (
+    500:white,
+  )
+));
+
+$baby-blue: mat.define-palette((
+  50: #eef6fb,
+  100: #d9ebf7,
+  200: #b3d7ef,
+  300: #8cc3e7,
+  400: #66afdf,
+  500: #4f9ed6, // Secondary tone
+  contrast: (
+    500: white,
+  )
+));
+
+
+$pharmacy-theme: mat.define-light-theme((
+  color: (
+    primary: $pharmacy-green,
+    accent: $baby-blue,
+  ),
+  typography: mat.define-typography-config(),
+  density: 0
+));
+
+@include mat.all-component-themes($pharmacy-theme);
+
+// Global background + text tone
+body {
+  background-color: #f8f9f7; // soft off-white
+  color: #2f2f2f; // charcoal
+  font-family: 'Inter', sans-serif;
+}
