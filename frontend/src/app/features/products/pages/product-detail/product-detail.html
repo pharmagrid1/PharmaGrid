@@ -1,0 +1,46 @@
+<div class = "detail-container">
+    <div class="top-section">
+        <div class = "image-section">
+            <img src = "https://www.laroche-posay.me/-/media/project/loreal/brand-sites/lrp/apac/mena/products/effaclar/effaclar-cleansing-foaming-gel/la-roche-posay-productpage-acne-effaclar-cleansing-foaming-gel-400ml-3337872411991-zoom-front-n.png/400x400"/>
+        </div>
+
+        <div class="info-section">
+            <p class="brand">{{product.brand}}</p>
+            <h2 class="name">{{product.name}}</h2>
+
+            <p class="skin-type">{{product.skinType}}</p>
+
+            <p class="price">€{{product.price}}</p>
+
+            <button mat-stroked-button color="primary">
+                Add to Cart
+            </button>
+        </div>
+
+        <mat-divider></mat-divider>
+
+        <mat-tab-group>
+            <mat-tab label="Description">
+                <p class="tab-content">{{product.description}}</p>
+            </mat-tab>
+        </mat-tab-group>
+
+        <mat-tab-group>
+            <mat-tab label="Ingredients">
+                <p class="tab-content">{{product.ingredients}}</p>
+            </mat-tab>
+        </mat-tab-group>
+
+        <mat-tab-group>
+            <mat-tab label="Usage Instructions">
+                <p class="tab-content">{{product.usage}}</p>
+            </mat-tab>
+        </mat-tab-group>
+
+        <mat-tab-group>
+            <mat-tab label="Warnings">
+                <p class="tab-content">{{product.warnings}}</p>
+            </mat-tab>
+        </mat-tab-group>
+
+    </div>

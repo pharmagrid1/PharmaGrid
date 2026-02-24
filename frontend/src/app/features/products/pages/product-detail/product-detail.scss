@@ -1,0 +1,48 @@
+.detail-container {
+  padding: 40px;
+  max-width: 1200px;
+  margin: auto;
+}
+
+.top-section {
+  display: flex;
+  gap: 48px;
+  margin-bottom: 40px;
+}
+
+.image-section img {
+  width: 400px;
+  border-radius: 8px;
+}
+
+.info-section {
+  flex: 1;
+}
+
+.brand {
+  font-size: 13px;
+  text-transform: uppercase;
+  color: #6b6b6b;
+}
+
+.name {
+  font-size: 24px;
+  font-weight: 600;
+  margin: 8px 0;
+}
+
+.skin-type {
+  margin-bottom: 16px;
+  color: #4f4f4f;
+}
+
+.price {
+  font-size: 20px;
+  font-weight: 500;
+  margin-bottom: 24px;
+}
+
+.tab-content {
+  padding: 24px;
+  line-height: 1.6;
+}
