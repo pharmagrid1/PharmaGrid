@@ -1,18 +1,21 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
-import { Order, OrderService } from '../../../shared/services/order.service';
+import { Router } from '@angular/router';
+import { Order } from '../../../shared/services/order.service';
 
 @Component({
   selector: 'app-order-confirmation-page',
-  standalone:true,
+  standalone: true,
   imports: [CommonModule],
   templateUrl: './order-confirmation-page.html',
   styleUrl: './order-confirmation-page.scss',
 })
 export class OrderConfirmationPage {
-  order: Order |null;
 
-  constructor(private orderService:OrderService){
-    this.order=this.orderService.getOrder();
+  order: Order | null = null;
+
+  constructor(private router: Router) {
+    const navigation = this.router.getCurrentNavigation();
+    this.order = navigation?.extras.state?.['order'] || null;
   }
 }

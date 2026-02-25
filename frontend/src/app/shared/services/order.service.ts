@@ -1,38 +1,41 @@
-import {Injectable} from '@angular/core';
+import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
 import { CartItem } from './cart.service';
 
-export interface Order{
-    id:string;
-    customerName:string;
-    email:string;
-    phone:string;
-    address:string;
-    deliveryMethod:string;
-    items:CartItem[];
-    total:number;
-    status:string;
+export interface OrderItem {
+  product_id: number;
+  productName: string;
+  quantity: number;
+  price: number;
+}
+
+export interface Order {
+  id: number;
+  deliveryMethod: string;
+  totalAmount: number;
+  status: string;
+  createdAt: string;
+  items: OrderItem[];
 }
 
 @Injectable({
-    providedIn:'root'
+  providedIn: 'root'
 })
+export class OrderService {
 
-export class OrderService{
-    private currentOrder: Order | null=null;
+  private apiUrl = 'http://localhost:3000/api/orders';
 
-    createdOrder(order:Order){
-        this.currentOrder=order;
-    }
+  constructor(private http: HttpClient) {}
 
-    getOrder(): Order | null {
-        return this.currentOrder;
-    }
+  // CREATE ORDER (checkout)
+  createOrder(orderData: any): Observable<Order> {
+    return this.http.post<Order>(this.apiUrl, orderData);
+  }
 
-    getMyOrders(): Observable<Order[]>{
-        return this.http.get<Order[]>('${this.apiUrl}/my-orders');
-    }
-
-    clearOrder(){
-        this.currentOrder=null;
-    }
+  // GET USER ORDERS
+  getMyOrders(): Observable<Order[]> {
+    const userId = 1; // temporary hardcoded
+    return this.http.get<Order[]>(`${this.apiUrl}/user/${userId}`);
+  }
 }

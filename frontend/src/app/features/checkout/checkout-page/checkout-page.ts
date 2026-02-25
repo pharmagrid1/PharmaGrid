@@ -39,27 +39,32 @@ export class CheckoutPage {
     
   }
 
-  placeOrder(){
-    if(this.checkoutForm.invalid) return;
+ placeOrder() {
+  if (this.checkoutForm.invalid) return;
 
-    const formValue=this.checkoutForm.value;
+  const formValue = this.checkoutForm.value;
 
-    const newOrder: Order={
-      id:'ORD-'+Math.floor(Math.random()*100000),
-      customerName:formValue.customerName?? '',
-      email:formValue.email?? '',
-      phone: formValue.phone?? '',
-      address:formValue.address?? '',
-      deliveryMethod:formValue.deliveryMethod?? 'Pickup',
-      items:this.cartItems,
-      total: this.cartService.getTotal(),
-      status:'Pending'
-    };
+  const orderPayload = {
+    user_id: 1, // temporary
+    delivery_method: formValue.deliveryMethod,
+    total_amount: this.cartService.getTotal(),
+    items: this.cartItems.map(item => ({
+      product_id: item.id,
+      quantity: item.quantity,
+      price: item.price
+    }))
+  };
 
-    this.orderService.createdOrder(newOrder);
-    
-    this.cartService.clearCart();
-
-    this.router.navigate(['/order-confirmation']);
-  }
+  this.orderService.createOrder(orderPayload).subscribe({
+    next: (createdOrder) => {
+      this.cartService.clearCart();
+      this.router.navigate(['/order-confirmation'], {
+        state: { order: createdOrder }
+      });
+    },
+    error: (err) => {
+      console.error('Order creation failed', err);
+    }
+  });
+}
 }

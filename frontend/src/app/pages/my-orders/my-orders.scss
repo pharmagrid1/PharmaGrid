@@ -1,0 +1,47 @@
+.orders-container {
+  max-width: 900px;
+  margin: 40px auto;
+  padding: 0 20px;
+}
+
+h1 {
+  margin-bottom: 24px;
+}
+
+.empty-state {
+  text-align: center;
+  margin-top: 80px;
+  color: #777;
+
+  mat-icon {
+    font-size: 60px;
+    display: block;
+    margin-bottom: 16px;
+  }
+}
+
+.order-details {
+  padding: 16px 0;
+}
+
+.meta {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 16px;
+}
+
+.items {
+  margin-top: 12px;
+}
+
+.item-row {
+  display: flex;
+  justify-content: space-between;
+  margin: 6px 0;
+}
+
+.loading {
+  display: flex;
+  justify-content: center;
+  margin-top: 100px;
+}

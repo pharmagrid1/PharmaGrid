@@ -1,19 +1,21 @@
 @if(order){
-    <h2>Order Confirmation</h2>
 
-    <p><strong>Order ID:</strong>{{order.id}}</p>
-    <p><strong>Status:</strong>{{order.status}}</p>
-    <p><strong>Total:</strong>€{{order.total}}</p>
+  <h2>Order Confirmation</h2>
 
-    <h3>Items:</h3>
+  <p><strong>Order ID:</strong> {{order.id}}</p>
+  <p><strong>Status:</strong> {{order.status}}</p>
+  <p><strong>Total:</strong> €{{order.totalAmount}}</p>
 
-    @for(item of order.items; track item.id){
-        <div>
-            {{item.name}}
-            ({{item.quantity}})
-            -€{{item.price*item.quantity}}
-        </div>
-    }
-}@else {
-    <p>No order found.</p>
+  <h3>Items:</h3>
+
+  @for(item of order.items; track item.product_id){
+    <div>
+      {{item.productName}}
+      ({{item.quantity}})
+      - €{{item.price * item.quantity}}
+    </div>
+  }
+
+} @else {
+  <p>No order found.</p>
 }
