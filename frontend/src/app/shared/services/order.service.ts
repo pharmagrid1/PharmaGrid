@@ -28,6 +28,10 @@ export class OrderService{
         return this.currentOrder;
     }
 
+    getMyOrders(): Observable<Order[]>{
+        return this.http.get<Order[]>('${this.apiUrl}/my-orders');
+    }
+
     clearOrder(){
         this.currentOrder=null;
     }
