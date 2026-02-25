@@ -1,5 +1,35 @@
-<div class="products-grid">
-    @for(product of products; track product.id){
+<div class="products-layout">
+
+<aside class="filters">
+    <h3>Filter Products</h3>
+
+    <div class="filter-group">
+        <label>Skin Type</label>
+        <select (change)="filterBySkinType($event)">
+            <option value="">All</option>
+            <option value="Oily Skin">Oily Skin</option>
+            <option value="Dry Skin">Dry Skin</option>
+            <option value="Sensitive Skin">Sensitive Skin</option>
+        </select>
+    </div>
+
+    <div class="filter-group">
+        <label>Brand</label>
+        <select (change)="filterByBrand($event)">
+            <option value="">All</option>
+            <option value="La Roche-Posay">La Roche-Posay</option>
+            <option value="CeraVe">CeraVe</option>
+            <option value="TirTir">TirTir</option>
+        </select>
+    </div>
+
+    <button mat-stroked-button (click)="clearFilters()">
+        Clear All Filters
+    </button>
+</aside>
+
+<section class="products-grid">
+    @for(product of filteredProducts; track product.id){
         <app-product-card 
         [brand]="product.brand"
         [name]="product.name"
@@ -10,5 +40,8 @@
 
         </app-product-card>
     }
+
+</section>
+
 
 </div>
