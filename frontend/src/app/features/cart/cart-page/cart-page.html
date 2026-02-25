@@ -1,0 +1,21 @@
+<h2>Your Cart</h2>
+
+@for(item of cartItems; track item.id){
+    <div class="cart-item">
+        <img [src]="item.image" width="80">
+
+        <div>
+            <h4>{{ item.name }}</h4>
+            <p>{{item.brand}}</p>
+            <p>€{{item.price}}</p>
+
+            <button (click)="decrease(item.id)">-</button>
+            {{item.quantity}}
+            <button (click)="increase(item.id)">+</button>
+
+            <button (click)="remove(item.id)">Remove</button>
+        </div>
+    </div>
+}
+
+<h3>Total: €{{getTotal()}} </h3>

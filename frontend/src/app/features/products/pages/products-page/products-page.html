@@ -31,6 +31,7 @@
 <section class="products-grid">
     @for(product of filteredProducts; track product.id){
         <app-product-card 
+        [id] = "product.id"
         [brand]="product.brand"
         [name]="product.name"
         [price]="product.price"
