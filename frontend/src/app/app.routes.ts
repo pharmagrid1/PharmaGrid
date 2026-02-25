@@ -18,6 +18,15 @@ export const routes: Routes = [
       {
         path: 'cart', component: CartPage
       },
+      {
+        path:'checkout', loadComponent:()=>
+          import('./features/checkout/checkout-page/checkout-page').then(m=>m.CheckoutPage)
+      },
+      {
+        path:'order-confirmation', loadComponent:()=>
+          import('./features/order/order-confirmation-page/order-confirmation-page')
+        .then(m=>m.OrderConfirmationPage)
+      }
     ]
   }
 ];

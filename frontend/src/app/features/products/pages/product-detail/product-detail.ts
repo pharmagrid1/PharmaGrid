@@ -4,14 +4,15 @@ import {MatTabsModule} from '@angular/material/tabs';
 import {MatButtonModule} from '@angular/material/button';
 import {MatDividerModule} from '@angular/material/divider';
 
+
 @Component({
   selector: 'app-product-detail',
   imports: [
     CommonModule,
     MatButtonModule,
     MatTabsModule,
-    MatDividerModule
-  ],
+    MatDividerModule,
+],
   templateUrl: './product-detail.html',
   styleUrl: './product-detail.scss',
 })
