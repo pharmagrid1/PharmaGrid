@@ -6,17 +6,18 @@ import {MatDividerModule} from '@angular/material/divider';
 import { ActivatedRoute } from '@angular/router';
 import { ProductService } from '../../product.service';
 import { CartService } from '../../../../shared/services/cart.service';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 
 @Component({
   selector: 'app-product-detail',
   standalone:true,
   imports: [
-    CommonModule,
-    MatButtonModule,
-    MatTabsModule,
-    MatDividerModule,
-],
+    CommonModule, 
+    MatButtonModule, 
+    MatTabsModule, 
+    MatDividerModule, 
+    MatProgressSpinnerModule],
   templateUrl: './product-detail.html',
   styleUrl: './product-detail.scss',
 })

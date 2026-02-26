@@ -3,23 +3,29 @@
         <div class="top-section">
 
             <div class="image-section">
-                <img [src] = "product.image" />
+                <img [src] = "product.image" [alt]="product.name"/>
             </div>
 
 
             <div class="info-section">
+                <p class="category-tag">{{product.category}}</p>
                 <p class="brand">{{product.brand}}</p>
                 <h2 class="name">{{product.name}}</h2>
-                <p class="skin-type">{{product.skin_type}}</p>
+                <p class="skin-type">{{product.skin_type}} &nbsp;·&nbsp; {{product.skin_concern}}</p>
                 <p class="price">€{{product.price}}</p>
 
-                <button mat-stroked-button color="primary" (click)="addToCart()">
+                <div class="stock-info" [class.low]="product.stock < 10">
+                    {{ product.stock > 0 ? product.stock + ' in stock' : 'Out of stock' }}
+                </div>
+
+
+                <button class="add-btn" (click)="addToCart()" [disabled]="product.stock === 0">
                     Add to Cart
                 </button>
             </div>
-
-            <mat-divider></mat-divider>
-
+        </div>
+           
+            <div class="tabs-section">
             <mat-tab-group>
                 <mat-tab label="Description">
                     <p class="tab-content"> {{product.description}}</p>
@@ -40,5 +46,7 @@
         </div>
     </div>
 } @else {
-    <p>Loading product...</p>
+    <div class="loading-state">
+        <mat-spinner></mat-spinner>
+    </div>
 }
