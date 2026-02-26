@@ -1,8 +1,16 @@
-<mat-toolbar color="primary">
+<header class="navbar">
+    <div class="nav-brand" routerLink="/">
+        <span class="brand-icon">✦</span>
+        <span class="brand-name">PharmaGrid</span>
 
-    <span>PharmaGrid</span>
-    <span class="spacer"></span>
-    <button mat-button routerLink="/">Products</button>
-    <button mat-button routerLink="/cart">Cart</button>
+    </div>
 
-</mat-toolbar>
+    <nav class="nav-links">
+        <a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{exact:true}">Products</a>
+        <a routerLink="/my-orders" routerLinkActive="active">My Orders</a>
+        <a routerLink="/cart" class="cart-btn" routerLinkActive="active">
+            <span>Cart</span>
+        </a>
+    </nav>
+
+</header>

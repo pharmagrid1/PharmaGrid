@@ -1,3 +1,78 @@
-.spacer {
-  flex: 1 1 auto;
+.navbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 48px;
+  height: 64px;
+  background: rgba(10,15,30,0.8);
+  backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--border-glass);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.nav-brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+  text-decoration: none;
+
+  .brand-icon {
+    color: var(--accent-teal);
+    font-size: 20px;
+    animation: spin 8s linear infinite;
+  }
+
+  .brand-name {
+    font-family: 'Syne', sans-serif;
+    font-size: 20px;
+    font-weight: 800;
+    color: var(--text-primary);
+    letter-spacing: -0.5px;
+  }
+}
+
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: 32px;
+
+  a {
+    color: var(--text-muted);
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 500;
+    transition: color 0.2s;
+    position: relative;
+
+    &:hover, &.active { color: var(--text-primary); }
+
+    &.active::after {
+      content: '';
+      position: absolute;
+      bottom: -4px;
+      left: 0; right: 0;
+      height: 1px;
+      background: var(--accent-teal);
+    }
+  }
+
+  .cart-btn {
+    background: var(--accent-teal);
+    color: #0a0f1e !important;
+    padding: 8px 20px;
+    border-radius: 100px;
+    font-weight: 600;
+    transition: opacity 0.2s, transform 0.2s !important;
+
+    &:hover { opacity: 0.85; transform: translateY(-1px); }
+    &::after { display: none !important; }
+  }
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
 }
