@@ -7,14 +7,14 @@
 }
 
 .filters {
-  background: var(--bg-glass);
+  background: var(--bg-card);
   border: 1px solid var(--border-glass);
   border-radius: 16px;
   padding: 24px;
   height: fit-content;
   position: sticky;
   top: 24px;
-  backdrop-filter: blur(12px);
+  box-shadow: 0 2px 12px rgba(0,0,0,0.05);
 
   h3 {
     font-family: 'Syne', sans-serif;
@@ -40,7 +40,7 @@
   }
 
   select {
-    background: rgba(255,255,255,0.05);
+    background: var(--bg-base);
     border: 1px solid var(--border-glass);
     border-radius: 8px;
     padding: 10px 12px;
@@ -52,7 +52,6 @@
     transition: border-color 0.2s;
 
     &:focus { border-color: var(--accent-teal); }
-    option { background: var(--bg-card); }
   }
 }
 
