@@ -1,41 +1,49 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
 import { CartItem } from './cart.service';
+import { BehaviorSubject } from 'rxjs';
 
-export interface OrderItem {
-  product_id: number;
-  productName: string;
-  quantity: number;
-  price: number;
-}
+// export interface OrderItem {
+//   product_id: number;
+//   productName: string;
+//   quantity: number;
+//   price: number;
+// }
 
 export interface Order {
-  id: number;
-  deliveryMethod: string;
-  totalAmount: number;
-  status: string;
-  createdAt: string;
-  items: OrderItem[];
+  id: string;
+  customerName: string;
+  email: string;
+  phone:string;
+  address:string;
+  deliveryMethod:string;
+  items:CartItem[];
+  total: number;
+  status: OrderStatus;
 }
 
 @Injectable({
   providedIn: 'root'
 })
 export class OrderService {
+    private orders: Order[] = [];
+    private ordersSubject = new BehaviorSubject<Order[]>([]);
 
-  private apiUrl = 'http://localhost:3000/api/orders';
+    orders$ = this.ordersSubject.asObservable();
 
-  constructor(private http: HttpClient) {}
+    createOrder(order: Order) {
+      this.orders.push(order);
+      this.ordersSubject.next(this.orders);
+    }
 
-  // CREATE ORDER (checkout)
-  createOrder(orderData: any): Observable<Order> {
-    return this.http.post<Order>(this.apiUrl, orderData);
-  }
+    getAllOrders(): Order[] {
+      return this.orders;
+    }
 
-  // GET USER ORDERS
-  getMyOrders(): Observable<Order[]> {
-    const userId = 1; // temporary hardcoded
-    return this.http.get<Order[]>(`${this.apiUrl}/user/${userId}`);
-  }
+    updateStatus(id: string, status: OrderStatus) {
+      const order = this.orders.find(o => o.id === id);
+      if (order) {
+        order.status = status;
+        this.ordersSubject.next(this.orders);
+      }
+    }
 }
