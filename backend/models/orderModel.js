@@ -13,7 +13,7 @@ const Order = {
         );
         return result.rows[0];
     },
-    getUserById: async(userId) => {
+    getByUserId: async(userId) => {
         const result = await db.query(
             `SELECT * FROM orders WHERE user_id = $1 ORDER BY created_at DESC`,
             [userId]
