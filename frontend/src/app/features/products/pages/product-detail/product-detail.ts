@@ -1,12 +1,16 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {MatTabsModule} from '@angular/material/tabs';
 import {MatButtonModule} from '@angular/material/button';
 import {MatDividerModule} from '@angular/material/divider';
+import { ActivatedRoute } from '@angular/router';
+import { ProductService } from '../../product.service';
+import { CartService } from '../../../../shared/services/cart.service';
 
 
 @Component({
   selector: 'app-product-detail',
+  standalone:true,
   imports: [
     CommonModule,
     MatButtonModule,
@@ -16,15 +20,34 @@ import {MatDividerModule} from '@angular/material/divider';
   templateUrl: './product-detail.html',
   styleUrl: './product-detail.scss',
 })
-export class ProductDetail {
-  product = {
-    brand: 'La Roche-Posay',
-    name: 'Effaclar Cleanser',
-    price: 18,
-    skinType: 'Oily Skin',
-    description: 'Foaming gel cleanser for oily and acne-prone skin.',
-    ingredients: 'Aqua, Glycerin, Zinc PCA...',
-    usage: 'Apply morning and evening to wet skin.',
-    warnings: 'Avoid contact with eyes.'
-  };
+export class ProductDetail implements OnInit{
+  product:any=null;
+
+  constructor(
+    private route:ActivatedRoute,
+    private productService: ProductService,
+    private cartService: CartService
+  ){}
+
+  ngOnInit(): void {
+    const id=this.route.snapshot.paramMap.get('id');
+    if(id){
+      this.productService.getProductById(+id).subscribe(data=>{
+        this.product=data;
+      });
+    }
+  }
+
+  addToCart(){
+    if(this.product){
+      this.cartService.addToCart({
+        id: this.product.id,
+        name:this.product.name,
+        brand: this.product.brand,
+        price: this.product.price,
+        quantity:1,
+        image: this.product.image
+      });
+    }
+  }
 }
