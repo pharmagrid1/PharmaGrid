@@ -1,28 +1,47 @@
 @use '@angular/material' as mat;
-
 @include mat.core();
-
-
 
 $pharmacy-theme: mat.define-theme((
   color: (
-    theme-type: light,
-    primary: mat.$green-palette,
-    tertiary: mat.$blue-palette,
+    theme-type: dark,
+    primary: mat.$cyan-palette,
+    tertiary: mat.$teal-palette,
   ),
   typography: (
-    brand-family: 'Inter',
-    plain-family: 'Inter',
+    brand-family: 'Syne',
+    plain-family: 'DM Sans',
   ),
-  density: (
-    scale: 0
-  )
+  density: (scale: 0)
 ));
 
 @include mat.all-component-themes($pharmacy-theme);
 
-body {
-  background-color: #f8f9f7; // soft off-white
-  color: #2f2f2f; // charcoal
-  font-family: 'Inter', sans-serif;
+@import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap');
+
+:root {
+  --bg-base: #0a0f1e;
+  --bg-card: #111827;
+  --bg-glass: rgba(255,255,255,0.04);
+  --border-glass: rgba(255,255,255,0.08);
+  --accent-teal: #2dd4bf;
+  --accent-glow: rgba(45, 212, 191, 0.15);
+  --text-primary: #f1f5f9;
+  --text-muted: #94a3b8;
+  --text-brand: #2dd4bf;
 }
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  background-color: var(--bg-base);
+  color: var(--text-primary);
+  font-family: 'DM Sans', sans-serif;
+  min-height: 100vh;
+  background-image:
+    radial-gradient(ellipse at 20% 50%, rgba(45,212,191,0.05) 0%, transparent 50%),
+    radial-gradient(ellipse at 80% 20%, rgba(99,102,241,0.05) 0%, transparent 50%);
+}
+
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: var(--bg-base); }
+::-webkit-scrollbar-thumb { background: var(--accent-teal); border-radius: 3px; }
