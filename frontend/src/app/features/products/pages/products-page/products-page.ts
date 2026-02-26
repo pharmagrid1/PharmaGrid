@@ -50,7 +50,7 @@ export class ProductsPage implements OnInit{
       this.filteredProducts=this.products.filter(product=>{
         const matchesSkin=
           !this.selectedSkinType||
-          product.skinType===this.selectedSkinType;
+          product.skin_type===this.selectedSkinType;
 
         const matchesBrand=
           !this.selectedBrand||
