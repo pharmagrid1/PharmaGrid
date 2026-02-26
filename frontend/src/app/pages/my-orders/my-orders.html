@@ -1,55 +1,56 @@
-<div class="orders-container" *ngIf="!loading; else loadingTemplate">
+@if(!loading) {
+<div class="orders-container">
 
-  <h1>My Orders</h1>
+  <h1>My <span>Orders</span></h1>
 
-  <div *ngIf="orders.length === 0" class="empty-state">
-    <mat-icon>receipt_long</mat-icon>
-    <p>You have no orders yet.</p>
-  </div>
+  @if(orders.length === 0) {
+    <div class="empty-state">
+      <mat-icon>receipt_long</mat-icon>
+      <p>You have no orders yet.</p>
+    </div>
+  }
 
-  <mat-accordion *ngIf="orders.length > 0">
+  @if(orders.length > 0) {
+    <mat-accordion>
+      @for(order of orders; track order.id) {
+        <mat-expansion-panel>
 
-    <mat-expansion-panel *ngFor="let order of orders">
+          <mat-expansion-panel-header>
+            <mat-panel-title>Order #{{ order.id }}</mat-panel-title>
+            <mat-panel-description>
+              €{{ order.total_amount }} |
+              <mat-chip [color]="getStatusColor(order.status || '')" selected>
+                {{ order.status }}
+              </mat-chip>
+            </mat-panel-description>
+          </mat-expansion-panel-header>
 
-      <mat-expansion-panel-header>
-        <mat-panel-title>
-          Order #{{ order.id }}
-        </mat-panel-title>
+          <div class="order-details">
+            <div class="meta">
+              <div><strong>Date:</strong> {{ order.createdAt | date }}</div>
+              <div><strong>Delivery:</strong> {{ order.delivery_method }}</div>
+            </div>
 
-        <mat-panel-description>
-          €{{ order.totalAmount }} |
-          <mat-chip [color]="getStatusColor(order.status || '')" selected>
-            {{ order.status }}
-          </mat-chip>
-        </mat-panel-description>
-      </mat-expansion-panel-header>
+            <mat-divider></mat-divider>
 
-      <div class="order-details">
-
-        <div class="meta">
-          <div><strong>Date:</strong> {{ order.createdAt | date }}</div>
-          <div><strong>Delivery:</strong> {{ order.deliveryMethod }}</div>
-        </div>
-
-        <mat-divider></mat-divider>
-
-        <div class="items">
-          <div class="item-row" *ngFor="let item of order.items">
-            <span>{{ item.productName }} x{{ item.quantity }}</span>
-            <span>€{{ item.price * item.quantity }}</span>
+            <div class="items">
+              @for(item of order.items; track item.product_id) {
+                <div class="item-row">
+                  <span>{{ item.productName }} x{{ item.quantity }}</span>
+                  <span>€{{ item.price * item.quantity }}</span>
+                </div>
+              }
+            </div>
           </div>
-        </div>
 
-      </div>
-
-    </mat-expansion-panel>
-
-  </mat-accordion>
+        </mat-expansion-panel>
+      }
+    </mat-accordion>
+  }
 
 </div>
-
-<ng-template #loadingTemplate>
+} @else {
   <div class="loading">
     <mat-spinner></mat-spinner>
   </div>
-</ng-template>
+}
