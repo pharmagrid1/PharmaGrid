@@ -18,7 +18,7 @@ export interface Order{
    phone?:string;
    address?:string;
    delivery_method:string;
-   deliveryMethod:string;
+   deliveryMethod?:string;
    items:OrderItem[];
    total_amount:number;
    totalAmount?:number;
