@@ -1,28 +1,17 @@
-<mat-card class="product-card mat-elevation-z1">
-
-    <img mat-card-image [src]="image"  />
-
+<mat-card class="product-card">
+    <img mat-card-image [src]="image" [alt]="name" />
     <mat-card-content>
         <p class="brand">{{brand}}</p>
-        <h3 class="name">{{name}}</h3>
-
-        <mat-chip color="tertiary" selected>
-            {{skinType}}
-        </mat-chip>
-
+        <p class="name">{{name}}</p>
+        <mat-chip selected>{{skinType}}</mat-chip>
         <p class="price">€{{price}}</p>
     </mat-card-content>
-
     <mat-card-actions>
-        <button 
-        mat-stroked-button 
-        color="primary"
-        [routerLink]="['/product', id]">
+        <button mat-stroked-button [routerLink]="['/product', id]">
             View Details
         </button>
-        <button mat-flat-button color="primary"
-        (click)="addToCart()">
+    <button mat-flat-button (click)="addToCart()">
         Add to Cart
-        </button>
+    </button>    
     </mat-card-actions>
 </mat-card>
