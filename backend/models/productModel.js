@@ -1,5 +1,4 @@
 const db = require('../config/db');
-const { getById } = require('./orderModel');
 
 const Product = {
     getAll: async (filters = {} ) => {

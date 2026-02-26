@@ -18,7 +18,7 @@
 
         <mat-panel-description>
           €{{ order.totalAmount }} |
-          <mat-chip [color]="getStatusColor(order.status)" selected>
+          <mat-chip [color]="getStatusColor(order.status || '')" selected>
             {{ order.status }}
           </mat-chip>
         </mat-panel-description>

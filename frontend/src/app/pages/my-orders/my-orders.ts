@@ -34,8 +34,8 @@ export class MyOrders implements OnInit {
     this.orderService.getMyOrders().subscribe({
       next: (data: Order[]) => {
         this.orders = data.sort((a: Order, b: Order) =>
-          new Date(b.createdAt).getTime() -
-          new Date(a.createdAt).getTime()
+          new Date(b.createdAt ?? 0).getTime() -
+          new Date(a.createdAt ?? 0).getTime()
         );
         this.loading = false;
       },

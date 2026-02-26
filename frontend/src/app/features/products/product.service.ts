@@ -8,10 +8,15 @@ export interface Product{
   brand: string;
   name: string;
   price: number;
-  skinType: string;
+  skin_type: string;
+  skin_concern: string;
   image: string;
-
-
+  description: string;
+  ingredients: string;
+  usage_instructions: string;
+  warnings:string;
+  stock:number;
+  is_active:boolean;
 }
 
 @Injectable({
@@ -21,9 +26,7 @@ export interface Product{
 export class ProductService{
     private apiUrl='http://localhost:5000/api/products';
 
-    constructor(private http:HttpClient){
-
-    }
+    constructor(private http:HttpClient){}
 
     getProducts(): Observable<Product[]>{
         return this.http.get<Product[]>(this.apiUrl);

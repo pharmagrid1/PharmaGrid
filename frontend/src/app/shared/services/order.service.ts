@@ -11,18 +11,18 @@ export interface OrderItem{
 }
 
 export interface Order{
-  id?:string;
-  user_id?:number;
-  customerName?:string;
-  email?:string;
-  phone?:string;
+   id?:string;
+   user_id?:number;
+   customerName?:string;
+   email?:string;
+   phone?:string;
    address?:string;
-    delivery_method:string;
-  deliveryMethod:string;
-  items:OrderItem[];
+   delivery_method:string;
+   deliveryMethod:string;
+   items:OrderItem[];
    total_amount:number;
    totalAmount?:number;
-   status?:string;
+   status:string;
    createdAt?:string;
 }
 
