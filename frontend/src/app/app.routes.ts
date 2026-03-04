@@ -4,6 +4,9 @@ import {ProductsPage} from './features/products/pages/products-page/products-pag
 import {ProductDetail } from './features/products/pages/product-detail/product-detail';
 import {CartPage } from './features/cart/cart-page/cart-page';
 import { MyOrders } from './pages/my-orders/my-orders';
+import { authGuard } from './shared/guards/auth.guard';
+import { Register } from './features/auth/register/register';
+import { Login } from './features/auth/login/login';
 
 export const routes: Routes = [
   {
@@ -20,7 +23,7 @@ export const routes: Routes = [
         path: 'cart', component: CartPage
       },
       {
-        path:'checkout', loadComponent:()=>
+        path:'checkout',canActivate:[authGuard], loadComponent:()=>
           import('./features/checkout/checkout-page/checkout-page').then(m=>m.CheckoutPage)
       },
       {
@@ -29,7 +32,15 @@ export const routes: Routes = [
         .then(m=>m.OrderConfirmationPage)
       },
       {
-        path: 'my-orders', component: MyOrders
+        path: 'my-orders',canActivate:[authGuard], component: MyOrders
+      },
+      {
+        path:'login', component: Login 
+         
+      },
+
+      {
+        path:'register', component: Register
       }
     ]
   }
