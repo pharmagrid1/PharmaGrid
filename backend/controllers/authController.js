@@ -1,6 +1,6 @@
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
-constUser = require('../models/userModel');
+const User = require('../models/userModel');
 
 const JWT_SECRET = process.env.JWT_SECRET || 'pharmagrid_secret';
 
@@ -23,6 +23,7 @@ exports.register = async (req,res) => {
     );
     res.status(201).json({user, token});
     } catch(err) {
+        console.error('REGISTER ERROR:', err);
         res.status(500).json({ message: 'Registration failed', error: err.message});
     }
 };
@@ -53,6 +54,7 @@ exports.login = async (req,res) => {
             token
         });
     } catch (err) {
+          console.error('LOGIN ERROR:', err);
         res.status(500).json({ message: 'Login failed', error: err.message });
 
     }
