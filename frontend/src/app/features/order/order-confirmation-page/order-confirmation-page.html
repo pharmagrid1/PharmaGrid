@@ -1,21 +1,36 @@
 @if(order){
+  <div class="confirmation-wrapper">
+    <div class="success-icon">✓</div>
+    <h2>Order Placed!</h2>
+    <p class="confirmation-sub">Thank you! Your order has been received.</p>
 
-  <h2>Order Confirmation</h2>
-
-  <p><strong>Order ID:</strong> {{order.id}}</p>
-  <p><strong>Status:</strong> {{order.status}}</p>
-  <p><strong>Total:</strong> €{{order.totalAmount}}</p>
-
-  <h3>Items:</h3>
-
-  @for(item of order.items; track item.product_id){
-    <div>
-      {{item.productName}}
-      ({{item.quantity}})
-      - €{{item.price * item.quantity}}
+    <div class="confirmation-card">
+      <div class="confirmation-row">
+        <span>Order ID</span>
+        <span>#{{order.id}}</span>
+      </div>
+      <div class="confirmation-row">
+        <span>Status</span>
+        <span class="status-badge">{{order.status}}</span>
+      </div>
+      <div class="confirmation-row">
+        <span>Delivery</span>
+        <span>{{order.delivery_method}}</span>
+      </div>
+      <div class="confirmation-divider"></div>
+      <div class="confirmation-row total">
+        <span>Total Paid</span>
+        <span>€{{order.total_amount}}</span>
+      </div>
     </div>
-  }
 
+    <div class="confirmation-actions">
+      <button class="btn-orders" routerLink="/my-orders">View My Orders</button>
+      <button class="btn-home" routerLink="/">Continue Shopping</button>
+    </div>
+  </div>
 } @else {
-  <p>No order found.</p>
+  <div class="confirmation-wrapper">
+    <p class="no-order">No order found. <a routerLink="/">Go back home</a></p>
+  </div>
 }
