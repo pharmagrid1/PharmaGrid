@@ -1,12 +1,12 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { Order } from '../../../shared/services/order.service';
 
 @Component({
   selector: 'app-order-confirmation-page',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, RouterLink],
   templateUrl: './order-confirmation-page.html',
   styleUrl: './order-confirmation-page.scss',
 })

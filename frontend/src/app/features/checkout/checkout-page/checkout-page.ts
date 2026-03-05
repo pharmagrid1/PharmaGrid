@@ -17,6 +17,7 @@ export class CheckoutPage {
 
   checkoutForm;
   cartItems:CartItem[]=[];
+  loading=false;
 
   constructor(
     private fb: FormBuilder,
@@ -32,16 +33,20 @@ export class CheckoutPage {
     address:['', Validators.required],
     deliveryMethod:['Pickup', Validators.required]
   });
+  
+  this.cartService.cart$.subscribe(items=>{
+    this.cartItems=items;
+  });
+  
+}
 
- this.cartService.cart$.subscribe(items=>{
-  this.cartItems=items;
- });
-    
-  }
+getTotal(): number {
+  return this.cartService.getTotal();
+}
 
  placeOrder() {
   if (this.checkoutForm.invalid) return;
-
+  this.loading = true;
   const formValue = this.checkoutForm.value;
 
   const orderPayload = {
@@ -54,6 +59,7 @@ export class CheckoutPage {
       price: item.price
     }))
   };
+
 
   this.orderService.createOrder(orderPayload).subscribe({
     next: (createdOrder) => {
