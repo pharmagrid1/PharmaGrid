@@ -1,6 +1,7 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Observable } from "rxjs";
+import { AuthService } from "./auth.service";
 
 
 export interface OrderItem{
@@ -30,13 +31,14 @@ export interface Order{
 export class OrderService{
   private apiUrl='http://localhost:5000/api/orders';
 
-  constructor(private http: HttpClient){}
+  constructor(private http: HttpClient, private auth: AuthService){}
 
   createOrder(order:any): Observable<Order>{
     return this.http.post<Order>(this.apiUrl, order);
   }
 
   getMyOrders(): Observable<Order[]>{
-    return this.http.get<Order[]>(`${this.apiUrl}/user/1`);
+    const userId=this.auth.getCurrentUser()?.id ||1;
+    return this.http.get<Order[]>(`${this.apiUrl}/user/${userId}`);
   }
 }
