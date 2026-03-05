@@ -5,8 +5,19 @@
 
     </div>
 
+    <div class="nav-search">
+        <input
+           type="text"
+           placeholder="Search products..."
+           [(ngModel)]="searchQuery"
+           (keyup.enter)="onSearch()"
+        />
+
+        <button class="search-btn" (click)="onSearch()">🔍</button>
+    </div>
+
     <nav class="nav-links">
-        <a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{exact:true}">Products</a>
+        <a routerLink="/products" routerLinkActive="active">Products</a>
         <a routerLink="/my-orders" routerLinkActive="active">My Orders</a>
         
         @if(isLoggedIn){

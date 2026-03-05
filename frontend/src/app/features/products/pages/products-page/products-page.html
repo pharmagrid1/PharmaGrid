@@ -4,6 +4,26 @@
     <h3>Filter Products</h3>
 
     <div class="filter-group">
+        <label>Search</label>
+        <input type="text" [(ngModel)]="searchQuery" (input)="applyFilters()" placeholder="Search..." />
+
+    </div>
+
+    <div class="filter-group">
+        <label>Category</label>
+        <select (change)="selectedCategory= $any($event.target).value; applyFilters()">
+            <option value="">All</option>
+            <option value="Cleanser">Cleanser</option>
+            <option value="Moisturizer">Moisturizer</option>
+            <option value="Sunscreen">Sunscreen</option>
+            <option value="Serum">Serum</option>
+            <option value="Treatment">Treatment</option>
+            <option value="Makeup">Makeup</option>
+        </select>
+
+    </div>
+
+    <div class="filter-group">
         <label>Skin Type</label>
         <select (change)="filterBySkinType($event)">
             <option value="">All</option>
@@ -17,18 +37,42 @@
         <label>Brand</label>
         <select (change)="filterByBrand($event)">
             <option value="">All</option>
-            <option value="La Roche-Posay">La Roche-Posay</option>
-            <option value="CeraVe">CeraVe</option>
+            <option value="Bioderma">Bioderma</option>
+            <option value="Avène">Avène</option>
             <option value="TirTir">TirTir</option>
+            <option value="Medicube">Medicube</option>
+            <option value="Purito">Purito</option>
+            <option value="Geek & Gorgeous">Geek & Gorgeous</option>
+            <option value="Mary & May">Mary & May</option>
+            <option value="Biodance">Biodance</option>
         </select>
     </div>
 
-    <button mat-stroked-button (click)="clearFilters()">
+    <div class="filter-group">
+        <label>Price Range</label>
+        <div class="price-ramge">
+            <input type="number" [(ngModel)]="minPrice" (input)="applyFilters()" placeholder="Min €"/>
+            <span>-</span>
+            <input type="number" [(ngModel)]="maxPrice" (input)="applyFilters()" placeholder="Max €"/>
+
+
+        </div>
+
+    </div>
+
+    <button class="clear-btn" (click)="clearFilters()">
         Clear All Filters
     </button>
 </aside>
 
 <section class="products-grid">
+    @if(filteredProducts.length===0){
+        <div class="no-results">
+
+             <p>🔍 No products found</p>
+            <span>Try adjusting your filters</span>
+        </div>
+    }
     @for(product of filteredProducts; track product.id){
         <app-product-card 
         [id] = "product.id"
