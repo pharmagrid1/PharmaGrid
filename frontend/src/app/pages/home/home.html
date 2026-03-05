@@ -1,0 +1,113 @@
+<div class="home">
+
+    <!-- Hero Section -->
+     <section class="hero">
+        <div class="hero-content">
+            <p class="hero-eyebrow">✦ Pharmacy-Grade Skincare</p>
+            <h1 class="hero-title">
+                Your Skin Deserves<br />
+                <span class="hero-accent">The Best.</span>
+            </h1>
+        <p class="hero-sub">
+            Professional skincare products sourced directly from
+        certified pharmacies. Trusted ingredients, real results. 
+        Purchase freely from products that do not found genocide.
+        </p>
+            <p class="hero-actions">
+                <button class="btn-primary" routerLink="/products">
+                    Shop Now →
+                </button>
+                <button class="btn-secondary" routerLink="/products">
+                    Browse All Products
+                </button>
+        </div>
+
+        <div class="hero-stats">
+            <div class="stat">
+                <span class="stat-number">8+</span>
+                <span class="stat-label">Products</span>
+            </div>
+            
+            <div class="stat">
+                <span class="stat-number">8</span>
+                <span class="stat-label">Brands</span>
+            </div>
+            <div class="stat">
+                <span class="stat-number">100%</span>
+                <span class="stat-label">Pharmacy Grade</span>
+            </div>
+        </div>
+        <div class="hero-visual">
+            <div class="hero-glow"></div>
+            <div class="hero-circle">
+                <img src="https://peachesandcremeshop.com/cdn/shop/collections/TIRTIR.jpg?v=1711642532" alt="Featured Products"/>
+            </div>
+        </div>
+     </section>
+
+     <!-- Category Pills -->
+
+     <section class="categories">
+        <h2 class="section-title">Shop by Category</h2>
+        <div class="category-pills">
+            @for(cat of categories; track cat.value){
+                <a class="category-pill" [routerLink]="['/products']" [queryParams]="{category: cat.value}">
+                    <span class="pill-icon">{{cat.icon}}</span>
+                    <span class="pill-icon">{{cat.label}}</span>
+                </a>
+            }
+        </div>
+     </section>
+
+
+     <!-- Featured Products -->
+
+     <section class="featured">
+        <div class="section-header">
+            <h2 class="section-title">Featured Products</h2>
+            <a routerLink="/products" class="see-all">See All →</a>
+        </div>
+
+        <div class="featured-grid">
+            @for(product of featuredProducts; track product.id){
+                <app-product-card 
+                [id]="product.id"
+                [brand]="product.brand"
+                [name]="product.name"
+                [price]="product.price"
+                [skinType]="product.skin_type"
+                [image]="product.image">
+                </app-product-card>
+            }
+        </div>
+     </section>
+
+
+     <!-- Trust Section -->
+
+     <section class="trust">
+        <div class="trust-grid">
+            <div class="trust-item">
+                <span class="trust-icon">🏥</span>
+                <h4>Pharmacy Verified</h4>
+                <p>All products sourced directly from certified pharmacies</p>
+            </div>
+            <div class="trust-item">
+                <span class="trust-icon">🚚</span>
+                <h4>Fast Delivery</h4>
+                <p>Same day pickup or 1-2 day delivery to your door</p>
+            </div>
+            <div class="trust-item">
+                <span class="trust-icon">🔒</span>
+                <h4>Secure Payments</h4>
+                <p>Your data and payments are always protected</p>
+            </div>
+            <div class="trust-item">
+                <span class="trust-icon">↩️</span>
+                <h4>Easy Returns</h4>
+                <p>Not satisfied? Return within 30 days hassle-free</p>
+            </div>
+        </div>
+     </section>
+
+</div>
