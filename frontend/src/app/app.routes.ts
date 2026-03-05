@@ -7,6 +7,7 @@ import { MyOrders } from './pages/my-orders/my-orders';
 import { authGuard } from './shared/guards/auth.guard';
 import { Register } from './features/auth/register/register';
 import { Login } from './features/auth/login/login';
+import { Home } from './pages/home/home';
 
 export const routes: Routes = [
   {
@@ -14,7 +15,10 @@ export const routes: Routes = [
     component: Layout,
     children: [
       {
-        path: '', component: ProductsPage
+        path: '', component: Home
+      },
+      {
+        path: 'products', component:ProductsPage
       },
       {
         path: 'product/:id', component: ProductDetail
