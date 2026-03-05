@@ -4,6 +4,7 @@ import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CartService , CartItem} from '../../../shared/services/cart.service';
 import { OrderService, Order } from '../../../shared/services/order.service';
 import { Router } from '@angular/router';
+import { AuthService } from '../../../shared/services/auth.service';
 
 
 @Component({
@@ -22,7 +23,8 @@ export class CheckoutPage {
     private fb: FormBuilder,
     private cartService:CartService,
     private orderService: OrderService,
-    private router: Router
+    private router: Router,
+    private authService:AuthService
   ){
 
   this.checkoutForm=this.fb.group({
@@ -45,7 +47,7 @@ export class CheckoutPage {
   const formValue = this.checkoutForm.value;
 
   const orderPayload = {
-    user_id: 1, // temporary
+    user_id: this.authService.getCurrentUser()?.id || 1,
     delivery_method: formValue.deliveryMethod,
     total_amount: this.cartService.getTotal(),
     items: this.cartItems.map(item => ({
