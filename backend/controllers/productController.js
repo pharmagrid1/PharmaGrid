@@ -6,6 +6,9 @@ exports.getAllProducts = async (req, res) => {
             skinType: req.query.skinType,
             brand: req.query.brand,
             category: req.query.category,
+            search:req.query.search,
+            minPrice:req.query.minPrice,
+            maxPrice:req.query.maxPrice,
         };
 
         const products = await Product.getAll(filters);

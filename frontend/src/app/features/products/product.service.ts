@@ -10,6 +10,7 @@ export interface Product{
   price: number;
   skin_type: string;
   skin_concern: string;
+   category: string; 
   image: string;
   description: string;
   ingredients: string;
