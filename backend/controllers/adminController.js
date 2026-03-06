@@ -1,4 +1,4 @@
-const db=require('../config/db');
+const db = require('../config/db');
 
 //Products
 
@@ -11,7 +11,7 @@ exports.getAllProducts=async(req, res)=>{
     }
 };
 
-exports.createProducts=async(req,  res)=>{
+exports.createProduct=async(req,  res)=>{
     try{
         const{name, brand, category, skin_type, skin_concern, price, description, ingredients, usage_instrictions, warnings, image, stock}=req.body;
         const result= await db.query(

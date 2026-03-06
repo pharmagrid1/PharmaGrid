@@ -137,6 +137,12 @@
   color: var(--accent-teal);
 }
 
+// Orders table has different columns
+.admin-section:has(.order-id) .table-header,
+.admin-section:has(.order-id) .table-row {
+  grid-template-columns: 0.8fr 0.8fr 0.8fr 1fr 1fr 1fr 1.2fr;
+}
+
 .price {
   font-family: 'Syne', sans-serif;
   font-weight: 700;
@@ -225,4 +231,6 @@
 
   &:focus { border-color: var(--accent-teal); }
   option { background: var(--bg-card); }
+
+
 }
