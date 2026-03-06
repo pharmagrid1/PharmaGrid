@@ -39,7 +39,7 @@
             <div class="items">
               @for(item of order.items; track item.product_id) {
                 <div class="item-row">
-                  <span>{{ item.product_name }} x{{ item.quantity }}</span>
+                  <span>{{ item.productName }} x{{ item.quantity }}</span>
                   <span>€{{ item.price * item.quantity }}</span>
                 </div>
               }

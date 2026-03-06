@@ -1,43 +1,51 @@
 import { Component, OnInit } from '@angular/core';
-import { RouterLink, RouterLinkActive, Router } from '@angular/router';
+import { Router, RouterLink, RouterLinkActive } from "@angular/router";
+import {MatToolbarModule} from '@angular/material/toolbar';
+import {MatButtonModule} from '@angular/material/button';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
 import { AuthService } from '../../shared/services/auth.service';
+import { ɵInternalFormsSharedModule } from "@angular/forms";
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-header',
-  imports: [RouterLink, RouterLinkActive, CommonModule, FormsModule],
+  imports: [RouterLink, MatButtonModule, MatToolbarModule, RouterLinkActive, CommonModule, ɵInternalFormsSharedModule, FormsModule],
   standalone: true,
   templateUrl: './header.html',
   styleUrl: './header.scss',
 })
 export class Header implements OnInit {
-  isLoggedIn = false;
-  userName = '';
+  isLoggedIn=false;
   isAdmin = false;
-  searchQuery = '';
+  userName='';
+  searchQuery='';
 
-  constructor(private auth: AuthService, private router: Router) {}
+  constructor(private auth: AuthService, private router: Router){
+    
+  }
 
   ngOnInit(): void {
-    this.auth.currentUser$.subscribe(user => {
-      this.isLoggedIn = !!user;
-      this.userName = user?.full_name?.split(' ')[0] || '';
+    this.auth.currentUser$.subscribe(user=>{
+      this.isLoggedIn=!!user;
+      this.userName=user?.full_name?.split(' ')[0] || '';
       this.isAdmin = user?.role === 'admin';
     });
   }
 
-  onSearch(): void {
-    const query = this.searchQuery.trim();
-    if (query) {
-      this.router.navigate(['/products'], {
-        queryParams: { search: query }
+  onSearch(): void{
+    if(this.searchQuery.trim()){
+      this.router.navigate(['/products'],{
+        queryParams:{search: this.searchQuery.trim()},
+        queryParamsHandling: 'merge'
+      }).then(()=>{
+        window.location.href=`/products?search=${this.searchQuery.trim()}`;
       });
     }
   }
 
-  logout(): void {
+  logout(): void{
     this.auth.logout();
     this.router.navigate(['/']);
   }
+
 }
