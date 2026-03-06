@@ -10,6 +10,7 @@ import { Login } from './features/auth/login/login';
 import { Home } from './pages/home/home';
 import { adminGuard } from './shared/guards/admin.guard';
 
+import { Admin } from './pages/admin/admin';
 
 export const routes: Routes = [
   {
@@ -44,7 +45,6 @@ export const routes: Routes = [
         path:'login', component: Login 
          
       },
-
       {
         path:'register', component: Register
       },
