@@ -38,7 +38,7 @@ export class AuthService{
         localStorage.removeItem('pharmagrid_token');
         localStorage.removeItem('pharmagrid_user');
         this.currentUserSubject.next(null);
-        this.toast.show('Logged out successfully', 'info');c
+        this.toast.show('Logged out successfully', 'info');
     }
 
     getToken(): string | null{
