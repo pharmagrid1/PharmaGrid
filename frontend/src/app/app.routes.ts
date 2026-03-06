@@ -8,6 +8,8 @@ import { authGuard } from './shared/guards/auth.guard';
 import { Register } from './features/auth/register/register';
 import { Login } from './features/auth/login/login';
 import { Home } from './pages/home/home';
+import { adminGuard } from './shared/guards/admin.guard';
+
 import { Admin } from './pages/admin/admin';
 
 export const routes: Routes = [
@@ -47,9 +49,9 @@ export const routes: Routes = [
         path:'register', component: Register
       },
       {
-        path: 'admin',
-        component: Admin,
-        canActivate: [authGuard]
+        path:'admin',
+        component:Admin,
+        canActivate: [adminGuard]
       },
     ]
   }
