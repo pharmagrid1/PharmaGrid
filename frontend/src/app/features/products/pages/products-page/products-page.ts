@@ -40,10 +40,16 @@ export class ProductsPage implements OnInit{
 
   loadProducts(): void{
     this.loading = true;
-    this.productService.getProducts().subscribe(data =>{
-      this.products= data;
-      this.applyFilters();
-      this.loading = false;
+    this.productService.getProducts().subscribe({
+      next: (data) =>{
+        this.products= data;
+        this.filteredProducts = data;
+        this.applyFilters();
+        this.loading = false;
+      },
+      error: () => {
+        this.loading = false;
+      }
     });
   }
     
@@ -81,7 +87,7 @@ export class ProductsPage implements OnInit{
       this.searchQuery='';
       this.minPrice=null;
       this.maxPrice=null;
-      this.filteredProducts=this.products;
+      this.filteredProducts=[...this.products];
     }
 
     
