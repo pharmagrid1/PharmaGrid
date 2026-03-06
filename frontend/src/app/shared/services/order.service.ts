@@ -25,6 +25,7 @@ export interface Order{
    totalAmount?:number;
    status:string;
    createdAt?:string;
+   created_at?:string;
 }
 
 @Injectable({ providedIn:'root'})
