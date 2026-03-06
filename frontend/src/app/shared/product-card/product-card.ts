@@ -4,6 +4,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatChipsModule } from '@angular/material/chips';
 import { RouterModule } from '@angular/router';
 import { CartService } from '../services/cart.service';
+import { ToastService } from '../services/toast.service';
 
 @Component({
   selector: 'app-product-card',
@@ -20,17 +21,19 @@ export class ProductCard {
   @Input() skinType! : string;
   @Input() image! : string;
 
-  constructor(private cartService: CartService) {};
+  constructor(private cartService: CartService, private toast: ToastService) {};
 
   addToCart(){
     this.cartService.addToCart({
-    id: this.id,
-    name: this.name,
-    brand: this.brand,
-    price: this.price,
-    quantity: 1,
-    image: this.image
+      id: this.id,
+      name: this.name,
+      brand: this.brand,
+      price: this.price,
+      quantity: 1,
+      image: this.image
     });
+
+    this.toast.show(`${this.name} added to cart ✓`);
   }
 
 

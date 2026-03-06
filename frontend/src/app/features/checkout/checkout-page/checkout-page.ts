@@ -5,6 +5,7 @@ import { CartService , CartItem} from '../../../shared/services/cart.service';
 import { OrderService, Order } from '../../../shared/services/order.service';
 import { Router } from '@angular/router';
 import { AuthService } from '../../../shared/services/auth.service';
+import { ToastService } from '../../../shared/services/toast.service';
 
 
 @Component({
@@ -25,7 +26,8 @@ export class CheckoutPage {
     private cartService:CartService,
     private orderService: OrderService,
     private router: Router,
-    private authService:AuthService
+    private authService:AuthService,
+    private toast: ToastService,
   ){
 
   this.checkoutForm=this.fb.group({
@@ -66,6 +68,7 @@ getTotal(): number {
   this.orderService.createOrder(orderPayload).subscribe({
     next: (createdOrder) => {
       this.cartService.clearCart();
+      this.toast.show('Order placed successfully!');
       this.router.navigate(['/order-confirmation'], {
         state: { order: createdOrder }
       });

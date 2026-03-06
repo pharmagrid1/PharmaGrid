@@ -14,7 +14,6 @@ import { ActivatedRoute } from '@angular/router';
 })
 export class ProductsPage implements OnInit{
   products : Product[]=[];
-
   filteredProducts: Product[]=[];
   selectedSkinType='';
   selectedBrand='';
@@ -23,7 +22,7 @@ export class ProductsPage implements OnInit{
   minPrice: number | null=null;
   maxPrice: number | null=null;
 
-  
+  loading = true;  
 
   constructor(
     private productService: ProductService,
@@ -40,9 +39,11 @@ export class ProductsPage implements OnInit{
   }
 
   loadProducts(): void{
+    this.loading = true;
     this.productService.getProducts().subscribe(data =>{
       this.products= data;
       this.applyFilters();
+      this.loading = false;
     });
   }
     
