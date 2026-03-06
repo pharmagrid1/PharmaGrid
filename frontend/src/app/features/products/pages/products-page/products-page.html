@@ -66,13 +66,26 @@
 </aside>
 
 <section class="products-grid">
-    @if(filteredProducts.length===0){
-        <div class="no-results">
+    @if(loading) {
+        @for(skeleton of [1,2,3,4,5,6]; track skeleton){
+            <div class="skeleton-card">
+                <div class="skeleton-img"></div>
+                <div class="skeleton-content">
+                    <div class="skeleton-line short"></div>
+                    <div class="skeleton-line "></div>
+                    <div class="skeleton-line medium"></div>
+                </div>
+            </div>
+        }
+    }
 
-             <p>🔍 No products found</p>
+    @if(!loading && filteredProducts.length===0){
+        <div class="no-results">
+             <p>No products found</p>
             <span>Try adjusting your filters</span>
         </div>
     }
+    @if(!loading) {
     @for(product of filteredProducts; track product.id){
         <app-product-card 
         [id] = "product.id"
@@ -85,7 +98,7 @@
 
         </app-product-card>
     }
-
+}
 </section>
 
 
