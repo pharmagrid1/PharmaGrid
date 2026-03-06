@@ -33,9 +33,10 @@ export class ProductDetail implements OnInit{
   ngOnInit(): void {
     const id=this.route.snapshot.paramMap.get('id');
     if(id){
-      this.productService.getProductById(+id).subscribe(data => {
-        this.product=data;
-      });
+      this.productService.getProductById(+id).subscribe({
+        next: (data) =>  this.product=data,
+        error: (err) => console.error('Product fetch failed', err)
+    });
     }
   }
 
