@@ -5,8 +5,10 @@
 
   @if(orders.length === 0) {
     <div class="empty-state">
-      <mat-icon>receipt_long</mat-icon>
-      <p>You have no orders yet.</p>
+      <div class="empty-icon">📦</div>
+      <h3>No orders yet</h3>
+      <p>When you place an order it will appear here</p>
+      <button class="shop-btn" routerLink="/">Start Shopping →</button>
     </div>
   }
 
@@ -27,8 +29,9 @@
 
           <div class="order-details">
             <div class="meta">
-              <div><strong>Date:</strong> {{ order.createdAt | date }}</div>
+              <div><strong>Date:</strong> {{ order.created_at | date }}</div>
               <div><strong>Delivery:</strong> {{ order.delivery_method }}</div>
+              <p>€{{ order.total_amount }}</p>
             </div>
 
             <mat-divider></mat-divider>

@@ -8,6 +8,7 @@ import { MatExpansionModule } from '@angular/material/expansion';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { RouterLink } from "@angular/router";
 
 @Component({
   selector: 'app-my-orders',
@@ -18,8 +19,9 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
     MatExpansionModule,
     MatChipsModule,
     MatDividerModule,
-    MatProgressSpinnerModule
-  ],
+    MatProgressSpinnerModule,
+    RouterLink
+],
   templateUrl: './my-orders.html',
   styleUrls: ['./my-orders.scss']
 })
@@ -33,9 +35,9 @@ export class MyOrders implements OnInit {
   ngOnInit(): void {
     this.orderService.getMyOrders().subscribe({
       next: (data: Order[]) => {
-        this.orders = data.sort((a: Order, b: Order) =>
-          new Date(b.createdAt ?? 0).getTime() -
-          new Date(a.createdAt ?? 0).getTime()
+        this.orders = data.sort((a: any, b: any) =>
+          new Date(b.created_at ?? b.createdAt ?? 0).getTime() -
+          new Date(a.created_at ?? a.createdAt ?? 0).getTime()
         );
         this.loading = false;
       },

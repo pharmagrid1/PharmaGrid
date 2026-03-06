@@ -89,3 +89,44 @@ mat-panel-description {
   justify-content: center;
   margin-top: 100px;
 }
+
+.empty-state {
+  text-align: center;
+  padding: 100px 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+
+  .empty-icon {
+    font-size: 56px;
+    margin-bottom: 8px;
+  }
+
+  h3 {
+    font-family: 'Syne', sans-serif;
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--text-primary);
+  }
+
+  p {
+    color: var(--text-muted);
+    font-size: 15px;
+  }
+}
+
+.shop-btn {
+  margin-top: 8px;
+  background: var(--accent-teal);
+  color: #0a0f1e;
+  border: none;
+  border-radius: 100px;
+  padding: 12px 28px;
+  font-family: 'Syne', sans-serif;
+  font-weight: 700;
+  font-size: 14px;
+  cursor: pointer;
+  transition: opacity 0.2s;
+  &:hover { opacity: 0.85; }
+}

@@ -1,10 +1,15 @@
 <mat-card class="product-card">
-    <img mat-card-image [src]="image" [alt]="name" />
+    <img mat-card-image [src]="image" [alt]="name" (error)="onImageError($event)" />
     <mat-card-content>
         <p class="brand">{{brand}}</p>
         <p class="name">{{name}}</p>
         <mat-chip selected>{{skinType}}</mat-chip>
         <p class="price">€{{price}}</p>
+        <span class="stock-badge"
+           [class.in-stock]="stock>10"
+           [class.low-stock]="stock>0 && stock <=10"
+           [class.out-of-stock]="stock===0"
+        >{{stock >10 ? 'In Stock' : stock>0 ? 'Low Stock' : 'Out of Stock'}}</span>
     </mat-card-content>
     <mat-card-actions>
         <button mat-stroked-button [routerLink]="['/product', id]">

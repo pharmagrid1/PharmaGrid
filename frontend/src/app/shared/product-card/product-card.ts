@@ -20,6 +20,12 @@ export class ProductCard {
   @Input() price! : number;
   @Input() skinType! : string;
   @Input() image! : string;
+  fallbackImage='https://placehold.co/400x400/111827/2dd4bf?text=No+Image';
+  @Input() stock: number=0;
+
+  onImageError(event: any){
+    event.target.src=this.fallbackImage;
+  }
 
   constructor(private cartService: CartService, private toast: ToastService) {};
 
