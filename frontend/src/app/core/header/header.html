@@ -28,6 +28,10 @@
         }
         
         <a routerLink="/cart" class="cart-btn" >Cart</a>
+
+        @if(isLoggedIn && isAdmin) {
+            <a routerLink="/admin" routerLinkActive="active">Admin</a>
+        }
     </nav>
 
 </header>
