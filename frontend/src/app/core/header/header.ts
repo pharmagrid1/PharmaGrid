@@ -16,6 +16,7 @@ import { FormsModule } from '@angular/forms';
 })
 export class Header implements OnInit {
   isLoggedIn=false;
+  isAdmin = false;
   userName='';
   searchQuery='';
 
@@ -27,7 +28,7 @@ export class Header implements OnInit {
     this.auth.currentUser$.subscribe(user=>{
       this.isLoggedIn=!!user;
       this.userName=user?.full_name?.split(' ')[0] || '';
-
+      this.isAdmin = user?.role === 'admin';
     });
   }
 
