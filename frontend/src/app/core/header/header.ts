@@ -35,7 +35,10 @@ export class Header implements OnInit {
   onSearch(): void{
     if(this.searchQuery.trim()){
       this.router.navigate(['/products'],{
-        queryParams:{search: this.searchQuery.trim()}
+        queryParams:{search: this.searchQuery.trim()},
+        queryParamsHandling: 'merge'
+      }).then(()=>{
+        window.location.href=`/products?search=${this.searchQuery.trim()}`;
       });
     }
   }

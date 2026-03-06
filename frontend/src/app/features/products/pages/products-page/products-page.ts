@@ -22,6 +22,7 @@ export class ProductsPage implements OnInit{
   minPrice: number | null=null;
   maxPrice: number | null=null;
 
+// loading: any;
   loading = true;  
 
   constructor(

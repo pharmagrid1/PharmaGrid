@@ -38,8 +38,8 @@ export class OrderService{
     return this.http.post<Order>(this.apiUrl, order);
   }
 
-  getMyOrders(): Observable<Order[]>{
-    const userId=this.auth.getCurrentUser()?.id ||1;
-    return this.http.get<Order[]>(`${this.apiUrl}/user/${userId}`);
+  getMyOrders(): Observable<any[]>{
+    const userId=this.auth.getCurrentUser()?.id;
+    return this.http.get<any[]>(`http://localhost:5000/api/orders/user/${userId}`);
   }
 }
