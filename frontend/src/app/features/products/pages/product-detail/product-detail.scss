@@ -157,4 +157,35 @@
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 24px;
+.quantity-selector {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  background: rgba(255,255,255,0.05);
+  border: 1px solid var(--border-glass);
+  border-radius: 100px;
+  padding: 8px 16px;
+  width: fit-content;
+  margin-bottom: 16px;
+}
+
+.qty-btn {
+  background: none;
+  border: none;
+  color: var(--accent-teal);
+  font-size: 20px;
+  cursor: pointer;
+  line-height: 1;
+  padding: 0 4px;
+  transition: transform 0.15s;
+  &:hover { transform: scale(1.2); }
+}
+
+.qty-value {
+  font-family: 'Syne', sans-serif;
+  font-weight: 700;
+  font-size: 16px;
+  min-width: 24px;
+  text-align: center;
+  color: var(--text-primary);
 }

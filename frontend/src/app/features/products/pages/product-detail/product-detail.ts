@@ -47,6 +47,18 @@ export class ProductDetail implements OnInit {
       });
     }
   }
+  
+  quantity = 1;
+
+    increase():void{
+      if (this.product && this.quantity < this.product.stock){
+        this.quantity ++;
+      }
+    }
+  
+    decrease(): void{
+      if (this.quantity > 1) this.quantity--;
+    }
 
   loadRelated(category:string, excludeId:number): void{
     this.productService.getProducts().subscribe(all=>{
@@ -75,4 +87,5 @@ export class ProductDetail implements OnInit {
     }
     return stars;
   }
+  
 }
