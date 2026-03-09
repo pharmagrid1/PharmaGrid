@@ -37,6 +37,10 @@
     </mat-tab-group>
   </div>
 </div>
+} @else if(error) {
+  <div class="loading-state">
+    <p style="color: var(--text-muted)">Product not found.</p>
+  </div>
 } @else {
   <div class="loading-state">
     <mat-spinner></mat-spinner>

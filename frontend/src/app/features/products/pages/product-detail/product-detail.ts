@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatButtonModule } from '@angular/material/button';
@@ -8,8 +8,6 @@ import { ActivatedRoute } from '@angular/router';
 import { ProductService, Product } from '../../product.service';
 import { CartService } from '../../../../shared/services/cart.service';
 import { ProductCard } from '../../../../shared/product-card/product-card';
-import { RouterLink } from '@angular/router';
-import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-product-detail',
@@ -20,8 +18,7 @@ import { Observable } from 'rxjs';
     MatTabsModule,
     MatDividerModule,
     MatProgressSpinnerModule,
-    // ProductCard,
-    // RouterLink
+    ProductCard
   ],
   templateUrl: './product-detail.html',
   styleUrl: './product-detail.scss',
@@ -29,50 +26,53 @@ import { Observable } from 'rxjs';
 export class ProductDetail implements OnInit {
   product: Product | null = null;
   relatedProducts: Product[] = [];
-  error=false;
-  
+  error = false;
+  quantity = 1;
+
   constructor(
     private route: ActivatedRoute,
     private productService: ProductService,
-    private cartService: CartService
+    private cartService: CartService,
+    private cdr: ChangeDetectorRef
   ) {}
-  
+
   ngOnInit(): void {
     const id = this.route.snapshot.paramMap.get('id');
     if (id) {
       this.productService.getProductById(+id).subscribe({
-        next: (data) =>  {
-        this.product = data;
-        this.loadRelated(data.category, data.id);
-      },
+        next: (data) => {
+          this.product = data;
+          this.cdr.detectChanges();
+          this.loadRelated(data.category, data.id);
+        },
         error: (err) => {
           console.error('Failed to load product', err);
           this.error = true;
+          this.cdr.detectChanges();
         }
       });
-    } else{
+    } else {
       this.error = true;
     }
   }
-  
-  quantity = 1;
 
-    increase():void{
-      if (this.product && this.quantity < this.product.stock){
-        this.quantity ++;
-      }
-    }
-  
-    decrease(): void{
-      if (this.quantity > 1) this.quantity--;
-    }
+  increase(): void {
+    if (this.product && this.quantity < this.product.stock) this.quantity++;
+  }
 
-  loadRelated(category:string, excludeId:number): void{
-    this.productService.getProducts().subscribe(all=>{
-      this.relatedProducts=all.filter(p=>p.category === category && p.id !== excludeId)
-      .slice(0, 3);
+  decrease(): void {
+    if (this.quantity > 1) this.quantity--;
+  }
+
+  loadRelated(category: string, excludeId: number): void {
+    this.productService.getProducts().subscribe(all => {
+      this.relatedProducts = all
+        .filter(p => p.category === category && p.id !== excludeId)
+        .slice(0, 3);
+      this.cdr.detectChanges();
     });
   }
+
   addToCart(): void {
     if (!this.product) return;
     this.cartService.addToCart({
@@ -80,20 +80,18 @@ export class ProductDetail implements OnInit {
       name: this.product.name,
       brand: this.product.brand,
       price: this.product.price,
-      quantity: 1,
+      quantity: this.quantity,
       image: this.product.image
     });
   }
 
-  getStars(rating: number): string[]{
-    const stars=[];
-    for (let i=1; i<=5; i++){
-      if(rating>=i) stars.push('full');
-      else if(rating >= i-0.5) stars.push('half');
+  getStars(rating: number): string[] {
+    const stars = [];
+    for (let i = 1; i <= 5; i++) {
+      if (rating >= i) stars.push('full');
+      else if (rating >= i - 0.5) stars.push('half');
       else stars.push('empty');
     }
     return stars;
   }
-
-  
 }
