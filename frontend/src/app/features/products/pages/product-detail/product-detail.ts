@@ -7,6 +7,8 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { ActivatedRoute } from '@angular/router';
 import { ProductService, Product } from '../../product.service';
 import { CartService } from '../../../../shared/services/cart.service';
+import { ProductCard } from '../../../../shared/product-card/product-card';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-product-detail',
@@ -16,13 +18,16 @@ import { CartService } from '../../../../shared/services/cart.service';
     MatButtonModule,
     MatTabsModule,
     MatDividerModule,
-    MatProgressSpinnerModule
+    MatProgressSpinnerModule,
+    ProductCard,
+    RouterLink
   ],
   templateUrl: './product-detail.html',
   styleUrl: './product-detail.scss',
 })
 export class ProductDetail implements OnInit {
   product: Product | null = null;
+  relatedProducts: Product[] = [];
 
   constructor(
     private route: ActivatedRoute,
@@ -34,12 +39,21 @@ export class ProductDetail implements OnInit {
     const id = this.route.snapshot.paramMap.get('id');
     if (id) {
       this.productService.getProductById(+id).subscribe({
-        next: (data) => this.product = data,
+        next: (data) =>  {
+        this.product = data;
+        this.loadRelated(data.category, data.id);
+      },
         error: (err) => console.error('Failed to load product', err)
       });
     }
   }
 
+  loadRelated(category:string, excludeId:number): void{
+    this.productService.getProducts().subscribe(all=>{
+      this.relatedProducts=all.filter(p=>p.category === category && p.id !== excludeId)
+      .slice(0, 3);
+    });
+  }
   addToCart(): void {
     if (!this.product) return;
     this.cartService.addToCart({
@@ -50,5 +64,15 @@ export class ProductDetail implements OnInit {
       quantity: 1,
       image: this.product.image
     });
+  }
+
+  getStars(rating: number): string[]{
+    const stars=[];
+    for (let i=1; i<=5; i++){
+      if(rating>=i) stars.push('full');
+      else if(rating >= i-0.5) stars.push('half');
+      else stars.push('empty');
+    }
+    return stars;
   }
 }
