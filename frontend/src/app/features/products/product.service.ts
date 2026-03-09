@@ -18,6 +18,7 @@ export interface Product{
   warnings:string;
   stock:number;
   is_active:boolean;
+  rating?: number;
 }
 
 @Injectable({

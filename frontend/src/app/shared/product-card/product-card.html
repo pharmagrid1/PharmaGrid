@@ -7,6 +7,12 @@
         <h3 class="name">{{name}}</h3>
         <mat-chip color="tertiary" selected>{{skinType}}</mat-chip>
         <p class="price">€{{price}}</p>
+        <div class="card-stars">
+            @for(star of getStars(rating ?? 0); track $index){
+                <span [class.filled]="star !== 'empty'">{{star === 'empty' ? '☆' : '★' }}</span>
+            }
+
+        </div>
         <span class="stock-badge"
           [class.in-stock]="stock > 10"
           [class.low-stock]="stock > 0 && stock <= 10"

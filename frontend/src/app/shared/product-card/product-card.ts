@@ -20,6 +20,8 @@ export class ProductCard {
   @Input() skinType!: string;
   @Input() image!: string;
   @Input() stock: number = 0;
+  @Input() rating: number=0;
+
 
   fallbackImage = 'https://placehold.co/400x400/111827/2dd4bf?text=No+Image';
 
@@ -39,4 +41,15 @@ export class ProductCard {
       image: this.image
     });
   }
+
+
+  getStars(rating: number): string[] {
+  const stars = [];
+  for (let i = 1; i <= 5; i++) {
+    if (rating >= i) stars.push('full');
+    else if (rating >= i - 0.5) stars.push('half');
+    else stars.push('empty');
+  }
+  return stars;
+}
 }
