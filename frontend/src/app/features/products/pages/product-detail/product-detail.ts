@@ -39,6 +39,18 @@ export class ProductDetail implements OnInit {
       });
     }
   }
+  
+  quantity = 1;
+
+    increase():void{
+      if (this.product && this.quantity < this.product.stock){
+        this.quantity ++;
+      }
+    }
+  
+    decrease(): void{
+      if (this.quantity > 1) this.quantity--;
+    }
 
   addToCart(): void {
     if (!this.product) return;
@@ -51,4 +63,6 @@ export class ProductDetail implements OnInit {
       image: this.product.image
     });
   }
+
+  
 }

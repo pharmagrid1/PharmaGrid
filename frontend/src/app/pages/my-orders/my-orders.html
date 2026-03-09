@@ -27,6 +27,14 @@
               </mat-panel-description>
             </mat-expansion-panel-header>
 
+            <div class="timeline">
+              @for(step of getTimelineSteps(order.status); track step.label){
+                <div class="timeline-step" [class.completed]="step.completed" [class.current]="step.current">
+                  <div class="step-dot">{{step.completed ? '✓' : step.icon}}</div>
+                  <span class="step-label">{{step.label}}</span>
+                </div>
+              }
+            </div>
             <div class="order-details">
               <div class="meta">
                 <div><strong>Date:</strong> {{ order.created_at | date }}</div>

@@ -14,6 +14,11 @@
       <div class="stock-info" [class.low]="product.stock < 10">
         {{ product.stock > 0 ? product.stock + ' in stock' : 'Out of stock' }}
       </div>
+      <div class="quantity selector">
+        <button class="qty-btn" (click)="decrease()">-</button>
+        <span class="qty-value">{{quantity}}</span>
+        <button class="qty-btn" (click)="increase()">+</button>
+      </div>
       <button class="add-btn" (click)="addToCart()" [disabled]="product.stock === 0">
         Add to Cart
       </button>

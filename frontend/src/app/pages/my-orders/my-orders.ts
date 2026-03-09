@@ -76,4 +76,25 @@ fetchOrders(): void {
       default: return '';
     }
   }
+  
+  getTimelineSteps(status:string){
+    const steps = [
+      {label: 'Pending', icon: '🕐'},
+      {label: 'Confirmed', icon: '✅'},
+      {label: 'Processing', icon: '⚙️'},
+      {label: 'Delivered', icon: '📦'},
+    ];
+    const order = ['Pending', 'Confirmed', 'Processing', 'Delivered'];
+    const currentIndex = order.indexOf(status);
+
+    return steps.map((step, i) => ({
+      ...step,
+      completed: i< currentIndex,
+      current: i === currentIndex
+    }));
+  }
 }
+
+// function getStatusColor(status: string, string: any) {
+//   throw new Error('Function not implemented.');
+// }
