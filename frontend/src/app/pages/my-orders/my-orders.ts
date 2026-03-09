@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { OrderService } from '../../shared/services/order.service';
@@ -7,8 +7,6 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatDividerModule } from '@angular/material/divider';
-import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import { filter, switchMap, take } from 'rxjs/operators';
 
 @Component({
   selector: 'app-my-orders',
@@ -19,8 +17,7 @@ import { filter, switchMap, take } from 'rxjs/operators';
     MatIconModule,
     MatExpansionModule,
     MatChipsModule,
-    MatDividerModule,
-    MatProgressSpinnerModule
+    MatDividerModule
   ],
   templateUrl: './my-orders.html',
   styleUrls: ['./my-orders.scss']
@@ -31,40 +28,35 @@ export class MyOrders implements OnInit {
 
   constructor(
     private orderService: OrderService,
-    private auth: AuthService
+    private auth: AuthService,
+    private cdr: ChangeDetectorRef
   ) {}
 
   ngOnInit(): void {
-  const userId = this.auth.getCurrentUser()?.id;
-  
-  if (userId) {
     this.fetchOrders();
-  } else {
-    // user not yet in memory, read directly from localStorage
-    const stored = localStorage.getItem('pharmagrid_user');
-    if (stored) {
-      this.fetchOrders();
-    } else {
-      this.loading = false;
-    }
   }
-}
 
-fetchOrders(): void {
-  this.orderService.getMyOrders().subscribe({
-    next: (data: any[]) => {
-      this.orders = data.sort((a, b) =>
-        new Date(b.created_at ?? 0).getTime() -
-        new Date(a.created_at ?? 0).getTime()
-      );
-      this.loading = false;
-    },
-    error: (err) => {
-      console.error('Failed to load orders', err);
-      this.loading = false;
-    }
-  });
-}
+  fetchOrders(): void {
+    console.log('fetchOrders called');
+    this.orderService.getMyOrders().subscribe({
+            next: (data: any[]) => {
+        this.orders = this.sortOrders(data);
+        this.loading = false;
+        this.cdr.detectChanges();
+      },
+      error: (err) => {
+        console.error('Failed to load orders', err);
+        this.loading = false;
+      }
+    });
+  }
+
+  sortOrders(data: any[]): any[] {
+    return data.sort((a, b) =>
+      new Date(b.created_at ?? 0).getTime() -
+      new Date(a.created_at ?? 0).getTime()
+    );
+  }
 
   getStatusColor(status: string): string {
     switch (status) {
@@ -76,25 +68,20 @@ fetchOrders(): void {
       default: return '';
     }
   }
-  
-  getTimelineSteps(status:string){
+
+  getTimelineSteps(status: string) {
     const steps = [
-      {label: 'Pending', icon: '🕐'},
-      {label: 'Confirmed', icon: '✅'},
-      {label: 'Processing', icon: '⚙️'},
-      {label: 'Delivered', icon: '📦'},
+      { label: 'Pending', icon: '🕐' },
+      { label: 'Confirmed', icon: '✅' },
+      { label: 'Processing', icon: '⚙️' },
+      { label: 'Delivered', icon: '📦' },
     ];
     const order = ['Pending', 'Confirmed', 'Processing', 'Delivered'];
     const currentIndex = order.indexOf(status);
-
     return steps.map((step, i) => ({
       ...step,
-      completed: i< currentIndex,
+      completed: i < currentIndex,
       current: i === currentIndex
     }));
   }
 }
-
-// function getStatusColor(status: string, string: any) {
-//   throw new Error('Function not implemented.');
-// }

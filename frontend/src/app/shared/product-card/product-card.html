@@ -8,7 +8,7 @@
         <mat-chip color="tertiary" selected>{{skinType}}</mat-chip>
         <p class="price">€{{price}}</p>
         <div class="card-stars">
-            @for(star of getStars(rating ?? 0); track $index){
+            @for(star of getStars(rating); track $index){
                 <span [class.filled]="star !== 'empty'">{{star === 'empty' ? '☆' : '★' }}</span>
             }
 

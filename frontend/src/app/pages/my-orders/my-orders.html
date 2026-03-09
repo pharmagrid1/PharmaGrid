@@ -1,58 +1,53 @@
-@if(loading) {
-  <div class="loading">
-    <mat-spinner></mat-spinner>
-  </div>
-} @else {
-  <div class="orders-container">
-    <h1>My <span>Orders</span></h1>
+<div class="orders-container">
+  <h1>My <span>Orders</span></h1>
 
-    @if(orders.length === 0) {
-      <div class="empty-state">
-        <div class="empty-icon">📦</div>
-        <h3>No orders yet</h3>
-        <p>When you place an order it will appear here</p>
-        <button class="shop-btn" routerLink="/">Start Shopping →</button>
-      </div>
-    } @else {
-      <mat-accordion>
-        @for(order of orders; track order.id) {
-          <mat-expansion-panel>
-            <mat-expansion-panel-header>
-              <mat-panel-title>Order #{{ order.id }}</mat-panel-title>
-              <mat-panel-description>
-                €{{ order.total_amount }} |
-                <mat-chip [color]="getStatusColor(order.status)" selected>
-                  {{ order.status }}
-                </mat-chip>
-              </mat-panel-description>
-            </mat-expansion-panel-header>
+  @if(orders.length > 0) {
+    <mat-accordion>
+      @for(order of orders; track order.id) {
+        <mat-expansion-panel>
+          <mat-expansion-panel-header>
+            <mat-panel-title>Order #{{ order.id }}</mat-panel-title>
+            <mat-panel-description>
+              €{{ order.total_amount }} |
+              <mat-chip [color]="getStatusColor(order.status)" selected>
+                {{ order.status }}
+              </mat-chip>
+            </mat-panel-description>
+          </mat-expansion-panel-header>
 
-            <div class="timeline">
-              @for(step of getTimelineSteps(order.status); track step.label){
-                <div class="timeline-step" [class.completed]="step.completed" [class.current]="step.current">
-                  <div class="step-dot">{{step.completed ? '✓' : step.icon}}</div>
-                  <span class="step-label">{{step.label}}</span>
+          <div class="timeline">
+            @for(step of getTimelineSteps(order.status); track step.label){
+              <div class="timeline-step" [class.completed]="step.completed" [class.current]="step.current">
+                <div class="step-dot">{{step.completed ? '✓' : step.icon}}</div>
+                <span class="step-label">{{step.label}}</span>
+              </div>
+            }
+          </div>
+
+          <div class="order-details">
+            <div class="meta">
+              <div><strong>Date:</strong> {{ order.created_at | date }}</div>
+              <div><strong>Delivery:</strong> {{ order.delivery_method }}</div>
+            </div>
+            <mat-divider></mat-divider>
+            <div class="items">
+              @for(item of order.items; track item.product_id) {
+                <div class="item-row">
+                  <span>{{ item.product_name }} x{{ item.quantity }}</span>
+                  <span>€{{ item.price * item.quantity }}</span>
                 </div>
               }
             </div>
-            <div class="order-details">
-              <div class="meta">
-                <div><strong>Date:</strong> {{ order.created_at | date }}</div>
-                <div><strong>Delivery:</strong> {{ order.delivery_method }}</div>
-              </div>
-              <mat-divider></mat-divider>
-              <div class="items">
-                @for(item of order.items; track item.product_id) {
-                  <div class="item-row">
-                    <span>{{ item.product_name }} x{{ item.quantity }}</span>
-                    <span>€{{ item.price * item.quantity }}</span>
-                  </div>
-                }
-              </div>
-            </div>
-          </mat-expansion-panel>
-        }
-      </mat-accordion>
-    }
-  </div>
-}
+          </div>
+        </mat-expansion-panel>
+      }
+    </mat-accordion>
+  } @else if (!loading){
+    <div class="empty-state">
+      <div class="empty-icon">📦</div>
+      <h3>No orders yet</h3>
+      <p>When you place an order it will appear here</p>
+      <button class="shop-btn" routerLink="/">Start Shopping →</button>
+    </div>
+  }
+</div>

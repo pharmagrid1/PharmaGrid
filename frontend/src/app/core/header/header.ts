@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { RouterLink, RouterLinkActive, Router } from '@angular/router';
+import { RouterLink, RouterLinkActive, Router, NavigationExtras } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { AuthService } from '../../shared/services/auth.service';
@@ -26,6 +26,7 @@ export class Header implements OnInit {
       this.isAdmin = user?.role === 'admin';
     });
   }
+
 
   onSearch(): void {
     const query = this.searchQuery.trim();

@@ -32,10 +32,13 @@ export class OrderService {
 
   getMyOrders(): Observable<any[]> {
   let userId = this.auth.getCurrentUser()?.id;
+  console.log('getCurrentUser result:', this.auth.getCurrentUser());
+  console.log('userId:', userId);
   
   if (!userId) {
     const stored = localStorage.getItem('pharmagrid_user');
     if (stored) userId = JSON.parse(stored).id;
+    console.log('userId from localStorage:', userId);
   }
 
   if (!userId) return new Observable(obs => { obs.next([]); obs.complete(); });

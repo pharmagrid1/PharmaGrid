@@ -9,6 +9,7 @@ import { ProductService, Product } from '../../product.service';
 import { CartService } from '../../../../shared/services/cart.service';
 import { ProductCard } from '../../../../shared/product-card/product-card';
 import { RouterLink } from '@angular/router';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-product-detail',
@@ -19,8 +20,8 @@ import { RouterLink } from '@angular/router';
     MatTabsModule,
     MatDividerModule,
     MatProgressSpinnerModule,
-    ProductCard,
-    RouterLink
+    // ProductCard,
+    // RouterLink
   ],
   templateUrl: './product-detail.html',
   styleUrl: './product-detail.scss',
@@ -28,13 +29,14 @@ import { RouterLink } from '@angular/router';
 export class ProductDetail implements OnInit {
   product: Product | null = null;
   relatedProducts: Product[] = [];
-
+  error=false;
+  
   constructor(
     private route: ActivatedRoute,
     private productService: ProductService,
     private cartService: CartService
   ) {}
-
+  
   ngOnInit(): void {
     const id = this.route.snapshot.paramMap.get('id');
     if (id) {
@@ -43,8 +45,13 @@ export class ProductDetail implements OnInit {
         this.product = data;
         this.loadRelated(data.category, data.id);
       },
-        error: (err) => console.error('Failed to load product', err)
+        error: (err) => {
+          console.error('Failed to load product', err);
+          this.error = true;
+        }
       });
+    } else{
+      this.error = true;
     }
   }
   
@@ -87,5 +94,6 @@ export class ProductDetail implements OnInit {
     }
     return stars;
   }
+
   
 }

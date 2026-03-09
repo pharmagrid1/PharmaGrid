@@ -25,6 +25,7 @@ export interface Product{
     providedIn:'root'
 })
 
+
 export class ProductService{
 private apiUrl = 'http://localhost:5000/api/products';
 
@@ -35,7 +36,9 @@ private apiUrl = 'http://localhost:5000/api/products';
     }
 
     
-  getProductById(id:number): Observable<Product>{
-    return this.http.get<Product>(`${this.apiUrl}/${id}`);
-  }
+    getProductById(id:number): Observable<Product>{
+      return this.http.get<Product>(`${this.apiUrl}/${id}`);
+    }
+
+  
 }
