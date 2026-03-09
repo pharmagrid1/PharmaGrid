@@ -33,7 +33,7 @@ export class Admin implements OnInit {
   constructor(private http: HttpClient, private auth: AuthService) {}
 
   get headers() {
-    return new HttpHeaders({Authorization: 'Bearer ${this.auth.getToken()}'});
+    return new HttpHeaders({Authorization: `Bearer ${this.auth.getToken()}`});
   }
 
   ngOnInit(): void {
