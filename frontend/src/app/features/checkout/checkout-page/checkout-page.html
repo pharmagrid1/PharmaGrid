@@ -34,13 +34,13 @@
                         <label class="delivery-option" [class.selected]="checkoutForm.get('deliveryMethod')?.value === 'Pickup'">
                             <input type="radio" formControlName="deliveryMethod" value="Pickup"/>
                             <span class="option-icon">🏪</span>
-                            <span class="option-label">Pickup</span>
+                            <span class="option-label">Pickup</span> <br>
                             <span class="option-sub">Ready in 2 hours</span>
                         </label>
                         <label class="delivery-option" [class.selected]="checkoutForm.get('deliveryMethod')?.value === 'Delivery'">
                             <input type="radio" formControlName="deliveryMethod" value="Delivery"/>
                             <span class="option-icon">🚚</span>
-                            <span class="option-label">Delivery</span>
+                            <span class="option-label">Delivery</span> <br>
                             <span class="option-sub">1-2 business days</span>
                         </label>     
                     </div>
