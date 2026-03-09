@@ -35,24 +35,36 @@ export class MyOrders implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.auth.currentUser$.pipe(
-      filter(user => !!user),  // wait until user is not null
-      take(1),                  // only take the first valid emission
-      switchMap(() => this.orderService.getMyOrders())
-    ).subscribe({
-      next: (data: any[]) => {
-        this.orders = data.sort((a, b) =>
-          new Date(b.created_at ?? 0).getTime() -
-          new Date(a.created_at ?? 0).getTime()
-        );
-        this.loading = false;
-      },
-      error: (err) => {
-        console.error('Failed to load orders', err);
-        this.loading = false;
-      }
-    });
+  const userId = this.auth.getCurrentUser()?.id;
+  
+  if (userId) {
+    this.fetchOrders();
+  } else {
+    // user not yet in memory, read directly from localStorage
+    const stored = localStorage.getItem('pharmagrid_user');
+    if (stored) {
+      this.fetchOrders();
+    } else {
+      this.loading = false;
+    }
   }
+}
+
+fetchOrders(): void {
+  this.orderService.getMyOrders().subscribe({
+    next: (data: any[]) => {
+      this.orders = data.sort((a, b) =>
+        new Date(b.created_at ?? 0).getTime() -
+        new Date(a.created_at ?? 0).getTime()
+      );
+      this.loading = false;
+    },
+    error: (err) => {
+      console.error('Failed to load orders', err);
+      this.loading = false;
+    }
+  });
+}
 
   getStatusColor(status: string): string {
     switch (status) {

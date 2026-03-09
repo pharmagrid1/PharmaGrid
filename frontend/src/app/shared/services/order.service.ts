@@ -31,12 +31,15 @@ export class OrderService {
   }
 
   getMyOrders(): Observable<any[]> {
-  const userId = this.auth.getCurrentUser()?.id;
-  console.log('Fetching orders for user ID:', userId);
+  let userId = this.auth.getCurrentUser()?.id;
+  
   if (!userId) {
-    console.error('No user logged in');
-    return new Observable(obs => { obs.next([]); obs.complete(); });
+    const stored = localStorage.getItem('pharmagrid_user');
+    if (stored) userId = JSON.parse(stored).id;
   }
+
+  if (!userId) return new Observable(obs => { obs.next([]); obs.complete(); });
+  
   return this.http.get<any[]>(`${this.apiUrl}/user/${userId}`);
 }
 }
