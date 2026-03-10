@@ -43,21 +43,21 @@ export class Admin implements OnInit {
     this.loadOrders();
   }
 
-  loadProducts(): void {
-    this.http.get<any[]>(`${this.apiUrl}/products`, { headers: this.headers })
-      .subscribe(data => {
-        this.products = data;
-        this.cdr.detectChanges();
-      });
-  }
+loadProducts(): void {
+  this.http.get<any>(`${this.apiUrl}/products`, { headers: this.headers })
+    .subscribe(data => {
+      this.products = data.products;
+      this.cdr.detectChanges();
+    });
+}
 
-  loadOrders(): void {
-    this.http.get<any[]>(`${this.apiUrl}/orders`, { headers: this.headers })
-      .subscribe(data => {
-        this.orders = data;
-        this.cdr.detectChanges();
-      });
-  }
+loadOrders(): void {
+  this.http.get<any>(`${this.apiUrl}/orders`, { headers: this.headers })
+    .subscribe(data => {
+      this.orders = data.orders; 
+      this.cdr.detectChanges();
+    });
+}
 
   deactivateProduct(id: number): void {
     this.http.patch(`${this.apiUrl}/products/${id}/deactivate`, {}, { headers: this.headers })

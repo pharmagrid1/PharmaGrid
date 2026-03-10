@@ -57,6 +57,6 @@ export class AuthService{
         localStorage.setItem('pharmagrid_token', res.token);
         localStorage.setItem('pharmagrid_user', JSON.stringify(res.user));
         this.currentUserSubject.next(res.user);
-        this.toast.show(`Welcome back, ${res.user.full_name.split(' ')[0]}!}`);
+        this.toast.show(`Welcome back, ${res.user.full_name.split(' ')[0]}!`);
     }
 }
