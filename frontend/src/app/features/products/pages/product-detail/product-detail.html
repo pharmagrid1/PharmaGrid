@@ -36,6 +36,27 @@
       </mat-tab>
     </mat-tab-group>
   </div>
+
+  @if(relatedProducts.length > 0) {
+    <div class="related-section">
+      <h3 class="related-title">You might also like</h3>
+      <div class="related-grid">
+        @for(related of relatedProducts; track related.id) {
+          <app-product-card
+            [id]="related.id"
+            [brand]="related.brand"
+            [name]="related.name"
+            [price]="related.price"
+            [skinType]="related.skin_type"
+            [image]="related.image"
+            [stock]="related.stock"
+            [rating]="related.rating ?? 0">
+          </app-product-card>
+        }
+      </div>
+    </div>
+  }
+
 </div>
 } @else if(error) {
   <div class="loading-state">
