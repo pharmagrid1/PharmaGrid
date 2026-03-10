@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { AuthService } from '../../shared/services/auth.service';
 
@@ -11,29 +11,31 @@ import { AuthService } from '../../shared/services/auth.service';
   styleUrl: './admin.scss',
 })
 export class Admin implements OnInit {
-
   activeTab = 'products';
   products: any[] = [];
   orders: any[] = [];
-  loading = false;
 
   private apiUrl = 'http://localhost:5000/api/admin';
 
   orderStatuses = [
     'Pending',
     'Confirmed',
-    'Processiing',
+    'Processing',
     'Ready for Pickup',
-    'Out for Delivery ',
+    'Out for Delivery',
     'Delivered',
     'Cancelled',
     'Rejected',
   ];
 
-  constructor(private http: HttpClient, private auth: AuthService) {}
+  constructor(
+    private http: HttpClient,
+    private auth: AuthService,
+    private cdr: ChangeDetectorRef
+  ) {}
 
   get headers() {
-    return new HttpHeaders({Authorization: `Bearer ${this.auth.getToken()}`});
+    return new HttpHeaders({ Authorization: `Bearer ${this.auth.getToken()}` });
   }
 
   ngOnInit(): void {
@@ -42,25 +44,33 @@ export class Admin implements OnInit {
   }
 
   loadProducts(): void {
-    this.http.get<any[]>(`${this.apiUrl}/products`, {headers: this.headers})
-    .subscribe(data => this.products = data);
+    this.http.get<any[]>(`${this.apiUrl}/products`, { headers: this.headers })
+      .subscribe(data => {
+        this.products = data;
+        this.cdr.detectChanges();
+      });
   }
 
   loadOrders(): void {
-    this.http.get<any[]>(`${this.apiUrl}/orders`, {headers: this.headers})
-    .subscribe(data => this.orders = data);
+    this.http.get<any[]>(`${this.apiUrl}/orders`, { headers: this.headers })
+      .subscribe(data => {
+        this.orders = data;
+        this.cdr.detectChanges();
+      });
   }
-  
+
   deactivateProduct(id: number): void {
-    this.http.patch(`${this.apiUrl}/products/${id}/deactivate`, {},  {headers: this.headers})
-    .subscribe(data => this.loadProducts());
+    this.http.patch(`${this.apiUrl}/products/${id}/deactivate`, {}, { headers: this.headers })
+      .subscribe(() => this.loadProducts());
   }
+
   activateProduct(id: number): void {
-    this.http.put(`${this.apiUrl}/products/${id}`, {is_active: true},  {headers: this.headers})
-    .subscribe(data => this.loadProducts());
+    this.http.patch(`${this.apiUrl}/products/${id}/activate`, {}, { headers: this.headers })
+      .subscribe(() => this.loadProducts());
   }
+
   updateOrderStatus(orderId: string, status: string): void {
-    this.http.patch(`${this.apiUrl}/products/${orderId}/status`, {status},  {headers: this.headers})
-    .subscribe(data => this.loadOrders());
+    this.http.patch(`${this.apiUrl}/orders/${orderId}/status`, { status }, { headers: this.headers })
+      .subscribe(() => this.loadOrders());
   }
 }
