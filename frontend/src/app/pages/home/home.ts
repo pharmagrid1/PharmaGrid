@@ -39,10 +39,10 @@ export class Home implements OnInit, OnDestroy{
 
 
   trustItems=[
-     { icon: ':medical_symbol:', label: 'Dermatologist-Approved', sub: 'Every product verified'     },
-    { icon: ':lotion_bottle:', label: '50+ Products',            sub: 'Across 8 expert brands'     },
-    { icon: ':herb:', label: 'Science-Backed',          sub: 'Clinically tested formulas' },
-    { icon: ':truck:', label: 'Fast Delivery',           sub: 'Dispatched within 24 hours' },
+     { icon: ' ⚕️', label: 'Dermatologist-Approved', sub: 'Every product verified'     },
+    { icon: '🧴', label: '50+ Products',            sub: 'Across 8 expert brands'     },
+    { icon: ' 🌿', label: 'Science-Backed',          sub: 'Clinically tested formulas' },
+    { icon: '🚚', label: 'Fast Delivery',           sub: 'Dispatched within 24 hours' },
   ];
 
   brands=[
@@ -70,28 +70,28 @@ export class Home implements OnInit, OnDestroy{
     {
       label:'Skin Type', question:'How would you describe your skin type?',
       options:[
-        { label: 'Dry',         value: 'dry',         icon: ':desert:' },
-        { label: 'Oily',        value: 'oily',        icon: ':droplet:' },
-        { label: 'Combination', value: 'combination', icon: ':yin_yang:' },
-        { label: 'Sensitive',   value: 'sensitive',   icon: ':cherry_blossom:' },
+        { label: 'Dry',         value: 'dry',         icon: '🏜️' },
+        { label: 'Oily',        value: 'oily',        icon: '💧' },
+        { label: 'Combination', value: 'combination', icon: '🧼' },
+        { label: 'Sensitive',   value: 'sensitive',   icon: '🌸' },
       ],
     },
     {
       label:'Concern', question:'What is your primary skin concern?',
       options:[
-        { label: 'Acne & Pores', value: 'acne',        icon: ':mag:' },
-        { label: 'Hydration',    value: 'hydration',   icon: ':sweat_drops:' },
-        { label: 'Anti-Aging',   value: 'aging',       icon: ':hourglass_flowing_sand:' },
-        { label: 'Brightening',  value: 'brightening', icon: ':sparkles:' },
+        { label: 'Acne & Pores', value: 'acne',        icon: '🔎' },
+        { label: 'Hydration',    value: 'hydration',   icon: '💦' },
+        { label: 'Anti-Aging',   value: 'aging',       icon: '⌛️' },
+        { label: 'Brightening',  value: 'brightening', icon: '✨' },
       ],
     },
     {
       label:'Routine', question: 'How involved is your ideal routine?',
       options:[
-        { label: 'Minimal (2–3 steps)',  value: 'minimal',  icon: ':zap:' },
-        { label: 'Standard (4–5 steps)', value: 'standard', icon: ':herb:' },
-        { label: 'Full (6+ steps)',       value: 'full',     icon: ':person_in_steamy_room:' },
-        { label: 'Morning only',          value: 'morning',  icon: ':sunny:' },
+        { label: 'Minimal (2–3 steps)',  value: 'minimal',  icon: '⚡️' },
+        { label: 'Standard (4–5 steps)', value: 'standard', icon: '🌿' },
+        { label: 'Full (6+ steps)',       value: 'full',     icon: '🧖‍♀️' },
+        { label: 'Morning only',          value: 'morning',  icon: '☀️' },
       ],
     },
   ];
