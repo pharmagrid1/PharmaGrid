@@ -1,115 +1,326 @@
-<div class="home">
+<div class="pg-home">
 
-    <!-- Hero Section -->
-     <section class="hero">
-        <div class="hero-content">
-            <p class="hero-eyebrow">✦ Pharmacy-Grade Skincare</p>
-            <h1 class="hero-title">
-                Your Skin Deserves<br />
-                <span class="hero-accent">The Best.</span>
-            </h1>
-        <p class="hero-sub">
-            Professional skincare products sourced directly from
-        certified pharmacies. Trusted ingredients, real results. 
-        Purchase freely from products that do not fund genocide.
+  <!-- ═══ HERO ════════════════════════════════════════════════ -->
+  <section class="pg-hero">
+    <div class="pg-hero__bg-grid"></div>
+
+    <div class="container pg-hero__inner">
+      <div class="pg-hero__copy">
+
+        <span class="pg-hero__eyebrow">Pharmacy-Grade Skincare</span>
+
+        <h1 class="pg-hero__headline">
+          Dermatological<br>
+          Skincare You<br>
+          <em>Can Trust.</em>
+        </h1>
+
+        <p class="pg-hero__sub">
+          Pharmacy-grade formulations curated by dermatologists.
+          Every product — authentic, clinically validated, delivered to your door.
         </p>
-            <p class="hero-actions">
-                <button class="btn-primary" routerLink="/products">
-                    Shop Now →
+
+        <div class="pg-hero__ctas">
+          <a class="btn btn--primary btn--lg" routerLink="/products">Shop Skincare →</a>
+          <a class="btn btn--outline btn--lg" routerLink="/products">Build My Routine</a>
+        </div>
+
+        @if (isAdmin) {
+          <div class="pg-hero__admin-chip">
+            <span>⚙️</span>
+            <a routerLink="/admin">Admin Dashboard →</a>
+          </div>
+        }
+
+      </div>
+
+      <div class="pg-hero__visual">
+        <div class="pg-hero__product-stack">
+          <div class="pg-hero__card pg-hero__card--back">
+            <div class="pg-hero__card-inner">
+              <div class="pg-hero__card-img placeholder-img"></div>
+              <span>Avène Thermal Water</span>
+            </div>
+          </div>
+          <div class="pg-hero__card pg-hero__card--front">
+            <div class="pg-hero__card-inner">
+              <div class="pg-hero__card-img placeholder-img"></div>
+              <span>Bioderma Sensibio H2O</span>
+            </div>
+          </div>
+          <div class="pg-hero__badge">
+            <strong>50+</strong>
+            <small>Products</small>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="pg-hero__scroll-cue">
+      <span>scroll</span>
+      <div class="pg-hero__scroll-line"></div>
+    </div>
+  </section>
+
+
+  <!-- ═══ TRUST BAR ═══════════════════════════════════════════ -->
+  <section class="pg-trust">
+    <div class="container">
+      <div class="pg-trust__inner">
+        @for (item of trustItems; track item.label) {
+          <div class="pg-trust__item">
+            <span class="pg-trust__icon">{{ item.icon }}</span>
+            <div>
+              <strong>{{ item.label }}</strong>
+              <small>{{ item.sub }}</small>
+            </div>
+          </div>
+        }
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ═══ FEATURED PRODUCTS ═══════════════════════════════════ -->
+  <section class="section-pad">
+    <div class="container">
+      <div class="section-header">
+        <div>
+          <p class="section-eyebrow">Bestsellers</p>
+          <h2 class="section-title">Staff Picks</h2>
+        </div>
+        <a class="btn btn--outline" routerLink="/products">View all products →</a>
+      </div>
+
+      @if (featuredLoading) {
+        <div class="pg-featured__grid">
+          @for (s of [1,2,3,4]; track s) {
+            <div class="product-card product-card--skeleton">
+              <div class="skeleton-block"></div>
+              <div class="product-card__body">
+                <div class="skeleton-line skeleton-line--short"></div>
+                <div class="skeleton-line"></div>
+                <div class="skeleton-line skeleton-line--short"></div>
+              </div>
+            </div>
+          }
+        </div>
+      } @else if (featuredError) {
+        <p class="pg-featured__error">Could not load products. Please try again later.</p>
+      } @else {
+        <div class="pg-featured__grid">
+          @for (product of featuredProducts; track product.id) {
+            <div class="product-card">
+              <div class="product-card__img-wrap">
+                <img class="product-card__img" [src]="product.image" [alt]="product.name" />
+                <button class="product-card__quick-add" (click)="addToCart(product)" [disabled]="product.stock === 0">
+                  + Add to Cart
                 </button>
-                <button class="btn-secondary" routerLink="/products">
-                    Browse All Products
+              </div>
+              <div class="product-card__body">
+                <span class="product-card__brand">{{ product.brand }}</span>
+                <h3 class="product-card__name">{{ product.name }}</h3>
+                <div class="product-card__footer">
+                  <span class="product-card__price">€{{ product.price }}</span>
+                  <span class="product-card__tag">{{ product.skin_type }}</span>
+                </div>
+              </div>
+            </div>
+          }
+        </div>
+      }
+    </div>
+  </section>
+
+
+  <!-- ═══ BRAND SHOWCASE ══════════════════════════════════════ -->
+  <section class="section-pad section-pad--grey">
+    <div class="container">
+      <div class="section-header section-header--center">
+        <div>
+          <p class="section-eyebrow">Our Brands</p>
+          <h2 class="section-title">8 Expert Brands</h2>
+          <p class="section-sub">Dermatologist-trusted names from France and Korea, brought together in one place.</p>
+        </div>
+      </div>
+
+      <div class="pg-brands__grid">
+        @for (brand of brands; track brand.slug) {
+          <a class="pg-brands__tile"
+             [class.active]="activeBrand === brand.slug"
+             [routerLink]="['/products']"
+             [queryParams]="{ brand: brand.slug }"
+             (click)="filterByBrand(brand.slug)">
+            <span class="pg-brands__tile-name">{{ brand.name }}</span>
+            <span class="pg-brands__tile-origin">{{ brand.origin }}</span>
+          </a>
+        }
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ═══ ROUTINE BUILDER / QUIZ ══════════════════════════════ -->
+  <section class="section-pad" id="routine-builder">
+    <div class="container">
+      <div class="section-header section-header--center">
+        <div>
+          <p class="section-eyebrow">Personalised Care</p>
+          <h2 class="section-title">Find Your Routine</h2>
+          <p class="section-sub">Answer three quick questions and we'll match you with the right products for your skin.</p>
+        </div>
+      </div>
+
+      <div class="pg-routine__widget">
+
+        @if (!quizComplete) {
+          <!-- Step indicators -->
+          <div class="pg-routine__steps">
+            @for (step of quizSteps; track step.label; let i = $index) {
+              <div class="pg-routine__step"
+                   [class.active]="i === quizStep"
+                   [class.done]="i < quizStep">
+                <div class="pg-routine__step-num">{{ i + 1 }}</div>
+                <span class="pg-routine__step-label">{{ step.label }}</span>
+              </div>
+            }
+          </div>
+
+          <!-- Question panel -->
+          <div class="pg-routine__panel">
+            <p class="pg-routine__question">{{ quizSteps[quizStep].question }}</p>
+            <div class="pg-routine__options">
+              @for (opt of quizSteps[quizStep].options; track opt.value) {
+                <button class="pg-routine__option"
+                        [class.selected]="quizAnswers[quizStep] === opt.value"
+                        (click)="selectAnswer(opt.value)">
+                  <span class="pg-routine__option-icon">{{ opt.icon }}</span>
+                  {{ opt.label }}
                 </button>
+              }
+            </div>
+            <div class="pg-routine__nav">
+              @if (quizStep > 0) {
+                <button class="btn btn--ghost" (click)="prevStep()">← Back</button>
+              }
+              <button class="btn btn--primary"
+                      [disabled]="!quizAnswers[quizStep]"
+                      (click)="nextStep()">
+                {{ quizStep < quizSteps.length - 1 ? 'Next →' : 'See Results →' }}
+              </button>
+            </div>
+          </div>
+
+        } @else {
+          <!-- Result -->
+          <div class="pg-routine__result">
+            <div class="pg-routine__result-icon">🌿</div>
+            <h3>Your routine is ready</h3>
+            <p>Based on your answers, we've matched the ideal products for your skin profile.</p>
+            <div class="pg-routine__result-actions">
+              <a class="btn btn--primary" routerLink="/products">Shop Your Routine →</a>
+              <button class="btn btn--ghost" (click)="resetQuiz()">Start Over</button>
+            </div>
+          </div>
+        }
+
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ═══ WHY PHARMAGRID ══════════════════════════════════════ -->
+  <section class="section-pad section-pad--grey">
+    <div class="container">
+      <div class="section-header">
+        <div>
+          <p class="section-eyebrow">Why PharmaGrid</p>
+          <h2 class="section-title">The Difference</h2>
+        </div>
+      </div>
+
+      <div class="pg-why__grid">
+        @for (item of whyItems; track item.num) {
+          <div class="pg-why__card">
+            <div class="pg-why__card-num">{{ item.num }}</div>
+            <h3>{{ item.title }}</h3>
+            <p>{{ item.body }}</p>
+          </div>
+        }
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ═══ FOOTER ═══════════════════════════════════════════════ -->
+  <footer class="pg-footer">
+    <div class="container">
+      <div class="pg-footer__inner">
+
+        <!-- Brand col -->
+        <div class="pg-footer__brand">
+          <div class="pg-footer__logo">
+            <div class="pg-footer__logo-mark">Pg</div>
+            <span class="pg-footer__logo-text">PharmaGrid</span>
+          </div>
+          <p>Pharmacy-grade skincare, curated by dermatologists and delivered to your door.</p>
         </div>
 
-        <div class="hero-stats">
-            <div class="stat">
-                <span class="stat-number">8+</span>
-                <span class="stat-label">Products</span>
-            </div>
-            
-            <div class="stat">
-                <span class="stat-number">8</span>
-                <span class="stat-label">Brands</span>
-            </div>
-            <div class="stat">
-                <span class="stat-number">100%</span>
-                <span class="stat-label">Pharmacy Grade</span>
-            </div>
-        </div>
-        <div class="hero-visual">
-            <div class="hero-glow"></div>
-            <div class="hero-circle">
-                <img src="https://peachesandcremeshop.com/cdn/shop/collections/TIRTIR.jpg?v=1711642532" alt="Featured Products"/>
-            </div>
-        </div>
-     </section>
-
-     <!-- Category Pills -->
-
-     <section class="categories">
-        <h2 class="section-title">Shop by Category</h2>
-        <div class="category-pills">
-            @for(cat of categories; track cat.value){
-                <a class="category-pill" [routerLink]="['/products']" [queryParams]="{category: cat.value}">
-                    <span class="pill-icon">{{cat.icon}}</span>
-                    <span class="pill-icon">{{cat.label}}</span>
-                </a>
+        <!-- Links -->
+        <div class="pg-footer__links">
+          <div>
+            <h4>Shop</h4>
+            <a routerLink="/products">All Products</a>
+            <a [routerLink]="['/products']" [queryParams]="{ search: 'Bioderma' }">Bioderma</a>
+            <a [routerLink]="['/products']" [queryParams]="{ search: 'Avène' }">Avène</a>
+            <a [routerLink]="['/products']" [queryParams]="{ search: 'TirTir' }">TirTir</a>
+          </div>
+          <div>
+            <h4>Account</h4>
+            <a routerLink="/login">Login</a>
+            <a routerLink="/register">Register</a>
+            <a routerLink="/my-orders">My Orders</a>
+            <a routerLink="/cart">Cart</a>
+          </div>
+          <div>
+            <h4>Info</h4>
+            @if (isAdmin) {
+              <a routerLink="/admin">Admin Panel</a>
             }
-        </div>
-     </section>
-
-
-     <!-- Featured Products -->
-
-     <section class="featured">
-        <div class="section-header">
-            <h2 class="section-title">Featured Products</h2>
-            <a routerLink="/products" class="see-all">See All →</a>
+            <a routerLink="/">About</a>
+            <a routerLink="/">Contact</a>
+            <a routerLink="/">Privacy</a>
+          </div>
         </div>
 
-        <div class="featured-grid">
-            @for(product of featuredProducts; track product.id){
-                <app-product-card 
-                [id]="product.id"
-                [brand]="product.brand"
-                [name]="product.name"
-                [price]="product.price"
-                [skinType]="product.skin_type"
-                [image]="product.image"
-                [stock]="product.stock">
-                
-                </app-product-card>
-            }
+        <!-- Newsletter -->
+        <div class="pg-footer__newsletter">
+          <h4>Stay in the loop</h4>
+          <p>New arrivals and skincare tips, straight to your inbox.</p>
+          @if (!newsletterSubmitted) {
+            <div class="pg-footer__email-row">
+              <input
+                type="email"
+                placeholder="you@email.com"
+                [(ngModel)]="newsletterEmail"
+                (keyup.enter)="submitNewsletter()" />
+              <button class="btn btn--primary btn--sm" (click)="submitNewsletter()">Subscribe</button>
+            </div>
+          } @else {
+            <p class="pg-footer__success">✓ You're subscribed. Thank you!</p>
+          }
         </div>
-     </section>
 
+      </div>
 
-     <!-- Trust Section -->
-
-     <section class="trust">
-        <div class="trust-grid">
-            <div class="trust-item">
-                <span class="trust-icon">🏥</span>
-                <h4>Pharmacy Verified</h4>
-                <p>All products sourced directly from certified pharmacies</p>
-            </div>
-            <div class="trust-item">
-                <span class="trust-icon">🚚</span>
-                <h4>Fast Delivery</h4>
-                <p>Same day pickup or 1-2 day delivery to your door</p>
-            </div>
-            <div class="trust-item">
-                <span class="trust-icon">🔒</span>
-                <h4>Secure Payments</h4>
-                <p>Your data and payments are always protected</p>
-            </div>
-            <div class="trust-item">
-                <span class="trust-icon">↩️</span>
-                <h4>Easy Returns</h4>
-                <p>Not satisfied? Return within 30 days hassle-free</p>
-            </div>
+      <div class="pg-footer__bottom">
+        <small>©  PharmaGrid. All rights reserved.</small>
+        <div class="pg-footer__legal">
+          <a routerLink="/">Privacy Policy</a>
+          <a routerLink="/">Terms of Use</a>
         </div>
-     </section>
+      </div>
+    </div>
+  </footer>
 
 </div>
