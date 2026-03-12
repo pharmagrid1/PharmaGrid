@@ -1,33 +1,166 @@
-import { Component, OnInit } from '@angular/core';
-import { Product, ProductService } from '../../features/products/product.service';
+import { ChangeDetectorRef, Component, HostListener, OnDestroy, OnInit } from '@angular/core';
 import { RouterLink } from "@angular/router";
 import { ProductCard } from "../../shared/product-card/product-card";
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+import { Product, ProductService } from '../../features/products/product.service';
+import { CartService } from '../../shared/services/cart.service';
+import { AuthService } from '../../shared/services/auth.service';
+
+export interface QuizStep{
+  label:string;
+  question:string;
+  options:{label:string; value:string; icon:string}[];
+
+}
 
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [RouterLink, ProductCard],
+  imports: [CommonModule, RouterLink, FormsModule],
   templateUrl: './home.html',
   styleUrl: './home.scss',
 })
-export class Home implements OnInit{
-  featuredProducts: Product[] = [];
 
-  categories = [
-    { label: 'Cleansers', icon: '🧴', value: 'Cleanser' },
-    { label: 'Moisturizers', icon: '💧', value: 'Moisturizer' },
-    { label: 'Sunscreen', icon: '☀️', value: 'Sunscreen' },
-    { label: 'Serums', icon: '✨', value: 'Serum' },
-    { label: 'Treatments', icon: '🩺', value: 'Treatment' },
-    { label: 'Makeup', icon: '💄', value: 'Makeup' },
+export class Home implements OnInit, OnDestroy{
+  isAdmin=false;
+  isLoggedIn=false;
+
+  isScrolled=false;
+
+  @HostListener('window: scroll')
+  onScroll():void{
+    this.isScrolled=window.scrollY>20;
+  }
+
+  featuredProducts: Product[]=[];
+  featuredLoading=true;
+  featuredError=false;
+
+
+  trustItems=[
+     { icon: ':medical_symbol:', label: 'Dermatologist-Approved', sub: 'Every product verified'     },
+    { icon: ':lotion_bottle:', label: '50+ Products',            sub: 'Across 8 expert brands'     },
+    { icon: ':herb:', label: 'Science-Backed',          sub: 'Clinically tested formulas' },
+    { icon: ':truck:', label: 'Fast Delivery',           sub: 'Dispatched within 24 hours' },
   ];
 
-  constructor(private productService: ProductService) {}
- 
+  brands=[
+    { name: 'Bioderma',        slug: 'Bioderma',        origin: 'France'  },
+    { name: 'Avène',           slug: 'Avène',           origin: 'France'  },
+    { name: 'TirTir',          slug: 'TirTir',          origin: 'Korea'   },
+    { name: 'Medicube',        slug: 'Medicube',        origin: 'Korea'   },
+    { name: 'Purito',          slug: 'Purito',          origin: 'Korea'   },
+    { name: 'Geek & Gorgeous', slug: 'Geek & Gorgeous', origin: 'Hungary' },
+    { name: 'Mary & May',      slug: 'Mary & May',      origin: 'Korea'   },
+    { name: 'Biodance',        slug: 'Biodance',        origin: 'Korea'   },
+  ];
+  activeBrand: string | null =null;
+
+  filterByBrand(slug: string):void{
+    this.activeBrand=this.activeBrand===slug? null : slug;
+
+  }
+
+  quizStep=0;
+  quizAnswers: Record<number, string>={};
+  quizComplete=false;
+
+  quizSteps: QuizStep[]=[
+    {
+      label:'Skin Type', question:'How would you describe your skin type?',
+      options:[
+        { label: 'Dry',         value: 'dry',         icon: ':desert:' },
+        { label: 'Oily',        value: 'oily',        icon: ':droplet:' },
+        { label: 'Combination', value: 'combination', icon: ':yin_yang:' },
+        { label: 'Sensitive',   value: 'sensitive',   icon: ':cherry_blossom:' },
+      ],
+    },
+    {
+      label:'Concern', question:'What is your primary skin concern?',
+      options:[
+        { label: 'Acne & Pores', value: 'acne',        icon: ':mag:' },
+        { label: 'Hydration',    value: 'hydration',   icon: ':sweat_drops:' },
+        { label: 'Anti-Aging',   value: 'aging',       icon: ':hourglass_flowing_sand:' },
+        { label: 'Brightening',  value: 'brightening', icon: ':sparkles:' },
+      ],
+    },
+    {
+      label:'Routine', question: 'How involved is your ideal routine?',
+      options:[
+        { label: 'Minimal (2–3 steps)',  value: 'minimal',  icon: ':zap:' },
+        { label: 'Standard (4–5 steps)', value: 'standard', icon: ':herb:' },
+        { label: 'Full (6+ steps)',       value: 'full',     icon: ':person_in_steamy_room:' },
+        { label: 'Morning only',          value: 'morning',  icon: ':sunny:' },
+      ],
+    },
+  ];
+
+  selectAnswer(value:string): void {this.quizAnswers[this.quizStep]=value;}
+
+  nextStep():void{
+    if(!this.quizAnswers[this.quizStep]) return;
+    if(this.quizStep<this.quizSteps.length-1){this.quizStep++;}
+    else{this.quizComplete=true;}
+  }
+
+  prevStep(): void{ if(this.quizStep>0) this.quizStep--;}
+
+  resetQuiz(): void{ this.quizStep=0; this.quizAnswers={}; this.quizComplete=false;}
+
+  whyItems=[
+    { num: '01', title: 'Expert Curation', body:'Every product is hand-selected by dermatologists and skincare specialists. No fillers, no gimmicks -only formulas that work.'},
+    { num: '02', title:'Science-Backed', body:'We partner exclusively with brands that publish clinical data. You will always know what is in your routine and why it works.'},
+    { num:'03', title: 'Built for Your Skin', body: 'Our routine builder matches products to your skin type, concern, and lifestyle — so every recommendation is personal.' },
+  ];
+
+  newsletterEmail='';
+  newsletterSubmitted=false;
+
+  submitNewsletter():void{
+    if(this.newsletterEmail.trim().includes('@')){
+      this.newsletterSubmitted=true;
+      this.newsletterEmail='';
+    }
+  }
+
+  constructor(
+    private productService:ProductService,
+    private cartService:CartService,
+    private auth: AuthService,
+    private cdr: ChangeDetectorRef
+  ){}
+
   ngOnInit(): void {
-    this.productService.getProducts().subscribe(data => {
-      this.featuredProducts = data.slice(0, 4);
+    this.isScrolled=window.scrollY>20;
+
+    this.auth.currentUser$.subscribe( user =>{
+      this.isLoggedIn=!!user;
+      this.isAdmin=user?.role==='admin';
+      this.cdr.detectChanges();
+    });
+
+    this.productService.getProducts().subscribe({
+      next: data =>{
+        this.featuredProducts=data.slice(0,4);
+        this.featuredLoading=false;
+        this.cdr.detectChanges();
+      },
+      error: ()=>{
+        this.featuredError=true;
+        this.featuredLoading=false;
+      },
     });
   }
 
+  ngOnDestroy(): void {
+    
+  }
+
+  addToCart(product: Product): void{
+    this.cartService.addToCart({
+      id:product.id, name: product.name, brand: product.brand,
+      price: product.price, image: product.image, quantity: 1,
+    });
+  }
 }
