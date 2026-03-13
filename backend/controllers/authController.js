@@ -67,4 +67,42 @@ exports.getMe = async(req,res) => {
     } catch (err) {
         res.status(500).json({message: 'Failed to get user '});
     } 
+
+
 };
+
+exports.getProfile=async(req, res)=>{
+    try{
+        const result=await User.findById(req.user.id);
+        res.json(result);
+    } catch(err){
+        res.status(500).json({message:'Failed to get profile'});
+    }
+};
+
+
+exports.updateProfile=async(req, res)=>{
+    try{
+        const {full_name, password}=req.body;
+        const db=require('../config/db');
+
+        if(password){
+            const hash=await bcrypt.hash(password,10);
+            await db.query(
+                'UPDATE users SET full_name=$1, password_hash=$2 WHERE id=$3',
+                [full_name, hash, req.user.id]
+            );
+        }else{
+            await db.query(
+                'UPDATE users SET full_name=$1 WHERE id=$2 WHERE id=$3',
+                [full_name, hash, req.user.id]
+            );
+        }
+
+        const updated=await User.findById(req.user.id);
+        res.json({message:'Profile updated', user:updated});
+    } catch (err){
+        console.error('UPDATE PROFILE ERROR:', err);
+    res.status(500).json({ message: 'Failed to update profile', error: err.message });
+  }
+    };
