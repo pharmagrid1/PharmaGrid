@@ -6,6 +6,7 @@ import { FormsModule } from '@angular/forms';
 import { Product, ProductService } from '../../features/products/product.service';
 import { CartService } from '../../shared/services/cart.service';
 import { AuthService } from '../../shared/services/auth.service';
+import { ToastService } from '../../shared/services/toast.service';
 
 export interface QuizStep{
   label:string;
@@ -128,7 +129,8 @@ export class Home implements OnInit, OnDestroy{
     private productService:ProductService,
     private cartService:CartService,
     private auth: AuthService,
-    private cdr: ChangeDetectorRef
+    private cdr: ChangeDetectorRef,
+    private toast: ToastService 
   ){}
 
   ngOnInit(): void {
@@ -162,5 +164,6 @@ export class Home implements OnInit, OnDestroy{
       id:product.id, name: product.name, brand: product.brand,
       price: product.price, image: product.image, quantity: 1,
     });
+     this.toast.show(`${product.name} added to cart`, 'success');
   }
 }
