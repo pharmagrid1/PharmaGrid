@@ -1,0 +1,95 @@
+.simple-page {
+  min-height: 80vh;
+  padding: 80px 0;
+  background: #fff;
+}
+ 
+.simple-page__inner {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 0 32px;
+ 
+  &--narrow { max-width: 640px; }
+}
+ 
+.simple-page__eyebrow {
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: #1A7A6E;
+  margin: 0 0 12px;
+}
+ 
+.simple-page__title {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: clamp(32px, 5vw, 52px);
+  font-weight: 600;
+  line-height: 1.1;
+  color: #141412;
+  margin: 0 0 28px;
+ 
+  em { font-style: italic; color: #1A7A6E; }
+}
+ 
+.simple-page__date {
+  font-size: 13px;
+  color: #9A9A94;
+  margin: -16px 0 32px;
+}
+ 
+.simple-page__body {
+  font-size: 16px;
+  line-height: 1.75;
+  color: #4A4A46;
+  margin: 0 0 20px;
+}
+ 
+.simple-page__btn {
+  display: inline-block;
+  margin-top: 8px;
+  padding: 12px 28px;
+  background: #1A7A6E;
+  color: #fff;
+  border-radius: 4px;
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 500;
+  transition: background 200ms;
+ 
+  &:hover { background: #2A9D8F; }
+}
+ 
+h2 {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: 22px;
+  font-weight: 600;
+  color: #141412;
+  margin: 32px 0 10px;
+}
+ 
+.simple-page__contacts {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  margin-top: 32px;
+}
+ 
+.simple-page__contact-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+  padding: 20px 24px;
+  border: 1px solid #E8E8E5;
+  border-radius: 8px;
+ 
+  span { font-size: 24px; flex-shrink: 0; }
+ 
+  strong { display: block; font-size: 14px; font-weight: 600; color: #141412; margin-bottom: 4px; }
+  p { font-size: 14px; color: #4A4A46; margin: 0; }
+}
+ 
+@media (max-width: 768px) {
+  .simple-page { padding: 48px 0; }
+  .simple-page__inner { padding: 0 20px; }
+}
