@@ -1,0 +1,105 @@
+<div class="rr">
+
+  <!-- Header -->
+  <div class="rr__header">
+    <div class="rr__header-inner container">
+      <div>
+        <p class="rr__eyebrow">Your Personalised Routine</p>
+        <h1 class="rr__title">
+          {{ getSkinLabel() }} Skin · <em>{{ getConcernLabel() }}</em>
+        </h1>
+        <p class="rr__sub">
+          Based on your answers, we've matched the ideal dermatologist-approved
+          products for your skin profile.
+        </p>
+      </div>
+      <div class="rr__header-actions">
+        <button class="btn btn--outline" (click)="retakeQuiz()">← Retake Quiz</button>
+        <button class="btn btn--primary btn--lg" (click)="addAllToCart()">
+          Add Full Routine to Cart
+        </button>
+        <button class="btn btn--outline" (click)="exportPdf()" [disabled]="pdfGenerating">
+          {{ pdfGenerating ? 'Generating…' : '↓ Export PDF' }}
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Loading -->
+  <!-- @if (loading) {
+    <div class="rr__loading container">
+      <div class="rr__spinner"></div>
+      <p>Building your routine…</p>
+    </div>
+  } @else { -->
+
+    <div class="container rr__body">
+
+      <!-- Summary chips -->
+      <div class="rr__chips">
+        <span class="rr__chip">Skin Type: {{ getSkinLabel() }}</span>
+        <span class="rr__chip">Concern: {{ getConcernLabel() }}</span>
+        <span class="rr__chip">{{ routineSteps.length }} steps</span>
+        <span class="rr__chip rr__chip--accent">
+        Total: €{{ getRoutineTotal() }}
+        </span>
+      </div>
+
+      <!-- Routine steps -->
+      <div class="rr__steps">
+        @for (step of routineSteps; track step.step) {
+          <div class="rr__step">
+
+            <div class="rr__step-label">
+              <div class="rr__step-num">{{ step.step }}</div>
+              <span class="rr__step-icon">{{ step.icon }}</span>
+              <span class="rr__step-name">{{ step.label }}</span>
+            </div>
+
+            <div class="rr__products">
+              @for (product of step.products; track product.id) {
+                <div class="rr__product">
+                  <div class="rr__product-img-wrap">
+                    <img [src]="product.image" [alt]="product.name" class="rr__product-img" />
+                  </div>
+                  <div class="rr__product-body">
+                    <span class="rr__product-brand">{{ product.brand }}</span>
+                    <h3 class="rr__product-name">{{ product.name }}</h3>
+                    <p class="rr__product-desc">{{ product.description }}</p>
+                    <div class="rr__product-tags">
+                      <span class="rr__tag">{{ product.skin_type }}</span>
+                      <span class="rr__tag">{{ product.skin_concern }}</span>
+                    </div>
+                  </div>
+                  <div class="rr__product-actions">
+                    <span class="rr__product-price">€{{ product.price }}</span>
+                    <a class="btn btn--ghost btn--sm" [routerLink]="['/product', product.id]">View →</a>
+                    <button class="btn btn--primary btn--sm" (click)="addToCart(product)" [disabled]="product.stock === 0">
+                      {{ product.stock === 0 ? 'Out of Stock' : 'Add to Cart' }}
+                    </button>
+                  </div>
+                </div>
+              }
+            </div>
+
+          </div>
+        }
+      </div>
+
+      <!-- PDF CTA -->
+      <div class="rr__pdf-cta">
+        <div class="rr__pdf-cta-inner">
+          <div>
+            <h3>Save your routine</h3>
+            <p>Download a PDF to keep your routine handy or share it with your dermatologist.</p>
+          </div>
+          <button class="btn btn--primary btn--lg" (click)="exportPdf()" [disabled]="pdfGenerating">
+            {{ pdfGenerating ? 'Generating PDF…' : '↓ Download PDF' }}
+          </button>
+        </div>
+      </div>
+
+    </div>
+  <!-- } -->
+
+</div>

@@ -1,0 +1,10 @@
+<div class="stars" [title]="rating + ' out of 5'">
+    @for (s of starArray; track s.index) {
+        <span class="star" [class.star--filled]="s.filled" [class.star--half]="s.half">
+            {{ s.half ? '★' : s.filled ? '★' : '☆'  }}
+        </span>
+    }
+    @if (showCount && count > 0) {
+        <span class="stars__count">({{count}})</span>
+    }
+</div>

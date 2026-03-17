@@ -11,6 +11,7 @@ import { ProductService, Product } from '../../product.service';
 import { CartService } from '../../../../shared/services/cart.service';
 import { AuthService } from '../../../../shared/services/auth.service';
 import { ProductCard } from '../../../../shared/product-card/product-card';
+import { ToastService } from '../../../../shared/services/toast.service';
 
 export interface Review{
   id:number;
@@ -64,6 +65,8 @@ export class ProductDetail implements OnInit {
     private auth: AuthService,
     private http: HttpClient,
     private cdr: ChangeDetectorRef
+    private cdr: ChangeDetectorRef,
+    private toast: ToastService 
   ) {}
 
   ngOnInit(): void {
@@ -176,6 +179,8 @@ export class ProductDetail implements OnInit {
       quantity: this.quantity,
       image: this.product.image
     });
+
+     this.toast.show(`${this.product.name} added to cart`, 'success');
   }
 
   getStars(rating: number): string[] {

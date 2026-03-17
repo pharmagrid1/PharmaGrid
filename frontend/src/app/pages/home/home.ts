@@ -1,5 +1,5 @@
 import { ChangeDetectorRef, Component, HostListener, OnDestroy, OnInit } from '@angular/core';
-import { RouterLink } from "@angular/router";
+import { Router, RouterLink } from "@angular/router";
 import { ProductCard } from "../../shared/product-card/product-card";
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
@@ -7,6 +7,7 @@ import { Product, ProductService } from '../../features/products/product.service
 import { CartService } from '../../shared/services/cart.service';
 import { AuthService } from '../../shared/services/auth.service';
 import { HttpClient } from '@angular/common/http';
+import { ToastService } from '../../shared/services/toast.service';
 
 export interface QuizStep{
   label:string;
@@ -40,7 +41,7 @@ export class Home implements OnInit, OnDestroy{
 
 
   trustItems=[
-     { icon: ' ⚕️', label: 'Dermatologist-Approved', sub: 'Every product verified'     },
+    { icon: ' ⚕️', label: 'Dermatologist-Approved', sub: 'Every product verified'     },
     { icon: '🧴', label: '50+ Products',            sub: 'Across 8 expert brands'     },
     { icon: ' 🌿', label: 'Science-Backed',          sub: 'Clinically tested formulas' },
     { icon: '🚚', label: 'Fast Delivery',           sub: 'Dispatched within 24 hours' },
@@ -101,8 +102,16 @@ export class Home implements OnInit, OnDestroy{
 
   nextStep():void{
     if(!this.quizAnswers[this.quizStep]) return;
-    if(this.quizStep<this.quizSteps.length-1){this.quizStep++;}
-    else{this.quizComplete=true;}
+    if(this.quizStep < this.quizSteps.length - 1) {
+      this.quizStep++;
+    }
+    else{
+      this.router.navigate(['/routine-result'],
+        {
+          state: {answers: this.quizAnswers}
+        }
+      );
+    }
   }
 
   prevStep(): void{ if(this.quizStep>0) this.quizStep--;}
@@ -138,6 +147,9 @@ export class Home implements OnInit, OnDestroy{
     private auth: AuthService,
      private http: HttpClient, 
     private cdr: ChangeDetectorRef
+    private cdr: ChangeDetectorRef,
+    private toast: ToastService ,
+    private router: Router
   ){}
 
   ngOnInit(): void {
@@ -171,5 +183,6 @@ export class Home implements OnInit, OnDestroy{
       id:product.id, name: product.name, brand: product.brand,
       price: product.price, image: product.image, quantity: 1,
     });
+     this.toast.show(`${product.name} added to cart`, 'success');
   }
 }
