@@ -6,6 +6,7 @@ import { FormsModule } from '@angular/forms';
 import { Product, ProductService } from '../../features/products/product.service';
 import { CartService } from '../../shared/services/cart.service';
 import { AuthService } from '../../shared/services/auth.service';
+import { HttpClient } from '@angular/common/http';
 import { ToastService } from '../../shared/services/toast.service';
 
 export interface QuizStep{
@@ -126,17 +127,26 @@ export class Home implements OnInit, OnDestroy{
   newsletterEmail='';
   newsletterSubmitted=false;
 
-  submitNewsletter():void{
-    if(this.newsletterEmail.trim().includes('@')){
-      this.newsletterSubmitted=true;
-      this.newsletterEmail='';
+  submitNewsletter(): void {
+  if (!this.newsletterEmail.trim().includes('@')) return;
+  this.http.post('http://localhost:5000/api/newsletter/subscribe', {
+    email: this.newsletterEmail
+  }).subscribe({
+    next: () => {
+      this.newsletterSubmitted = true;
+      this.newsletterEmail = '';
+    },
+    error: () => {
+      this.newsletterSubmitted = true; // still show success to user
     }
-  }
-
+  });
+}
   constructor(
     private productService:ProductService,
     private cartService:CartService,
     private auth: AuthService,
+     private http: HttpClient, 
+    private cdr: ChangeDetectorRef
     private cdr: ChangeDetectorRef,
     private toast: ToastService ,
     private router: Router

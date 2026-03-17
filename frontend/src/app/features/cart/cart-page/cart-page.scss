@@ -194,3 +194,21 @@
   transition: opacity 0.2s, transform 0.2s;
   &:hover { opacity: 0.85; transform: translateY(-1px); }
 }
+
+@media (max-width: 768px) {
+  .cart-container { padding: 24px; }
+
+  .cart-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .cart-summary {
+    position: static;
+  }
+
+  .cart-item {
+    flex-wrap: wrap;
+
+    img { width: 64px; height: 64px; }
+  }
+}

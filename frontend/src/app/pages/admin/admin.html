@@ -9,8 +9,11 @@
          Products
     </button>
     <button class="tab-btn" [class.active]="activeTab === 'orders'" (click)="activeTab = 'orders'">
-         Orders
-    </button>
+  Orders
+  @if (pendingCount > 0) {
+    <span class="badge">{{ pendingCount }}</span>
+  }
+</button>
 </div>
 
 
