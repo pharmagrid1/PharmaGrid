@@ -193,3 +193,28 @@ mat-panel-description {
     color: var(--accent-teal);
   }
 }
+
+@media (max-width: 768px) {
+  .orders-container {
+    margin: 20px auto;
+    padding: 0 16px;
+  }
+ 
+  .meta {
+    flex-direction: column;
+    gap: 6px;
+    margin-bottom: 12px;
+  }
+ 
+  .item-row {
+    flex-direction: column;
+    gap: 2px;
+    margin: 8px 0;
+ 
+    span:last-child {
+      font-weight: 600;
+      color: #1A7A6E;
+    }
+  }
+}
+ 

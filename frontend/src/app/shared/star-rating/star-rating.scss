@@ -1,0 +1,19 @@
+ .stars {
+      display: inline-flex;
+      align-items: center;
+      gap: 1px;
+    }
+    .star {
+      font-size: var(--star-size, 14px);
+      color: var(--grey-200, #D0D0CC);
+      line-height: 1;
+      transition: color 150ms;
+ 
+      &--filled { color: #F59E0B; }
+      &--half   { color: #F59E0B; opacity: .6; }
+    }
+    .stars__count {
+      font-size: 11px;
+      color: var(--grey-400, #9A9A94);
+      margin-left: 4px;
+    }

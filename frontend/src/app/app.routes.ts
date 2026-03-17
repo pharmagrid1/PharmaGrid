@@ -8,8 +8,10 @@ import { authGuard } from './shared/guards/auth.guard';
 import { Register } from './features/auth/register/register';
 import { Login } from './features/auth/login/login';
 import { Home } from './pages/home/home';
-import { adminGuard } from './shared/guards/admin.guard';
 
+import { RoutineResult } from './pages/routine-result/routine-result';
+
+import { adminGuard } from './shared/guards/admin.guard';
 import { Admin } from './pages/admin/admin';
 
 export const routes: Routes = [
@@ -52,6 +54,23 @@ export const routes: Routes = [
         path:'admin',
         component:Admin,
         canActivate: [adminGuard]
+      },
+      { 
+         path: 'routine-result',
+         loadComponent: () => import('./pages/routine-result/routine-result')
+         .then(m => m.RoutineResult) 
+        },
+      { 
+        path: 'about',   
+        loadComponent: () => import('./pages/about/about').then(m => m.About) 
+      },
+      { 
+        path: 'contact', 
+        loadComponent: () => import('./pages/contact/contact').then(m => m.Contact) 
+      },
+      { 
+        path: 'privacy', 
+        loadComponent: () => import('./pages/privacy/privacy').then(m => m.Privacy) 
       },
     ]
   }
