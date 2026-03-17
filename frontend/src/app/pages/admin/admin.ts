@@ -14,6 +14,7 @@ export class Admin implements OnInit {
   activeTab = 'products';
   products: any[] = [];
   orders: any[] = [];
+  pendingCount=0;
 
   private apiUrl = 'http://localhost:5000/api/admin';
 
@@ -41,6 +42,8 @@ export class Admin implements OnInit {
   ngOnInit(): void {
     this.loadProducts();
     this.loadOrders();
+
+    this.loadPendingCount();
   }
 
 loadProducts(): void {
@@ -57,6 +60,14 @@ loadOrders(): void {
       this.orders = data.orders; 
       this.cdr.detectChanges();
     });
+}
+
+loadPendingCount():void{
+  this.http.get<any>(`${this.apiUrl}/orders/pending-count`, {headers: this.headers})
+  .subscribe(data=>{
+    this.pendingCount=data.count;
+    this.cdr.detectChanges();
+  });
 }
 
   deactivateProduct(id: number): void {

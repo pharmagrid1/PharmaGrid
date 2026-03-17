@@ -93,6 +93,17 @@ const updateOrderStatus = async (req, res) => {
   }
 };
 
+const getNewOrdersCount = async (req, res) => {
+  try {
+    const result = await db.query(
+      "SELECT COUNT(*) FROM orders WHERE status = 'Pending'"
+    );
+    res.json({ count: parseInt(result.rows[0].count) });
+  } catch (err) {
+    res.status(500).json({ message: 'Failed to get count', error: err.message });
+  }
+};
+
 module.exports = {
   getAllProducts,
   createProduct,
@@ -101,4 +112,5 @@ module.exports = {
   activateProduct,
   getAllOrders,
   updateOrderStatus,
+  getNewOrdersCount
 };

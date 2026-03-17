@@ -14,5 +14,6 @@ router.patch('/products/:id/activate', protect, adminOnly, adminController.activ
 //Orders
 router.get('/orders', protect, adminOnly, adminController.getAllOrders);
 router.patch('/orders/:id/status', protect, adminOnly, adminController.updateOrderStatus);
+router.get('/orders/pending-count', protect, adminOnly, adminController.getNewOrdersCount);
 
 module.exports = router;
