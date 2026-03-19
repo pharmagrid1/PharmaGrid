@@ -28,15 +28,14 @@ export class Header implements OnInit {
   }
 
 
-  onSearch(): void {
-    const query = this.searchQuery.trim();
-    if (query) {
-      this.router.navigate(['/products'], {
-        queryParams: { search: query }
-      });
-      this.searchQuery = '';
-    }
+onSearch(): void {
+  const query = this.searchQuery.trim();
+  if (query.length >= 2 || query.length === 0) {
+    this.router.navigate(['/products'], {
+      queryParams: { search: query || null }
+    });
   }
+}
 
   logout(): void {
     this.auth.logout();
