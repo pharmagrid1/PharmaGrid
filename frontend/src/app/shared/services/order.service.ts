@@ -1,9 +1,8 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { AuthService } from './auth.service';
 import { environment } from '../../../environments/environment';
-
 export interface OrderItem {
   product_id: number;
   product_name?: string;
@@ -32,15 +31,15 @@ export class OrderService {
   }
 
   getMyOrders(): Observable<any[]> {
-    let userId = this.auth.getCurrentUser()?.id;
-
-    if (!userId) {
-      const stored = localStorage.getItem('pharmagrid_user');
-      if (stored) userId = JSON.parse(stored).id;
-    }
+    const user = this.auth.getCurrentUser();
+    const stored = localStorage.getItem('pharmagrid_user');
+    const userId = user?.id ?? (stored ? JSON.parse(stored).id : null);
 
     if (!userId) return new Observable(obs => { obs.next([]); obs.complete(); });
 
-    return this.http.get<any[]>(`${this.apiUrl}/user/${userId}`);
+    const token = this.auth.getToken();
+    const headers = new HttpHeaders({ Authorization: `Bearer ${token}` });
+
+    return this.http.get<any[]>(`${this.apiUrl}/user/${userId}`, { headers });
   }
 }

@@ -8,6 +8,7 @@ import { MatExpansionModule } from '@angular/material/expansion';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatDividerModule } from '@angular/material/divider';
 
+
 @Component({
   selector: 'app-my-orders',
   standalone: true,
@@ -17,7 +18,7 @@ import { MatDividerModule } from '@angular/material/divider';
     MatIconModule,
     MatExpansionModule,
     MatChipsModule,
-    MatDividerModule
+    MatDividerModule,
   ],
   templateUrl: './my-orders.html',
   styleUrls: ['./my-orders.scss']
@@ -37,9 +38,8 @@ export class MyOrders implements OnInit {
   }
 
   fetchOrders(): void {
-    // console.log('fetchOrders called');
     this.orderService.getMyOrders().subscribe({
-            next: (data: any[]) => {
+      next: (data: any[]) => {
         this.orders = this.sortOrders(data);
         this.loading = false;
         this.cdr.detectChanges();
@@ -47,6 +47,7 @@ export class MyOrders implements OnInit {
       error: (err) => {
         console.error('Failed to load orders', err);
         this.loading = false;
+        this.cdr.detectChanges();
       }
     });
   }
