@@ -7,6 +7,7 @@ import { environment } from '../../../environments/environment';
 @Component({
   selector: 'app-admin',
   imports: [CommonModule, FormsModule],
+  standalone: true,
   templateUrl: './admin.html',
   styleUrl: './admin.scss',
 })
@@ -42,34 +43,41 @@ private apiUrl = `${environment.apiUrl}/api/admin`;
   ngOnInit(): void {
     this.loadProducts();
     this.loadOrders();
-
     this.loadPendingCount();
   }
 
 loadProducts(): void {
   this.http.get<any>(`${this.apiUrl}/products`, { headers: this.headers })
-    .subscribe(data => {
-      this.products = data.products;
-      this.cdr.detectChanges();
+    .subscribe({
+      next: data => {
+        this.products = data.products;
+        this.cdr.detectChanges();
+      },
+      error: err => console.error('loadProducts failed:', err)
     });
 }
 
 loadOrders(): void {
   this.http.get<any>(`${this.apiUrl}/orders`, { headers: this.headers })
-    .subscribe(data => {
-      this.orders = data.orders; 
-      this.cdr.detectChanges();
+    .subscribe({
+      next: data => {
+        this.orders = data.orders;
+        this.cdr.detectChanges();
+      },
+      error: err => console.error('loadOrders failed:', err)
     });
 }
 
-loadPendingCount():void{
-  this.http.get<any>(`${this.apiUrl}/orders/pending-count`, {headers: this.headers})
-  .subscribe(data=>{
-    this.pendingCount=data.count;
-    this.cdr.detectChanges();
-  });
+loadPendingCount(): void {
+  this.http.get<any>(`${this.apiUrl}/orders/pending-count`, { headers: this.headers })
+    .subscribe({
+      next: data => {
+        this.pendingCount = data.count;
+        this.cdr.detectChanges();
+      },
+      error: err => console.error('loadPendingCount failed:', err)
+    });
 }
-
   deactivateProduct(id: number): void {
     this.http.patch(`${this.apiUrl}/products/${id}/deactivate`, {}, { headers: this.headers })
       .subscribe(() => this.loadProducts());
@@ -84,4 +92,7 @@ loadPendingCount():void{
     this.http.patch(`${this.apiUrl}/orders/${orderId}/status`, { status }, { headers: this.headers })
       .subscribe(() => this.loadOrders());
   }
+
+
+  
 }
