@@ -32,3 +32,11 @@
 </mat-card>
 <!--<app-star-rating [rating]="rating" [count]="0" />
 <app-star-rating [rating]="product.rating ?? 0" [showCount]="false" /> -->
+
+<div class="card-stars">
+  @for(star of getStars(rating); track $index){
+    <span [class.filled]="star === 'full'" [class.half]="star === 'half'">
+      {{ star === 'empty' ? '☆' : '★' }}
+    </span>
+  }
+</div>

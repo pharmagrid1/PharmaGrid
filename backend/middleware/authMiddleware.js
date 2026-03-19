@@ -1,5 +1,5 @@
 const jwt = require('jsonwebtoken');
-const JWT_SECRET = process.env.JWT_SECRET || 'pharmagrid_secret';
+// const JWT_SECRET = process.env.JWT_SECRET || 'pharmagrid_secret';
 
 const protect = (req,res,next) => {
     const authHeader = req.headers.authorization;

@@ -82,11 +82,11 @@
         }
     }
 
-    @if(!loading && filteredProducts.length===0){
-        <div class="no-results">
-             <p>No products found</p>
-            <span>Try adjusting your filters</span>
-        </div>
+   @if(!loading && filteredProducts.length === 0 && products.length > 0){
+    <div class="no-results">
+        <p>No products found</p>
+        <span>Try adjusting your filters</span>
+    </div>
     }
     @if(!loading) {
     @for(product of filteredProducts; track product.id){

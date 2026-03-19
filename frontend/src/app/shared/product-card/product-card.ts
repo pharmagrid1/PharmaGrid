@@ -4,7 +4,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatChipsModule } from '@angular/material/chips';
 import { RouterModule } from '@angular/router';
 import { CartService } from '../services/cart.service';
-
+import { ToastService } from '../services/toast.service';
 @Component({
   selector: 'app-product-card',
   standalone: true,
@@ -25,21 +25,21 @@ export class ProductCard {
 
   fallbackImage = 'https://placehold.co/400x400/111827/2dd4bf?text=No+Image';
 
-  constructor(private cartService: CartService) {}
-
+constructor(private cartService: CartService, private toast: ToastService) {}
   onImageError(event: any) {
     event.target.src = this.fallbackImage;
   }
 
   addToCart() {
-    this.cartService.addToCart({
-      id: this.id,
-      name: this.name,
-      brand: this.brand,
-      price: this.price,
-      quantity: 1,
-      image: this.image
-    });
+  this.cartService.addToCart({
+    id: this.id,
+    name: this.name,
+    brand: this.brand,
+    price: this.price,
+    quantity: 1,
+    image: this.image
+  });
+  this.toast.show(`${this.name} added to cart`, 'success');
   }
 
 

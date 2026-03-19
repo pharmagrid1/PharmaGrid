@@ -89,3 +89,9 @@ mat-card-actions { padding: 8px 16px 16px !important; gap: 8px; display: flex; }
     &.filled { color: #fbbf24; }
   }
 }
+
+.card-stars {
+  .half { color: var(--accent-teal); opacity: 0.5; }
+  .filled { color: var(--accent-teal); }
+  span { color: var(--text-muted); font-size: 14px; }
+}
