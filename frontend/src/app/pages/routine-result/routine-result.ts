@@ -196,7 +196,7 @@ export class RoutineResult implements OnInit{
           doc.setTextColor(...teal);
           doc.setFontSize(10);
           doc.setFont('helvetica', 'bold');
-          doc.text(`€${p.price}`, 25, y);
+          doc.text(`€${Number(p.price).toFixed(2)}`, 25, y);
           y += 10;
         });
 
