@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { AuthService } from './auth.service';
+import { environment } from '../../../environments/environment';
 
 export interface OrderItem {
   product_id: number;
@@ -22,7 +23,7 @@ export interface Order {
 
 @Injectable({ providedIn: 'root' })
 export class OrderService {
-  private apiUrl = 'http://localhost:5000/api/orders';
+  private apiUrl = `${environment.apiUrl}/api/orders`;
 
   constructor(private http: HttpClient, private auth: AuthService) {}
 
@@ -31,18 +32,15 @@ export class OrderService {
   }
 
   getMyOrders(): Observable<any[]> {
-  let userId = this.auth.getCurrentUser()?.id;
-  console.log('getCurrentUser result:', this.auth.getCurrentUser());
-  console.log('userId:', userId);
-  
-  if (!userId) {
-    const stored = localStorage.getItem('pharmagrid_user');
-    if (stored) userId = JSON.parse(stored).id;
-    console.log('userId from localStorage:', userId);
-  }
+    let userId = this.auth.getCurrentUser()?.id;
 
-  if (!userId) return new Observable(obs => { obs.next([]); obs.complete(); });
-  
-  return this.http.get<any[]>(`${this.apiUrl}/user/${userId}`);
-}
+    if (!userId) {
+      const stored = localStorage.getItem('pharmagrid_user');
+      if (stored) userId = JSON.parse(stored).id;
+    }
+
+    if (!userId) return new Observable(obs => { obs.next([]); obs.complete(); });
+
+    return this.http.get<any[]>(`${this.apiUrl}/user/${userId}`);
+  }
 }

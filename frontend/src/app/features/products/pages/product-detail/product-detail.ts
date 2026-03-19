@@ -12,7 +12,7 @@ import { CartService } from '../../../../shared/services/cart.service';
 import { AuthService } from '../../../../shared/services/auth.service';
 import { ProductCard } from '../../../../shared/product-card/product-card';
 import { ToastService } from '../../../../shared/services/toast.service';
-
+import { environment } from '../../../../../environments/environment';
 export interface Review{
   id:number;
   user_id:number;
@@ -55,19 +55,18 @@ export class ProductDetail implements OnInit {
   reviewSuccess=false;
   reviewError='';
 
-  private apiUrl='http://localhost:5000/api';
+private apiUrl = `${environment.apiUrl}/api`;
 
 
-  constructor(
-    private route: ActivatedRoute,
-    private productService: ProductService,
-    private cartService: CartService,
-    private auth: AuthService,
-    private http: HttpClient,
-    private cdr: ChangeDetectorRef
-    private cdr: ChangeDetectorRef,
-    private toast: ToastService 
-  ) {}
+constructor(
+  private route: ActivatedRoute,
+  private productService: ProductService,
+  private cartService: CartService,
+  private auth: AuthService,
+  private http: HttpClient,
+  private cdr: ChangeDetectorRef,
+  private toast: ToastService
+) {}
 
   ngOnInit(): void {
     this.auth.currentUser$.subscribe(user=>{
