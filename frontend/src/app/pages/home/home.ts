@@ -8,6 +8,7 @@ import { CartService } from '../../shared/services/cart.service';
 import { AuthService } from '../../shared/services/auth.service';
 import { HttpClient } from '@angular/common/http';
 import { ToastService } from '../../shared/services/toast.service';
+import { environment } from '../../../environments/environment';
 
 export interface QuizStep{
   label:string;
@@ -129,7 +130,7 @@ export class Home implements OnInit, OnDestroy{
 
   submitNewsletter(): void {
   if (!this.newsletterEmail.trim().includes('@')) return;
-  this.http.post('http://localhost:5000/api/newsletter/subscribe', {
+  this.http.post(`${environment.apiUrl}/api/newsletter/subscribe`, {
     email: this.newsletterEmail
   }).subscribe({
     next: () => {
@@ -137,20 +138,19 @@ export class Home implements OnInit, OnDestroy{
       this.newsletterEmail = '';
     },
     error: () => {
-      this.newsletterSubmitted = true; // still show success to user
+      this.newsletterSubmitted = true;
     }
   });
 }
-  constructor(
-    private productService:ProductService,
-    private cartService:CartService,
-    private auth: AuthService,
-     private http: HttpClient, 
-    private cdr: ChangeDetectorRef
-    private cdr: ChangeDetectorRef,
-    private toast: ToastService ,
-    private router: Router
-  ){}
+constructor(
+  private productService: ProductService,
+  private cartService: CartService,
+  private auth: AuthService,
+  private http: HttpClient,
+  private cdr: ChangeDetectorRef,
+  private toast: ToastService,
+  private router: Router
+) {}
 
   ngOnInit(): void {
     this.isScrolled=window.scrollY>20;

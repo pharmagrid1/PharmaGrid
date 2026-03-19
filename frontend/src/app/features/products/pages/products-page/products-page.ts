@@ -29,13 +29,14 @@ export class ProductsPage implements OnInit {
     private cdr: ChangeDetectorRef
   ) {}
 
-  ngOnInit(): void {
-    this.route.queryParams.subscribe(params => {
-      this.searchQuery = params['search'] || '';
-      this.selectedCategory = params['category'] || '';
-      this.loadProducts();
-    });
-  }
+ngOnInit(): void {
+  this.route.queryParams.subscribe(params => {
+    this.searchQuery = params['search'] || '';
+    this.selectedCategory = params['category'] || '';
+    this.selectedBrand = params['brand'] || '';
+    this.loadProducts();
+  });
+}
 
   loadProducts(): void {
     this.loading = true;

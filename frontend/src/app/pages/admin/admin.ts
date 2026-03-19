@@ -3,7 +3,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { AuthService } from '../../shared/services/auth.service';
-
+import { environment } from '../../../environments/environment';
 @Component({
   selector: 'app-admin',
   imports: [CommonModule, FormsModule],
@@ -16,7 +16,7 @@ export class Admin implements OnInit {
   orders: any[] = [];
   pendingCount=0;
 
-  private apiUrl = 'http://localhost:5000/api/admin';
+private apiUrl = `${environment.apiUrl}/api/admin`;
 
   orderStatuses = [
     'Pending',

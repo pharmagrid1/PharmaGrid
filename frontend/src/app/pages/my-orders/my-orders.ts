@@ -37,7 +37,7 @@ export class MyOrders implements OnInit {
   }
 
   fetchOrders(): void {
-    console.log('fetchOrders called');
+    // console.log('fetchOrders called');
     this.orderService.getMyOrders().subscribe({
             next: (data: any[]) => {
         this.orders = this.sortOrders(data);
