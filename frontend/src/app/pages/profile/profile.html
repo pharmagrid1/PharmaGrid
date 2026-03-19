@@ -1,0 +1,22 @@
+<div class="profile-wrapper">
+  <div class="profile-card">
+    <h2>My Profile</h2>
+    <p class="profile-sub">Update your name or change your password</p>
+
+    <form [formGroup]="form" (ngSubmit)="save()">
+      <div class="field">
+        <label>Full Name</label>
+        <input type="text" formControlName="full_name" placeholder="Your Name" />
+      </div>
+
+      <div class="field">
+        <label>New Password <span class="optional">(leave blank to keep current)</span></label>
+        <input type="password" formControlName="password" placeholder="Min. 6 characters" />
+      </div>
+
+      <button type="submit" [disabled]="loading || form.invalid">
+        {{ loading ? 'Saving...' : 'Save Changes' }}
+      </button>
+    </form>
+  </div>
+</div>

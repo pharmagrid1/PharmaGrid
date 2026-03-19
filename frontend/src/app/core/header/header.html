@@ -21,7 +21,7 @@
         <a routerLink="/my-orders" routerLinkActive="active">My Orders</a>
         
         @if(isLoggedIn){
-            <span class="user-name">👤 {{userName}}</span>
+            <a routerLink="/profile" routerLinkActive="active">👤 {{userName}}</a>
             <button class="logout-btn" (click)="logout()">Logout</button>
         } @else {
             <a routerLink="/login" routerLinkActive="active">Login</a>

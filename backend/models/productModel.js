@@ -18,13 +18,13 @@ const Product = {
             query += ` AND category = $${i++}`;
             values.push(filters.category);
         }
-        if(filters.search){
-            query += `AND (LOWER(name) LIKE $${i} OR LOWER(brand) LIKE $${I++})`;
-            values.push(`%${filters.search.toLowerCase()}`);
+       if (filters.search) {
+            query += ` AND (LOWER(name) LIKE $${i} OR LOWER(brand) LIKE $${i++})`;
+            values.push(`%${filters.search.toLowerCase()}%`);
         }
-        if(filters.minPrice){
-          query += `AND price >= $${i++}`;
-            values.push(filters.minPrice);
+        if (filters.minPrice) {
+             query += ` AND price >= $${i++}`;
+             values.push(filters.minPrice);
         }
         if(filters.maxPrice){
             query += ` AND price <= $${i++}`;
