@@ -26,6 +26,11 @@ exports.createOrder = async (req, res) => {
 exports.getOrdersByUser = async (req, res) => {
   try {
     const userId = req.params.userId;
+
+    if (req.user.id !== parseInt(userId)) {
+      return res.status(403).json({ message: 'Forbidden' });
+    }
+
     const orders = await Order.getByUserId(userId);
     res.json(orders);
   } catch (error) {

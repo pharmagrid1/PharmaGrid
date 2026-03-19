@@ -21,6 +21,7 @@ findByEmail: async(email) => {
 findById: async(id) => {
     const result = await db.query(
         `SELECT id, full_name, email, role FROM users WHERE id = $1`,
+        [id]
     );
     return result.rows[0];
 }
