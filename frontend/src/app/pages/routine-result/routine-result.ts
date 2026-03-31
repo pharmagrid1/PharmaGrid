@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Product, ProductService } from '../../features/products/product.service';
 import { CartService } from '../../shared/services/cart.service';
 import { Router, RouterLink } from '@angular/router';
+import { CommonModule } from '@angular/common';
 
 
 
@@ -14,7 +15,7 @@ interface RoutineStep {
 @Component({
   selector: 'app-routine-result',
   standalone: true,
-  imports: [RouterLink],
+  imports: [RouterLink, CommonModule],
   templateUrl: './routine-result.html',
   styleUrl: './routine-result.scss',
 })
@@ -61,33 +62,33 @@ export class RoutineResult implements OnInit{
     });
   }
 
-  private buildRoutine():void{
-    const skinType = this.skinTypeMap[this.answers[0]] ?? '';
-    const concern = this.concernMap[this.answers [1]] ?? '';
-  
-    //filter products matching skin type or concern
-      const matched = this.allProducts.filter(p =>
-      (skinType && p.skin_type?.toLowerCase().includes(skinType.toLowerCase())) 
-      ||(concern  && (p.skin_concern?.toLowerCase().includes(concern.toLowerCase()) 
-      ||p.category?.toLowerCase().includes(concern.toLowerCase())))
-  ); 
-      //Fallback: if not enough matches use all products
-      const pool = matched.length >= 3 ? matched: this.allProducts;
-      
-      //Build 3 routine steps
-      const cleanser = pool.find(p => p.category === 'Cleanser') ?? pool[0];
-      const treatment = pool.find(p => p.category === 'Serum' || p.category === 'Treatment') ?? pool[1];
-      const moisturizer = pool.find(p => p.category === 'Moisturizer') ?? pool[2];
-      const sunscreen = this.allProducts.find(p => p.category === 'Sunscreen');
+  private buildRoutine(): void {
+  const skinType = this.skinTypeMap[this.answers[0]] ?? '';
+  const concern = this.concernMap[this.answers[1]] ?? '';
 
-      //steps
-      this.routineSteps = [
-      { step: '01', icon: '🧴', label: 'Cleanse',    products: cleanser    ? [cleanser]    : [] },
-      { step: '02', icon: '✨', label: 'Treat',      products: treatment   ? [treatment]   : [] },
-      { step: '03', icon: '💧', label: 'Moisturize', products: moisturizer ? [moisturizer] : [] },
-      { step: '04', icon: '☀️', label: 'Protect',    products: sunscreen   ? [sunscreen]   : [] },
-      ].filter(s => s.products.length > 0);
-    } //
+  const matched = this.allProducts.filter(p =>
+    (skinType && p.skin_type?.toLowerCase().includes(skinType.toLowerCase())) ||
+    (concern && (
+      p.skin_concern?.toLowerCase().includes(concern.toLowerCase()) ||
+      p.category?.toLowerCase().includes(concern.toLowerCase())
+    ))
+  );
+
+  const pool = matched.length >= 3 ? matched : this.allProducts;
+
+  // Pick unique products for each step
+  const cleanser   = pool.find(p => p.category === 'Cleanser');
+  const treatment  = pool.find(p => p.category === 'Serum' || p.category === 'Treatment');
+  const moisturizer = pool.find(p => p.category === 'Moisturizer' && p.id !== cleanser?.id && p.id !== treatment?.id);
+  const sunscreen  = this.allProducts.find(p => p.category === 'Sunscreen');
+
+  this.routineSteps = [
+    { step: '01', icon: '🧴', label: 'Cleanse',    products: cleanser    ? [cleanser]    : [] },
+    { step: '02', icon: '✨', label: 'Treat',      products: treatment   ? [treatment]   : [] },
+    { step: '03', icon: '💧', label: 'Moisturize', products: moisturizer ? [moisturizer] : [] },
+    { step: '04', icon: '☀️', label: 'Protect',    products: sunscreen   ? [sunscreen]   : [] },
+  ].filter(s => s.products.length > 0);
+}
 
     addToCart(product: Product): void {
       this.cartService.addToCart({
