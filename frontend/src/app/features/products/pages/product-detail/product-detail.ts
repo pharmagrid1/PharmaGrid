@@ -67,23 +67,27 @@ constructor(
   private cdr: ChangeDetectorRef,
   private toast: ToastService
 ) {}
+ngOnInit(): void {
+  this.auth.currentUser$.subscribe(user => {
+    this.isLoggedIn = !!user;
+  });
 
-  ngOnInit(): void {
-    this.auth.currentUser$.subscribe(user=>{
-      this.isLoggedIn=!!user;
-    });
-
-    const id = this.route.snapshot.paramMap.get('id');
+  this.route.params.subscribe(params => {
+    const id = params['id'];
     if (id) {
+      this.product = null;
+      this.relatedProducts = [];
+      this.reviews = [];
+      this.error = false;
+
       this.productService.getProductById(+id).subscribe({
         next: (data) => {
           this.product = data;
           this.cdr.detectChanges();
           this.loadRelated(data.category, data.id);
           this.loadReviews(data.id);
-                },
-        error: (err) => {
-          console.error('Failed to load product', err);
+        },
+        error: () => {
           this.error = true;
           this.cdr.detectChanges();
         }
@@ -91,7 +95,8 @@ constructor(
     } else {
       this.error = true;
     }
-  }
+  });
+}
 
   //Reviews
   loadReviews(productId:number):void{
