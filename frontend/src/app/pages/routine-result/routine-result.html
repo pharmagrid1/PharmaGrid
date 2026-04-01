@@ -47,7 +47,7 @@
         <span class="rr__chip">Concern: {{ getConcernLabel() }}</span>
         <span class="rr__chip">{{ routineSteps.length }} steps</span>
         <span class="rr__chip rr__chip--accent">
-        T Total: €{{ getRoutineTotal() | number:'1.2-2' }}
+        Total: €{{ formatPrice(getRoutineTotal()) }}
         </span>
       </div>
 
@@ -78,7 +78,7 @@
                     </div>
                   </div>
                   <div class="rr__product-actions">
-                    <span class="rr__product-price">€{{ product.price | number:'1.2-2' }}</span>
+                    <span class="rr__product-price">€{{ formatPrice(product.price) }}</span>
                     <a class="btn btn--ghost btn--sm" [routerLink]="['/product', product.id]">View →</a>
                     <button class="btn btn--primary btn--sm" (click)="addToCart(product)" [disabled]="product.stock === 0">
                       {{ product.stock === 0 ? 'Out of Stock' : 'Add to Cart' }}
