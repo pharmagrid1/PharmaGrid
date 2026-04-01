@@ -93,3 +93,15 @@ mat-card-actions { padding: 8px 16px 16px !important; gap: 8px; display: flex; }
   .filled { color: #fbbf24; }
   .half   { color: #fbbf24; opacity: 0.5; }
 }
+
+@media (max-width: 480px) {
+  .product-card img {
+    height: 160px;
+  }
+
+  mat-card-actions {
+    flex-direction: column;
+
+    button { width: 100%; }
+  }
+}
