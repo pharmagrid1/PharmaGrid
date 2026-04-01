@@ -218,3 +218,35 @@ mat-panel-description {
   }
 }
  
+
+@media (max-width: 768px) {
+  .orders-container {
+    padding: 24px 20px;
+  }
+
+  .timeline {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 16px;
+
+    &::before { display: none; }
+  }
+
+  .timeline-step {
+    flex-direction: row;
+    gap: 12px;
+
+    .step-label {
+      text-align: left;
+      font-size: 12px;
+    }
+  }
+}
+
+@media (max-width: 480px) {
+  .orders-container {
+    padding: 16px;
+  }
+
+  h1 { font-size: 24px; }
+}

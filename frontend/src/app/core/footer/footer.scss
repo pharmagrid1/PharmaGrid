@@ -175,3 +175,30 @@
     &:hover { background: var(--accent-mid); border-color: var(--accent-mid); }
   }
 }
+
+@media (max-width: 480px) {
+  .pg-footer {
+    padding-top: 40px;
+  }
+
+  .pg-footer__inner {
+    padding-bottom: 40px;
+  }
+
+  .pg-footer__email-row {
+    flex-direction: column;
+
+    input { width: 100%; }
+    button { width: 100%; justify-content: center; }
+  }
+
+  .pg-footer__bottom {
+    flex-direction: column;
+    gap: 12px;
+    text-align: center;
+  }
+
+  .pg-footer__legal {
+    justify-content: center;
+  }
+}
