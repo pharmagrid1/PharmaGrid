@@ -199,3 +199,36 @@
     position: static;
   }
 }
+
+@media (max-width: 768px) {
+  .checkout-wrapper {
+    padding: 24px 20px;
+  }
+
+  .checkout-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .order-summary {
+    position: static;
+  }
+
+  .form-row {
+    grid-template-columns: 1fr;
+  }
+
+  .delivery-options {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 480px) {
+  .checkout-wrapper {
+    padding: 16px;
+  }
+
+  .form-section {
+    padding: 20px 16px;
+    border-radius: 16px;
+  }
+}
