@@ -22,7 +22,8 @@
 
         <div class="pg-hero__ctas">
           <a class="btn btn--primary btn--lg" routerLink="/products">Shop Skincare →</a>
-          <a class="btn btn--outline btn--lg" routerLink="/products">Build My Routine</a>     </div>
+          <a class="btn btn--outline btn--lg" (click)="scrollToQuiz()">Build My Routine</a>
+        </div>
 
         @if (isAdmin) {
           <div class="pg-hero__admin-chip">
@@ -37,13 +38,17 @@
         <div class="pg-hero__product-stack">
           <div class="pg-hero__card pg-hero__card--back">
             <div class="pg-hero__card-inner">
-              <div class="pg-hero__card-img placeholder-img"></div>
+                <img src="https://images.unsplash.com/photo-1556228720-195a672e8a03?w=400&q=80"
+         alt="Avène Thermal Water"
+         style="width:100%;height:100%;object-fit:cover;border-radius:4px;" />
               <span>Avène Thermal Water</span>
             </div>
           </div>
           <div class="pg-hero__card pg-hero__card--front">
             <div class="pg-hero__card-inner">
-              <div class="pg-hero__card-img placeholder-img"></div>
+   <img src="https://images.unsplash.com/photo-1556228720-195a672e8a03?w=400&q=80"
+         alt="Bioderma Sensibio H2O"
+         style="width:100%;height:100%;object-fit:cover;border-radius:4px;" />
               <span>Bioderma Sensibio H2O</span>
             </div>
           </div>

@@ -178,6 +178,10 @@ constructor(
     
   }
 
+  scrollToQuiz(): void {
+  document.getElementById('routine-builder')?.scrollIntoView({ behavior: 'smooth' });
+  }
+  
   addToCart(product: Product): void{
     this.cartService.addToCart({
       id:product.id, name: product.name, brand: product.brand,
