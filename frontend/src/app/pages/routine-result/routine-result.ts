@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit , ChangeDetectorRef} from '@angular/core';
 import { Product, ProductService } from '../../features/products/product.service';
 import { CartService } from '../../shared/services/cart.service';
 import { Router, RouterLink } from '@angular/router';
@@ -44,23 +44,40 @@ export class RoutineResult implements OnInit{
   };
 
   constructor(
-    private router: Router,
-    private productService: ProductService,
-    private cartService: CartService,
-  ) {
-    const nav = this.router.getCurrentNavigation();
-    if (nav?.extras?.state?.['answers']) {
-      this.answers = nav.extras.state['answers'];
+  private router: Router,
+  private productService: ProductService,
+  private cartService: CartService,
+  private cdr: ChangeDetectorRef,
+) {
+  const nav = this.router.getCurrentNavigation();
+  if (nav?.extras?.state?.['answers']) {
+    this.answers = nav.extras.state['answers'];
+  } else {
+    const state = history.state;
+    if (state?.answers) {
+      this.answers = state.answers;
     }
   }
+}
 
-  ngOnInit(): void {
-    this.productService.getProducts().subscribe(products=> {
+ngOnInit(): void {
+  if (Object.keys(this.answers).length === 0) {
+    this.router.navigate(['/'], { fragment: 'routine-builder' });
+    return;
+  }
+
+  this.productService.getProducts().subscribe({
+    next: products => {
       this.allProducts = products;
       this.buildRoutine();
       this.loading = false;
-    });
-  }
+      this.cdr.detectChanges();
+    },
+    error: () => {
+      this.loading = false;
+    }
+  });
+}
 
   private buildRoutine(): void {
   const skinType = this.skinTypeMap[this.answers[0]] ?? '';
@@ -119,8 +136,8 @@ export class RoutineResult implements OnInit{
     }
 
   getRoutineTotal(): number {
-  return this.routineSteps.reduce((sum, step) => 
-    sum + step.products.reduce((s, p) => s + p.price, 0), 0
+  return this.routineSteps.reduce((sum, step) =>
+    sum + step.products.reduce((s, p) => s + Number(p.price), 0), 0
   );
 }
     async exportPdf(): Promise<void> {
@@ -221,9 +238,16 @@ export class RoutineResult implements OnInit{
       console.error('PDF error:', e);
     }
     this.pdfGenerating = false;
+    this.cdr.detectChanges();
+
   }
+
+formatPrice(price: any): string {
+  return Number(price).toFixed(2);
+}
 
   retakeQuiz(): void {
     this.router.navigate(['/'], { fragment: 'routine-builder' });
   }
 }
+
