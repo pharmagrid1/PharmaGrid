@@ -45,3 +45,12 @@ body {
 ::-webkit-scrollbar { width: 6px; }
 ::-webkit-scrollbar-track { background: var(--bg-base); }
 ::-webkit-scrollbar-thumb { background: var(--accent-teal); border-radius: 3px; }
+
+
+@media (max-width: 768px) {
+  html { font-size: 15px; }
+}
+
+@media (max-width: 480px) {
+  html { font-size: 14px; }
+}
