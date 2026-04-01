@@ -17,15 +17,19 @@ export class Footer  implements OnInit{
   currentYear=new Date().getFullYear();
   newsletterEmail='';
   newsletterSubmitted=false;
-   isAdmin = false;
+  isAdmin = false;
+  isLoggedIn = false;
+  
+  
+  constructor(private auth: AuthService,  private http: HttpClient,  ){}
 
-   constructor(private auth: AuthService,  private http: HttpClient,  ){}
+ngOnInit() {
+    this.auth.currentUser$.subscribe(user => {
+      this.isAdmin = user?.role === 'admin';
+      this.isLoggedIn = !!user;
+    });
+  }
 
-   ngOnInit(){
-      this.auth.currentUser$.subscribe(user=>{
-        this.isAdmin=user?.role==='admin'
-      })
-   }
 
  submitNewsletter(): void {
   if (!this.newsletterEmail.trim().includes('@')) return;

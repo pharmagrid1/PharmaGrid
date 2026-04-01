@@ -21,12 +21,17 @@
             <a [routerLink]="['/products']" [queryParams]="{ search: 'Avene' }">Avène</a>
             <a [routerLink]="['/products']" [queryParams]="{ search: 'TirTir' }">TirTir</a>
           </div>
-          <div>
+         <div>
             <h4>Account</h4>
-            <a routerLink="/login">Login</a>
-            <a routerLink="/register">Register</a>
+            @if (!isLoggedIn) {
+              <a routerLink="/login">Login</a>
+              <a routerLink="/register">Register</a>
+            }
             <a routerLink="/my-orders">My Orders</a>
             <a routerLink="/cart">Cart</a>
+            @if (isLoggedIn) {
+              <a routerLink="/profile">My Profile</a>
+            }
           </div>
           <div>
             <h4>Info</h4>
