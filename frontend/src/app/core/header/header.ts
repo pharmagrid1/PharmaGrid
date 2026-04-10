@@ -16,6 +16,7 @@ export class Header implements OnInit {
   userName = '';
   isAdmin = false;
   searchQuery = '';
+  menuOpen = false;  // controls mobile menu
 
   constructor(private auth: AuthService, private router: Router) {}
 
@@ -27,18 +28,29 @@ export class Header implements OnInit {
     });
   }
 
-
-onSearch(): void {
-  const query = this.searchQuery.trim();
-  if (query.length >= 2 || query.length === 0) {
-    this.router.navigate(['/products'], {
-      queryParams: { search: query || null }
-    });
+  // Toggle mobile menu open/closed
+  toggleMenu(): void {
+    this.menuOpen = !this.menuOpen;
   }
-}
+
+  // Close menu when a link is clicked
+  closeMenu(): void {
+    this.menuOpen = false;
+  }
+
+  onSearch(): void {
+    const query = this.searchQuery.trim();
+    if (query.length >= 2 || query.length === 0) {
+      this.router.navigate(['/products'], {
+        queryParams: { search: query || null }
+      });
+      this.closeMenu();
+    }
+  }
 
   logout(): void {
     this.auth.logout();
     this.router.navigate(['/']);
+    this.closeMenu();
   }
 }
