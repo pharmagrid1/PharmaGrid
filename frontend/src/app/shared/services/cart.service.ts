@@ -10,6 +10,8 @@ export interface CartItem {
   image: string;
 }
 
+// Manages the shopping cart with localStorage persistence
+// Cart state is shared across all components via BehaviorSubject
 @Injectable({ providedIn: 'root' })
 export class CartService {
   private cartItems: CartItem[] = [];
@@ -17,6 +19,7 @@ export class CartService {
   cart$ = this.cartSubject.asObservable();
 
   constructor() {
+    // Load cart from localStorage on app init
     const stored = localStorage.getItem('pharmagrid_cart');
     if (stored) {
       this.cartItems = JSON.parse(stored);
@@ -24,9 +27,10 @@ export class CartService {
     }
   }
 
+  // Persist cart to localStorage and notify subscribers
   private save(): void {
     localStorage.setItem('pharmagrid_cart', JSON.stringify(this.cartItems));
-    this.cartSubject.next([...this.cartItems]);
+    this.cartSubject.next(this.cartItems);
   }
 
   addToCart(product: CartItem) {

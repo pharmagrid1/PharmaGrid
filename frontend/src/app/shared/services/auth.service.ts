@@ -10,17 +10,21 @@ export interface AuthUser {
   role: string;
 }
 
+// Manages user authentication state across the app
+// Stores JWT token and user object in localStorage for persistence
 @Injectable({ providedIn: 'root' })
 export class AuthService {
   private apiUrl = `${environment.apiUrl}/api/auth`;
+
+  // BehaviorSubject holds the current user — null when logged out
   private currentUserSubject = new BehaviorSubject<AuthUser | null>(null);
   currentUser$ = this.currentUserSubject.asObservable();
 
   constructor(private http: HttpClient, private toast: ToastService) {
+    // Restore session from localStorage on app load
     const stored = localStorage.getItem('pharmagrid_user');
     if (stored) this.currentUserSubject.next(JSON.parse(stored));
   }
-
   register(data: { full_name: string; email: string; password: string }): Observable<any> {
     return this.http.post(`${this.apiUrl}/register`, data).pipe(
       tap((res: any) => this.storeSession(res))
