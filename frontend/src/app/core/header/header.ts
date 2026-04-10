@@ -48,6 +48,8 @@ export class Header implements OnInit {
     }
   }
 
+  
+
   logout(): void {
     this.auth.logout();
     this.router.navigate(['/']);
