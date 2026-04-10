@@ -1,6 +1,7 @@
 const db = require('../config/db');
 
 const Order = {
+  // Create a new order record
   create: async (orderData) => {
     const { user_id, total_amount, delivery_method, status } = orderData;
     const result = await db.query(
@@ -11,6 +12,7 @@ const Order = {
     return result.rows[0];
   },
 
+  // Insert individual line items for an order
   createItems: async (order_id, items) => {
     for (const item of items) {
       await db.query(
@@ -21,6 +23,8 @@ const Order = {
     }
   },
 
+  // Reduce stock for each product in the order
+  // Guard prevents stock going below zero
   deductStock: async (items) => {
     for (const item of items) {
       await db.query(
@@ -31,6 +35,7 @@ const Order = {
     }
   },
 
+  // Fetch all orders for a user including their line items
   getByUserId: async (userId) => {
     const ordersResult = await db.query(
       `SELECT * FROM orders WHERE user_id = $1 ORDER BY created_at DESC`,
@@ -38,6 +43,7 @@ const Order = {
     );
     const orders = ordersResult.rows;
 
+    // Attach items to each order (N+1 — acceptable at current scale)
     for (const order of orders) {
       const itemsResult = await db.query(
         `SELECT oi.*, p.name as product_name, p.image
@@ -52,10 +58,10 @@ const Order = {
     return orders;
   },
 
+  // Fetch a single order by ID
   getById: async (id) => {
     const result = await db.query(
-      `SELECT * FROM orders WHERE id = $1`,
-      [id]
+      `SELECT * FROM orders WHERE id = $1`, [id]
     );
     return result.rows[0];
   }
