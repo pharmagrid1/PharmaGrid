@@ -1,30 +1,44 @@
-<mat-card class="product-card mat-elevation-z1">
-  <img mat-card-image [src]="image" (error)="onImageError($event)" />
-  <mat-card-content>
-    <p class="brand">{{brand}}</p>
-    <h3 class="name">{{name}}</h3>
-    <mat-chip color="tertiary" selected>{{skinType}}</mat-chip>
-    <p class="price">€{{price}}</p>
-    <div class="card-stars">
+<mat-card class="product-card mat-elevation-z1"> <!-- Product card container -->
+
+  <img mat-card-image [src]="image" (error)="onImageError($event)" /> <!-- Product image -->
+
+  <mat-card-content> <!-- Card content section -->
+
+    <p class="brand">{{brand}}</p> <!-- Product brand -->
+    <h3 class="name">{{name}}</h3> <!-- Product name -->
+
+    <mat-chip color="tertiary" selected>{{skinType}}</mat-chip> <!-- Skin type tag -->
+
+    <p class="price">€{{price}}</p> <!-- Product price -->
+
+    <div class="card-stars"> <!-- Rating stars -->
       @for(star of getStars(rating); track $index){
         <span [class.filled]="star === 'full'" [class.half]="star === 'half'">
-          {{ star === 'empty' ? '☆' : '★' }}
+          {{ star === 'empty' ? '☆' : '★' }} <!-- Star display -->
         </span>
       }
     </div>
+
     <span class="stock-badge"
       [class.in-stock]="stock > 10"
       [class.low-stock]="stock > 0 && stock <= 10"
       [class.out-of-stock]="stock === 0">
       {{ stock > 10 ? 'In Stock' : stock > 0 ? 'Low Stock' : 'Out of Stock' }}
+      <!-- Stock status -->
     </span>
+
   </mat-card-content>
-  <mat-card-actions>
+
+  <mat-card-actions> <!-- Action buttons -->
+
     <button mat-stroked-button color="primary" [routerLink]="['/product', id]">
-      View Details
+      View Details <!-- Navigate to product page -->
     </button>
+
     <button mat-flat-button color="primary" (click)="addToCart()">
-      Add to Cart
+      Add to Cart <!-- Add product to cart -->
     </button>
+
   </mat-card-actions>
+
 </mat-card>

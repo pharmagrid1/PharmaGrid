@@ -1,9 +1,9 @@
-import { Component, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { AuthService } from '../../shared/services/auth.service';
-import { ToastService } from '../../shared/services/toast.service';
+import { Component, OnInit } from '@angular/core'; // Core Angular features
+import { CommonModule } from '@angular/common'; // Common directives
+import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms'; // Reactive forms utilities
+import { HttpClient, HttpHeaders } from '@angular/common/http'; // HTTP client tools
+import { AuthService } from '../../shared/services/auth.service'; // Auth service
+import { ToastService } from '../../shared/services/toast.service'; // Toast notifications
 
 @Component({
   selector: 'app-profile',
@@ -13,43 +13,45 @@ import { ToastService } from '../../shared/services/toast.service';
   styleUrl: './profile.scss'
 })
 export class Profile implements OnInit {
-  form;
-  loading = false;
-  private apiUrl = 'http://localhost:5000/api/auth';
+
+  form; // Reactive form instance
+  loading = false; // Loading state flag
+  private apiUrl = 'http://localhost:5000/api/auth'; // Auth API base URL
 
   constructor(
-    private fb: FormBuilder,
-    private auth: AuthService,
-    private http: HttpClient,
-    private toast: ToastService
+    private fb: FormBuilder, // Form builder service
+    private auth: AuthService, // Auth service
+    private http: HttpClient, // HTTP client
+    private toast: ToastService // Toast messages
   ) {
-    this.form = this.fb.group({
-      full_name: ['', Validators.required],
-      password: ['']
+    this.form = this.fb.group({ // Initialize form
+      full_name: ['', Validators.required], // Name field required
+      password: [''] // Optional password field
     });
   }
 
   ngOnInit(): void {
-    const user = this.auth.getCurrentUser();
+    const user = this.auth.getCurrentUser(); // Get logged-in user
     if (user) {
-      this.form.patchValue({ full_name: user.full_name });
+      this.form.patchValue({ full_name: user.full_name }); // Prefill name
     }
   }
 
   save(): void {
-    if (this.form.invalid) return;
-    this.loading = true;
-    const token = this.auth.getToken();
-    const headers = new HttpHeaders({ Authorization: `Bearer ${token}` });
+    if (this.form.invalid) return; // Stop if invalid form
+    this.loading = true; // Enable loading state
+
+    const token = this.auth.getToken(); // Get auth token
+    const headers = new HttpHeaders({ Authorization: `Bearer ${token}` }); // Set auth header
 
     this.http.put(`${this.apiUrl}/profile`, this.form.value, { headers }).subscribe({
       next: (res: any) => {
-        this.toast.show('Profile updated successfully', 'success');
-        this.loading = false;
+        this.toast.show('Profile updated successfully', 'success'); // Success message
+        this.loading = false; // Stop loading
       },
       error: () => {
-        this.toast.show('Failed to update profile', 'error');
-        this.loading = false;
+        this.toast.show('Failed to update profile', 'error'); // Error message
+        this.loading = false; // Stop loading
       }
     });
   }

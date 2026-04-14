@@ -1,22 +1,25 @@
-<div class="profile-wrapper">
-  <div class="profile-card">
-    <h2>My Profile</h2>
-    <p class="profile-sub">Update your name or change your password</p>
+<div class="profile-wrapper"> <!-- Page wrapper -->
+  <div class="profile-card"> <!-- Profile card container -->
 
-    <form [formGroup]="form" (ngSubmit)="save()">
-      <div class="field">
+    <h2>My Profile</h2> <!-- Page title -->
+    <p class="profile-sub">Update your name or change your password</p> <!-- Subtitle -->
+
+    <form [formGroup]="form" (ngSubmit)="save()"> <!-- Reactive form submit -->
+
+      <div class="field"> <!-- Name input field -->
         <label>Full Name</label>
         <input type="text" formControlName="full_name" placeholder="Your Name" />
       </div>
 
-      <div class="field">
+      <div class="field"> <!-- Password input field -->
         <label>New Password <span class="optional">(leave blank to keep current)</span></label>
         <input type="password" formControlName="password" placeholder="Min. 6 characters" />
       </div>
 
-      <button type="submit" [disabled]="loading || form.invalid">
+      <button type="submit" [disabled]="loading || form.invalid"> <!-- Submit button -->
         {{ loading ? 'Saving...' : 'Save Changes' }}
       </button>
+
     </form>
   </div>
 </div>
