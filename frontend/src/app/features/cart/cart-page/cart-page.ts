@@ -12,31 +12,30 @@ import { RouterLink } from "@angular/router";
 })
 export class CartPage implements OnInit {
   
-  cartItems: CartItem[] = [];
+  cartItems: CartItem[] = []; // Current cart items
 
   constructor(private cartService: CartService){}
 
-
   ngOnInit(): void {
+    // Subscribe to cart changes
     this.cartService.cart$.subscribe(items => {
       this.cartItems = items;
     });
   }
 
   increase(id:number) {
-    this.cartService.increaseQuantity(id);
+    this.cartService.increaseQuantity(id); // Increase quantity
   }
   
   decrease(id:number) {
-    this.cartService.decreaseQuantity(id);
+    this.cartService.decreaseQuantity(id); // Decrease quantity
   }
 
   remove(id:number) {
-    this.cartService.removeFromCart(id);
+    this.cartService.removeFromCart(id); // Remove item
   }
 
   getTotal(){
-    return this.cartService.getTotal();
+    return this.cartService.getTotal(); // Calculate total
   }
-
 }

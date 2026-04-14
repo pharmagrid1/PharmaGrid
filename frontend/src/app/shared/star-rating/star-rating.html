@@ -1,10 +1,13 @@
-<div class="stars" [title]="rating + ' out of 5'">
-    @for (s of starArray; track s.index) {
-        <span class="star" [class.star--filled]="s.filled" [class.star--half]="s.half">
-            {{ s.half ? '★' : s.filled ? '★' : '☆'  }}
+<div class="stars" [title]="rating + ' out of 5'"> <!-- Star rating wrapper -->
+    @for (s of starArray; track s.index) { <!-- Loop through 5 stars -->
+        <span class="star"
+              [class.star--filled]="s.filled"
+              [class.star--half]="s.half">
+            {{ s.half ? '★' : s.filled ? '★' : '☆'  }} <!-- Render full/half/empty star -->
         </span>
     }
-    @if (showCount && count > 0) {
+
+    @if (showCount && count > 0) { <!-- Optional review count -->
         <span class="stars__count">({{count}})</span>
     }
 </div>

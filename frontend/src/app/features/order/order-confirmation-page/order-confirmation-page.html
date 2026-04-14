@@ -1,5 +1,5 @@
 @if(order){
-  <div class="confirmation-wrapper">
+  <div class="confirmation-wrapper"> <!-- Success state -->
     <div class="success-icon">✓</div>
     <h2>Order Placed!</h2>
     <p class="confirmation-sub">Thank you! Your order has been received.</p>
@@ -24,13 +24,13 @@
       </div>
     </div>
 
-    <div class="confirmation-actions">
+    <div class="confirmation-actions"> <!-- Navigation actions -->
       <button class="btn-orders" routerLink="/my-orders">View My Orders</button>
       <button class="btn-home" routerLink="/">Continue Shopping</button>
     </div>
   </div>
 } @else {
-  <div class="confirmation-wrapper">
+  <div class="confirmation-wrapper"> <!-- Fallback state -->
     <p class="no-order">No order found. <a routerLink="/">Go back home</a></p>
   </div>
 }

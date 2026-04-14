@@ -1,26 +1,29 @@
-@if(product) {
+@if(product) { <!-- Show product only when loaded -->
 <div class="detail-container">
-  <div class="top-section">
+  <div class="top-section"> <!-- Image + product info layout -->
+
     <div class="image-section">
-      <img [src]="product.image" [alt]="product.name" />
+      <img [src]="product.image" [alt]="product.name" /> <!-- Product image -->
     </div>
 
-    <div class="info-section">
+    <div class="info-section"> <!-- Product details -->
       <p class="category-tag">{{product.category}}</p>
       <p class="brand">{{product.brand}}</p>
       <h2 class="name">{{product.name}}</h2>
       <p class="skin-type">✦ {{product.skin_type}} · {{product.skin_concern}}</p>
       <p class="price">€{{product.price}}</p>
-      <div class="stock-info" [class.low]="product.stock < 10">
+
+      <div class="stock-info" [class.low]="product.stock < 10"> <!-- Low stock warning -->
         {{ product.stock > 0 ? product.stock + ' in stock' : 'Out of stock' }}
       </div>
+
       <button class="add-btn" (click)="addToCart()" [disabled]="product.stock === 0">
         Add to Cart
       </button>
     </div>
   </div>
 
-  <div class="tabs-section">
+  <div class="tabs-section"> <!-- Product info tabs -->
     <mat-tab-group>
       <mat-tab label="Description">
         <p class="tab-content">{{product.description}}</p>
@@ -35,16 +38,17 @@
         <p class="tab-content">{{product.warnings}}</p>
       </mat-tab>
     </mat-tab-group>
-
   </div>
 
-  <!-- Reviews-->
-   <div class="reviews-section">
+  <!-- Reviews -->
+  <div class="reviews-section">
     <div class="reviews-header">
       <h3 class="reviews-title">Customer Reviews </h3>
+
       @if(reviews.length>0){
-        <div class="reviews-avg">
+        <div class="reviews-avg"> <!-- Average rating block -->
           <span class="reviews-avg-score">{{averageRating().toFixed(1)}}</span>
+
           <div class="reviews-avg-stars">
             @for(star of [1,2,3,4,5]; track star){
               <span class="star star--avg" [class.star--filled]="averageRating()>=star">★</span>
@@ -54,15 +58,14 @@
           <span class="reviews-count">{{reviews.length}} review{{reviews.length !== 1 ? 's' : ''}}</span>
         </div>
       }
-
     </div>
 
-    <!--Write a review-->
+    <!-- Write a review -->
     @if(isLoggedIn){
-      <div class="review-form">
+      <div class="review-form"> <!-- Review input form -->
         <h4 class="review-form__title">Write a Review</h4>
 
-        <div class="review-form__stars" (mouseleave)="clearHover()">
+        <div class="review-form__stars" (mouseleave)="clearHover()"> <!-- Star rating input -->
           @for(star of [1,2,3,4,5]; track star){
             <span class="star star--select"
                   [class.star--filled]="(hoverRating || newRating)>=star"
@@ -70,8 +73,9 @@
                   (click)="setRating(star)"
             >★ </span>
           }
+
           @if(newRating>0){
-            <span class="review-form__rating-label">{{newRating}}/5</span>
+            <span class="review-form__rating-label">{{newRating}}/5</span> <!-- Selected rating -->
           }
         </div>
 
@@ -83,17 +87,18 @@
         </textarea>
 
         @if(reviewSuccess){
-          <p class="review-form__success">✓ Review submitted successfully!</p>
+          <p class="review-form__success">✓ Review submitted successfully!</p> <!-- Success message -->
         }
+
         @if(reviewError){
-          <p class="review-form__error">{{reviewError}}</p>
+          <p class="review-form__error">{{reviewError}}</p> <!-- Error message -->
         }
+
         <button class="review-form__btn"
                 (click)="submitReview()"
                 [disabled]="newRating===0 || reviewSubmitting">
-              {{reviewSubmitting? 'Submitting...': 'Submit Review'}}
-              </button>
-
+          {{reviewSubmitting? 'Submitting...': 'Submit Review'}}
+        </button>
       </div>
     } @else {
       <p class="review-login-hint">
@@ -102,38 +107,37 @@
     }
 
     @if(reviews.length>0){
-      <div class="reviews-list">
+      <div class="reviews-list"> <!-- Reviews list -->
         @for(review of reviews; track review.id){
           <div class="review-card">
             <div class="review-card__header">
-              <div class="review-card__avatar">{{ ('' + review.full_name).charAt(0).toUpperCase() }}</div>
+              <div class="review-card__avatar">{{ ('' + review.full_name).charAt(0).toUpperCase() }}</div> <!-- Initial -->
+
               <div>
                 <p class="review-card__name">{{ review.full_name}}</p>
                 <p class="review-card__date">{{ review.created_at |date: 'mediumDate'}}</p>
               </div>
-              <div class="review-card__stars">
+
+              <div class="review-card__stars"> <!-- Star display -->
                 @for (star of [1,2,3,4,5]; track star){
                   <span class="star" [class.star--filled]="review.rating>=star">★</span>
                 }
-
               </div>
             </div>
-            @if(review.comment){
-              <p class="review-card__comment">{{ review.comment}}</p>
-            }
 
+            @if(review.comment){
+              <p class="review-card__comment">{{ review.comment}}</p> <!-- Review text -->
+            }
           </div>
         }
-
       </div>
     }@else{
-      <p class="reviews-empty">No reviews yet. Be the first!</p>
+      <p class="reviews-empty">No reviews yet. Be the first!</p> <!-- Empty state -->
     }
-
-   </div>
+  </div>
 
   @if(relatedProducts.length > 0) {
-    <div class="related-section">
+    <div class="related-section"> <!-- Related products -->
       <h3 class="related-title">You might also like</h3>
       <div class="related-grid">
         @for(related of relatedProducts; track related.id) {
@@ -151,14 +155,13 @@
       </div>
     </div>
   }
-
 </div>
 } @else if(error) {
   <div class="loading-state">
-    <p style="color: var(--text-muted)">Product not found.</p>
+    <p style="color: var(--text-muted)">Product not found.</p> <!-- Error state -->
   </div>
 } @else {
   <div class="loading-state">
-    <mat-spinner></mat-spinner>
+    <mat-spinner></mat-spinner> <!-- Loading spinner -->
   </div>
 }

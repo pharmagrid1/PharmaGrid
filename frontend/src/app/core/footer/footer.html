@@ -1,75 +1,77 @@
- <!-- ═══ FOOTER ═══════════════════════════════════════════════ -->
-  <footer class="pg-footer">
-    <div class="container">
-      <div class="pg-footer__inner">
+<!-- ═══ FOOTER ═══════════════════════════════════════════════ -->
+<footer class="pg-footer"> <!-- Main footer wrapper -->
+  <div class="container"> <!-- Centered layout container -->
+    <div class="pg-footer__inner"> <!-- Top footer grid -->
 
-        <!-- Brand col -->
-        <div class="pg-footer__brand">
-          <div class="pg-footer__logo">
-            <div class="pg-footer__logo-mark">PG</div>
-            <span class="pg-footer__logo-text">PharmaGrid</span>
-          </div>
-          <p>Pharmacy-grade skincare, curated by dermatologists and delivered to your door.</p>
+      <!-- Brand col -->
+      <div class="pg-footer__brand"> <!-- Brand/logo section -->
+        <div class="pg-footer__logo">
+          <div class="pg-footer__logo-mark">PG</div> <!-- Logo initials -->
+          <span class="pg-footer__logo-text">PharmaGrid</span> <!-- Brand name -->
+        </div>
+        <p>Pharmacy-grade skincare, curated by dermatologists and delivered to your door.</p>
+      </div>
+
+      <!-- Links -->
+      <div class="pg-footer__links"> <!-- Navigation columns -->
+        <div>
+          <h4>Shop</h4>
+          <a routerLink="/products">All Products</a> <!-- Product list -->
+          <a [routerLink]="['/products']" [queryParams]="{ search: 'Bioderma' }">Bioderma</a> <!-- Brand filter -->
+          <a [routerLink]="['/products']" [queryParams]="{ search: 'Avene' }">Avène</a>
+          <a [routerLink]="['/products']" [queryParams]="{ search: 'TirTir' }">TirTir</a>
         </div>
 
-        <!-- Links -->
-        <div class="pg-footer__links">
-          <div>
-            <h4>Shop</h4>
-            <a routerLink="/products">All Products</a>
-            <a [routerLink]="['/products']" [queryParams]="{ search: 'Bioderma' }">Bioderma</a>
-            <a [routerLink]="['/products']" [queryParams]="{ search: 'Avene' }">Avène</a>
-            <a [routerLink]="['/products']" [queryParams]="{ search: 'TirTir' }">TirTir</a>
-          </div>
-         <div>
-            <h4>Account</h4>
-            @if (!isLoggedIn) {
-              <a routerLink="/login">Login</a>
-              <a routerLink="/register">Register</a>
-            }
-            <a routerLink="/my-orders">My Orders</a>
-            <a routerLink="/cart">Cart</a>
-            @if (isLoggedIn) {
-              <a routerLink="/profile">My Profile</a>
-            }
-          </div>
-          <div>
-            <h4>Info</h4>
-            @if (isAdmin) {
-              <a routerLink="/admin">Admin Panel</a>
-            }
-            <a routerLink="/about">About</a>
-            <a routerLink="/contact">Contact</a>
-            <a routerLink="/privacy">Privacy</a>
-          </div>
-        </div>
-
-        <!-- Newsletter -->
-        <div class="pg-footer__newsletter">
-          <h4>Stay in the loop</h4>
-          <p>New arrivals and skincare tips, straight to your inbox.</p>
-          @if (!newsletterSubmitted) {
-            <div class="pg-footer__email-row">
-              <input
-                type="email"
-                placeholder="you@email.com"
-                [(ngModel)]="newsletterEmail"
-                (keyup.enter)="submitNewsletter()" />
-              <button class="btn btn--primary btn--sm" (click)="submitNewsletter()">Subscribe</button>
-            </div>
-          } @else {
-            <p class="pg-footer__success">✓ You're subscribed. Thank you!</p>
+        <div>
+          <h4>Account</h4>
+          @if (!isLoggedIn) { <!-- Show if user not logged in -->
+            <a routerLink="/login">Login</a>
+            <a routerLink="/register">Register</a>
+          }
+          <a routerLink="/my-orders">My Orders</a>
+          <a routerLink="/cart">Cart</a>
+          @if (isLoggedIn) { <!-- Show if user logged in -->
+            <a routerLink="/profile">My Profile</a>
           }
         </div>
 
-      </div>
-
-      <div class="pg-footer__bottom">
-        <small>©  PharmaGrid. All rights reserved.</small>
-        <div class="pg-footer__legal">
-          <a routerLink="/privacy">Privacy Policy</a>
-          <a routerLink="/contact">Terms of Use</a>
+        <div>
+          <h4>Info</h4>
+          @if (isAdmin) { <!-- Admin-only link -->
+            <a routerLink="/admin">Admin Panel</a>
+          }
+          <a routerLink="/about">About</a>
+          <a routerLink="/contact">Contact</a>
+          <a routerLink="/privacy">Privacy</a>
         </div>
       </div>
+
+      <!-- Newsletter -->
+      <div class="pg-footer__newsletter"> <!-- Email subscription -->
+        <h4>Stay in the loop</h4>
+        <p>New arrivals and skincare tips, straight to your inbox.</p>
+        @if (!newsletterSubmitted) { <!-- Show form until submitted -->
+          <div class="pg-footer__email-row">
+            <input
+              type="email"
+              placeholder="you@email.com"
+              [(ngModel)]="newsletterEmail"
+              (keyup.enter)="submitNewsletter()" /> <!-- Submit on Enter -->
+            <button class="btn btn--primary btn--sm" (click)="submitNewsletter()">Subscribe</button>
+          </div>
+        } @else {
+          <p class="pg-footer__success">✓ You're subscribed. Thank you!</p> <!-- Success message -->
+        }
+      </div>
+
     </div>
-  </footer>
+
+    <div class="pg-footer__bottom"> <!-- Bottom legal bar -->
+      <small>©  PharmaGrid. All rights reserved.</small>
+      <div class="pg-footer__legal">
+        <a routerLink="/privacy">Privacy Policy</a>
+        <a routerLink="/contact">Terms of Use</a>
+      </div>
+    </div>
+  </div>
+</footer>

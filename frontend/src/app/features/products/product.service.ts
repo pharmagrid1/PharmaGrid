@@ -3,6 +3,7 @@ import { HttpClient } from "@angular/common/http";
 import { Observable } from "rxjs";
 import { environment } from '../../../environments/environment';
 
+// Product data model
 export interface Product {
   id: number;
   brand: string;
@@ -23,14 +24,16 @@ export interface Product {
 
 @Injectable({ providedIn: 'root' })
 export class ProductService {
-  private apiUrl = `${environment.apiUrl}/api/products`;
+  private apiUrl = `${environment.apiUrl}/api/products`; // API endpoint
 
   constructor(private http: HttpClient) {}
 
+  // Fetch all products
   getProducts(): Observable<Product[]> {
     return this.http.get<Product[]>(this.apiUrl);
   }
 
+  // Fetch single product by ID
   getProductById(id: number): Observable<Product> {
     return this.http.get<Product>(`${this.apiUrl}/${id}`);
   }

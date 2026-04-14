@@ -1,12 +1,16 @@
-<div class="toast-container">
-    @for(toast of toasts; track toast.id) {
-        <div class="toast" [class]="'toast-' + toast.type" (click)="dismiss(toast.id)">
+<div class="toast-container"> <!-- Toast wrapper -->
+    @for(toast of toasts; track toast.id) { <!-- Loop active toasts -->
+        <div class="toast"
+             [class]="'toast-' + toast.type"
+             (click)="dismiss(toast.id)"> <!-- Click to dismiss -->
+
             <span class="toast-icon">
-                @if(toast.type === 'success') {✓}
-                @if(toast.type === 'error') {✕}
-                @if(toast.type === 'info') {ℹ}
+                @if(toast.type === 'success') {✓} <!-- Success icon -->
+                @if(toast.type === 'error') {✕} <!-- Error icon -->
+                @if(toast.type === 'info') {ℹ} <!-- Info icon -->
             </span>
-            <span class="toast-message">{{toast.message}}</span>
+
+            <span class="toast-message">{{toast.message}}</span> <!-- Message text -->
         </div>
     }    
 </div>

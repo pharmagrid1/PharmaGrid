@@ -1,24 +1,24 @@
-<header class="navbar">
-  <div class="nav-brand" routerLink="/">
+<header class="navbar"> <!-- Main navigation bar -->
+  <div class="nav-brand" routerLink="/"> <!-- Clickable brand/logo -->
     <span class="brand-icon">✦</span>
     <span class="brand-name">PharmaGrid</span>
   </div>
 
-  <div class="nav-search">
+  <div class="nav-search"> <!-- Product search -->
     <input
       type="text"
       placeholder="Search products..."
-      [(ngModel)]="searchQuery"
-      (input)="onSearch()"
+      [(ngModel)]="searchQuery" 
+      (input)="onSearch()" 
     />
     <button class="search-btn" (click)="onSearch()">🔍</button>
   </div>
 
-  <nav class="nav-links" [class.open]="menuOpen">
+  <nav class="nav-links" [class.open]="menuOpen"> <!-- Collapsible nav links -->
     <a routerLink="/products" routerLinkActive="active" (click)="closeMenu()">Products</a>
     <a routerLink="/my-orders" routerLinkActive="active" (click)="closeMenu()">My Orders</a>
 
-    @if(isLoggedIn){
+    @if(isLoggedIn){ <!-- Links for logged-in users -->
       <a routerLink="/profile" routerLinkActive="active" (click)="closeMenu()">👤 {{userName}}</a>
       <button class="logout-btn" (click)="logout()">Logout</button>
     } @else {
@@ -27,12 +27,12 @@
 
     <a routerLink="/cart" class="cart-btn" (click)="closeMenu()">Cart</a>
 
-    @if(isLoggedIn && isAdmin) {
+    @if(isLoggedIn && isAdmin) { <!-- Admin-only link -->
       <a routerLink="/admin" routerLinkActive="active" (click)="closeMenu()">Admin</a>
     }
   </nav>
 
-  <button class="menu-toggle" (click)="toggleMenu()">
+  <button class="menu-toggle" (click)="toggleMenu()"> <!-- Mobile menu toggle -->
     {{ menuOpen ? '✕' : '☰' }}
   </button>
 </header>
