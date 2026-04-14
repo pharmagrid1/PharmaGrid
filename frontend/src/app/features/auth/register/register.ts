@@ -4,39 +4,39 @@ import { FormBuilder, ReactiveFormsModule, Validators } from "@angular/forms";
 import { Router, RouterLink } from "@angular/router";
 import { AuthService } from "../../../shared/services/auth.service";
 
-
 @Component({
-    selector:'app-register',
-    standalone:true,
-    imports:[CommonModule, ReactiveFormsModule, RouterLink],
-    templateUrl:'./register.html',
-    styleUrl:'./register.scss'
-
+  selector:'app-register',
+  standalone:true,
+  imports:[CommonModule, ReactiveFormsModule, RouterLink],
+  templateUrl:'./register.html',
+  styleUrl:'./register.scss'
 })
 export class Register{
-    form;
-    error='';
-    loading=false;
+  form; // Reactive form
+  error=''; // Error message
+  loading=false; // Loading state
 
-    constructor(private fb: FormBuilder, private auth: AuthService, private router : Router){
-        this.form=this.fb.group({
-            full_name:['', Validators.required],
-            email:['',[Validators.required, Validators.email]],
-            password:['',[Validators.required, Validators.minLength(6)]]
-        });
-    }
+  constructor(private fb: FormBuilder, private auth: AuthService, private router : Router){
+    // Initialize form controls
+    this.form=this.fb.group({
+      full_name:['', Validators.required],
+      email:['',[Validators.required, Validators.email]],
+      password:['',[Validators.required, Validators.minLength(6)]]
+    });
+  }
 
-    submit(){
-        if(this.form.invalid) return;
-        this.loading=true;
-        this.error='';
+  submit(){
+    if(this.form.invalid) return; // Validate form
+    this.loading=true;
+    this.error='';
 
-        this.auth.register(this.form.value as any).subscribe({
-            next:()=>this.router.navigate(['/']),
-            error:(err)=>{
-                this.error=err.error?.message || 'Registration failed';
-                this.loading=false;
-            }
-        });
-    }
+    // Attempt registration
+    this.auth.register(this.form.value as any).subscribe({
+      next:()=>this.router.navigate(['/']), // Redirect on success
+      error:(err)=>{
+        this.error=err.error?.message || 'Registration failed';
+        this.loading=false;
+      }
+    });
+  }
 }

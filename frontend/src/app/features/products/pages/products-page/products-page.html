@@ -1,12 +1,11 @@
-<div class="products-layout">
+<div class="products-layout"> <!-- Products page layout -->
 
-<aside class="filters">
+<aside class="filters"> <!-- Filter sidebar -->
     <h3>Filter Products</h3>
 
     <div class="filter-group">
         <label>Search</label>
         <input type="text" [(ngModel)]="searchQuery" (input)="applyFilters()" placeholder="Search..." />
-
     </div>
 
     <div class="filter-group">
@@ -20,7 +19,6 @@
             <option value="Treatment">Treatment</option>
             <option value="Makeup">Makeup</option>
         </select>
-
     </div>
 
     <div class="filter-group">
@@ -54,10 +52,7 @@
             <input type="number" [(ngModel)]="minPrice" (input)="applyFilters()" placeholder="Min €"/>
             <span>-</span>
             <input type="number" [(ngModel)]="maxPrice" (input)="applyFilters()" placeholder="Max €"/>
-
-
         </div>
-
     </div>
 
     <button class="clear-btn" (click)="clearFilters()">
@@ -65,46 +60,42 @@
     </button>
 </aside>
 
+<section class="products-grid"> <!-- Product grid -->
 
-
-
-<section class="products-grid">
-    @if(loading) {
-        @for(skeleton of [1,2,3,4,5,6]; track skeleton){
-            <div class="skeleton-card">
-                <div class="skeleton-img"></div>
-                <div class="skeleton-content">
-                    <div class="skeleton-line short"></div>
-                    <div class="skeleton-line "></div>
-                    <div class="skeleton-line medium"></div>
-                </div>
+@if(loading) {
+    @for(skeleton of [1,2,3,4,5,6]; track skeleton){
+        <div class="skeleton-card"> <!-- Loading skeleton -->
+            <div class="skeleton-img"></div>
+            <div class="skeleton-content">
+                <div class="skeleton-line short"></div>
+                <div class="skeleton-line "></div>
+                <div class="skeleton-line medium"></div>
             </div>
-        }
-    }
-
-   @if(!loading && filteredProducts.length === 0 && products.length > 0){
-    <div class="no-results">
-        <p>No products found</p>
-        <span>Try adjusting your filters</span>
-    </div>
-    }
-    @if(!loading) {
-    @for(product of filteredProducts; track product.id){
-        <app-product-card 
-        [id] = "product.id"
-        [brand]="product.brand"
-        [name]="product.name"
-        [price]="product.price"
-        [skinType]="product.skin_type"
-        [image]="product.image"
-        [stock]="product.stock"
-        [rating]="product.rating ?? 0"
-        >
-
-        </app-product-card>
+        </div>
     }
 }
-</section>
 
+@if(!loading && filteredProducts.length === 0 && products.length > 0){
+<div class="no-results">
+    <p>No products found</p>
+    <span>Try adjusting your filters</span>
+</div>
+}
+
+@if(!loading) {
+@for(product of filteredProducts; track product.id){
+    <app-product-card 
+    [id]="product.id"
+    [brand]="product.brand"
+    [name]="product.name"
+    [price]="product.price"
+    [skinType]="product.skin_type"
+    [image]="product.image"
+    [stock]="product.stock"
+    [rating]="product.rating ?? 0">
+    </app-product-card>
+}
+}
+</section>
 
 </div>

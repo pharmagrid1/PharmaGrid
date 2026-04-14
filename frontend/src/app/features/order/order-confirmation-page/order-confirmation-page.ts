@@ -12,10 +12,10 @@ import { Order } from '../../../shared/services/order.service';
 })
 export class OrderConfirmationPage {
 
-  order: Order | null = null;
+  order: Order | null = null; // Passed order data
 
   constructor(private router: Router) {
     const navigation = this.router.getCurrentNavigation();
-    this.order = navigation?.extras.state?.['order'] || null;
+    this.order = navigation?.extras.state?.['order'] || null; // Read order from router state
   }
 }

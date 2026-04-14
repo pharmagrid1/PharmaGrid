@@ -6,21 +6,22 @@ import { AuthService } from '../../shared/services/auth.service';
 
 @Component({
   selector: 'app-header',
-  imports: [RouterLink, RouterLinkActive, CommonModule, FormsModule],
+  imports: [RouterLink, RouterLinkActive, CommonModule, FormsModule], // Needed modules
   standalone: true,
   templateUrl: './header.html',
   styleUrl: './header.scss',
 })
 export class Header implements OnInit {
-  isLoggedIn = false;
-  userName = '';
-  isAdmin = false;
-  searchQuery = '';
-  menuOpen = false;  // controls mobile menu
+  isLoggedIn = false; // Auth state
+  userName = ''; // First name display
+  isAdmin = false; // Role flag
+  searchQuery = ''; // Search model
+  menuOpen = false;  // Mobile menu state
 
   constructor(private auth: AuthService, private router: Router) {}
 
   ngOnInit(): void {
+    // Track current user
     this.auth.currentUser$.subscribe(user => {
       this.isLoggedIn = !!user;
       this.userName = user?.full_name?.split(' ')[0] || '';
@@ -39,8 +40,9 @@ export class Header implements OnInit {
   }
 
   onSearch(): void {
-    const query = this.searchQuery.trim();
+    const query = this.searchQuery.trim(); // Clean input
     if (query.length >= 2 || query.length === 0) {
+      // Navigate with search query
       this.router.navigate(['/products'], {
         queryParams: { search: query || null }
       });
@@ -48,11 +50,9 @@ export class Header implements OnInit {
     }
   }
 
-  
-
   logout(): void {
-    this.auth.logout();
-    this.router.navigate(['/']);
+    this.auth.logout(); // Clear session
+    this.router.navigate(['/']); // Redirect home
     this.closeMenu();
   }
 }

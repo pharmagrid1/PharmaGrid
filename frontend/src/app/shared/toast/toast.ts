@@ -1,8 +1,8 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
-//import { ToastService, Toast } from '../services/toast.service';
-import * as toastService from '../services/toast.service';
 
+// Toast service + type definitions
+import * as toastService from '../services/toast.service';
 
 @Component({
   selector: 'app-toast',
@@ -12,13 +12,15 @@ import * as toastService from '../services/toast.service';
 })
 export class Toast {
 
-  toasts: toastService.Toast[] = [];
+  toasts: toastService.Toast[] = []; // Active toast list
 
-  constructor(private toastService: toastService.ToastService){
+  constructor(private toastService: toastService.ToastService) {
+    // Subscribe to toast stream
     this.toastService.toasts.subscribe(t => this.toasts = t);
   }
+
+  // Remove toast by id
   dismiss(id: number) {
     this.toastService.dismiss(id);
   }
-
 }
