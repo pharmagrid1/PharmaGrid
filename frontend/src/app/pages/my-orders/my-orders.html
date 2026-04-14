@@ -1,36 +1,46 @@
-<div class="orders-container">
-  <h1>My <span>Orders</span></h1>
+<div class="orders-container"> <!-- Wrapper for orders page -->
+  <h1>My <span>Orders</span></h1> <!-- Page title -->
 
   @if(orders.length > 0) {
-    <mat-accordion>
+    <mat-accordion> <!-- Expandable list of orders -->
       @for(order of orders; track order.id) {
-        <mat-expansion-panel>
+        <mat-expansion-panel> <!-- Single order panel -->
+
           <mat-expansion-panel-header>
-            <mat-panel-title>Order #{{ order.id }}</mat-panel-title>
+            <mat-panel-title>
+              Order #{{ order.id }}
+            </mat-panel-title> <!-- Order identifier -->
+
             <mat-panel-description>
               €{{ order.total_amount }} |
               <mat-chip [color]="getStatusColor(order.status)" selected>
                 {{ order.status }}
               </mat-chip>
-            </mat-panel-description>
+            </mat-panel-description> <!-- Total + status badge -->
           </mat-expansion-panel-header>
 
-          <div class="timeline">
+          <div class="timeline"> <!-- Visual order progress -->
             @for(step of getTimelineSteps(order.status); track step.label){
-              <div class="timeline-step" [class.completed]="step.completed" [class.current]="step.current">
-                <div class="step-dot">{{step.completed ? '✓' : step.icon}}</div>
+              <div class="timeline-step"
+                   [class.completed]="step.completed"
+                   [class.current]="step.current">
+                <div class="step-dot">
+                  {{step.completed ? '✓' : step.icon}}
+                </div>
                 <span class="step-label">{{step.label}}</span>
               </div>
             }
           </div>
 
-          <div class="order-details">
+          <div class="order-details"> <!-- Order metadata and items -->
             <div class="meta">
               <div><strong>Date:</strong> {{ order.created_at | date }}</div>
               <div><strong>Delivery:</strong> {{ order.delivery_method }}</div>
             </div>
+
             <mat-divider></mat-divider>
-            <div class="items">
+
+            <div class="items"> <!-- Purchased items -->
               @for(item of order.items; track item.product_id) {
                 <div class="item-row">
                   <span>{{ item.product_name }} x{{ item.quantity }}</span>
@@ -39,11 +49,12 @@
               }
             </div>
           </div>
+
         </mat-expansion-panel>
       }
     </mat-accordion>
   } @else if (!loading){
-    <div class="empty-state">
+    <div class="empty-state"> <!-- No orders placeholder -->
       <div class="empty-icon">📦</div>
       <h3>No orders yet</h3>
       <p>When you place an order it will appear here</p>

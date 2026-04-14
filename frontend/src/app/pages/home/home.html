@@ -1,32 +1,32 @@
-<div class="pg-home">
+<div class="pg-home"> <!-- Home page wrapper -->
 
   <!-- ═══ HERO ════════════════════════════════════════════════ -->
-  <section class="pg-hero">
-    <div class="pg-hero__bg-grid"></div>
+  <section class="pg-hero"> <!-- Hero section -->
+    <div class="pg-hero__bg-grid"></div> <!-- Decorative grid background -->
 
     <div class="container pg-hero__inner">
-      <div class="pg-hero__copy">
+      <div class="pg-hero__copy"> <!-- Hero text content -->
 
-        <span class="pg-hero__eyebrow">Pharmacy-Grade Skincare</span>
+        <span class="pg-hero__eyebrow">Pharmacy-Grade Skincare</span> <!-- Eyebrow label -->
 
         <h1 class="pg-hero__headline">
           Dermatological<br>
           Skincare You<br>
           <em>Can Trust.</em>
-        </h1>
+        </h1> <!-- Main headline -->
 
         <p class="pg-hero__sub">
           Pharmacy-grade formulations curated by dermatologists.
           Every product — authentic, clinically validated, delivered to your door.
-        </p>
+        </p> <!-- Supporting description -->
 
-        <div class="pg-hero__ctas">
+        <div class="pg-hero__ctas"> <!-- CTA buttons -->
           <a class="btn btn--primary btn--lg" routerLink="/products">Shop Skincare →</a>
           <a class="btn btn--outline btn--lg" (click)="scrollToQuiz()">Build My Routine</a>
         </div>
 
         @if (isAdmin) {
-          <div class="pg-hero__admin-chip">
+          <div class="pg-hero__admin-chip"> <!-- Visible only to admins -->
             <span>⚙️</span>
             <a routerLink="/admin">Admin Dashboard →</a>
           </div>
@@ -34,41 +34,42 @@
 
       </div>
 
-      <div class="pg-hero__visual">
+      <div class="pg-hero__visual"> <!-- Hero product visuals -->
         <div class="pg-hero__product-stack">
           <div class="pg-hero__card pg-hero__card--back">
             <div class="pg-hero__card-inner">
-                 <img src="https://www.bioderma.us/content/dam/bioderma/master/packshots/sensibio/sensibio.png"
-         alt="Bioderma Sensibio H2O"
-         style="width:100%;height:100%;object-fit:cover;border-radius:4px;" />
+              <img src="https://www.bioderma.us/content/dam/bioderma/master/packshots/sensibio/sensibio.png"
+                   alt="Bioderma Sensibio H2O"
+                   style="width:100%;height:100%;object-fit:cover;border-radius:4px;" />
               <span>Bioderma Sensibio H2O</span>
             </div>
           </div>
+
           <div class="pg-hero__card pg-hero__card--front">
             <div class="pg-hero__card-inner">
-           <img src="https://www.aveneusa.com/media/catalog/product/p/i/pie_ave_mar24-atsw_alt-img_1.jpg?quality=100&fit=bounds&height=1000&width=1000&canvas=1000:1000"
-         alt="Avène Thermal Water"
-         style="width:100%;height:100%;object-fit:cover;border-radius:4px;" />
+              <img src="https://www.aveneusa.com/media/catalog/product/p/i/pie_ave_mar24-atsw_alt-img_1.jpg?quality=100&fit=bounds&height=1000&width=1000&canvas=1000:1000"
+                   alt="Avène Thermal Water"
+                   style="width:100%;height:100%;object-fit:cover;border-radius:4px;" />
               <span>Avène Thermal Water</span>
             </div>
           </div>
+
           <div class="pg-hero__badge">
             <strong>50+</strong>
             <small>Products</small>
-          </div>
+          </div> <!-- Product count badge -->
         </div>
       </div>
     </div>
 
-    <div class="pg-hero__scroll-cue">
+    <div class="pg-hero__scroll-cue"> <!-- Scroll indicator -->
       <span>scroll</span>
       <div class="pg-hero__scroll-line"></div>
     </div>
   </section>
 
-
   <!-- ═══ TRUST BAR ═══════════════════════════════════════════ -->
-  <section class="pg-trust">
+  <section class="pg-trust"> <!-- Trust highlights -->
     <div class="container">
       <div class="pg-trust__inner">
         @for (item of trustItems; track item.label) {
@@ -84,7 +85,6 @@
     </div>
   </section>
 
-
   <!-- ═══ FEATURED PRODUCTS ═══════════════════════════════════ -->
   <section class="section-pad">
     <div class="container">
@@ -96,7 +96,7 @@
         <a class="btn btn--outline" routerLink="/products">View all products →</a>
       </div>
 
-      @if (featuredLoading) {
+      @if (featuredLoading) { <!-- Skeleton loading state -->
         <div class="pg-featured__grid">
           @for (s of [1,2,3,4]; track s) {
             <div class="product-card product-card--skeleton">
@@ -112,12 +112,14 @@
       } @else if (featuredError) {
         <p class="pg-featured__error">Could not load products. Please try again later.</p>
       } @else {
-        <div class="pg-featured__grid">
+        <div class="pg-featured__grid"> <!-- Product cards -->
           @for (product of featuredProducts; track product.id) {
             <div class="product-card">
               <div class="product-card__img-wrap">
                 <img class="product-card__img" [src]="product.image" [alt]="product.name" />
-                <button class="product-card__quick-add" (click)="addToCart(product)" [disabled]="product.stock === 0">
+                <button class="product-card__quick-add"
+                        (click)="addToCart(product)"
+                        [disabled]="product.stock === 0">
                   + Add to Cart
                 </button>
               </div>
@@ -136,7 +138,6 @@
     </div>
   </section>
 
-
   <!-- ═══ BRAND SHOWCASE ══════════════════════════════════════ -->
   <section class="section-pad section-pad--grey">
     <div class="container">
@@ -148,7 +149,7 @@
         </div>
       </div>
 
-      <div class="pg-brands__grid">
+      <div class="pg-brands__grid"> <!-- Brand filter tiles -->
         @for (brand of brands; track brand.slug) {
           <a class="pg-brands__tile"
              [class.active]="activeBrand === brand.slug"
@@ -163,7 +164,6 @@
     </div>
   </section>
 
-
   <!-- ═══ ROUTINE BUILDER / QUIZ ══════════════════════════════ -->
   <section class="section-pad" id="routine-builder">
     <div class="container">
@@ -176,10 +176,8 @@
       </div>
 
       <div class="pg-routine__widget">
-
-        @if (!quizComplete) {
-          <!-- Step indicators -->
-          <div class="pg-routine__steps">
+        @if (!quizComplete) { <!-- Quiz flow -->
+          <div class="pg-routine__steps"> <!-- Step indicators -->
             @for (step of quizSteps; track step.label; let i = $index) {
               <div class="pg-routine__step"
                    [class.active]="i === quizStep"
@@ -190,8 +188,7 @@
             }
           </div>
 
-          <!-- Question panel -->
-          <div class="pg-routine__panel">
+          <div class="pg-routine__panel"> <!-- Question panel -->
             <p class="pg-routine__question">{{ quizSteps[quizStep].question }}</p>
             <div class="pg-routine__options">
               @for (opt of quizSteps[quizStep].options; track opt.value) {
@@ -203,7 +200,8 @@
                 </button>
               }
             </div>
-            <div class="pg-routine__nav">
+
+            <div class="pg-routine__nav"> <!-- Quiz navigation -->
               @if (quizStep > 0) {
                 <button class="btn btn--ghost" (click)="prevStep()">← Back</button>
               }
@@ -215,8 +213,7 @@
             </div>
           </div>
 
-        } @else {
-          <!-- Result -->
+        } @else { <!-- Quiz result -->
           <div class="pg-routine__result">
             <div class="pg-routine__result-icon">🌿</div>
             <h3>Your routine is ready</h3>
@@ -227,11 +224,9 @@
             </div>
           </div>
         }
-
       </div>
     </div>
   </section>
-
 
   <!-- ═══ WHY PHARMAGRID ══════════════════════════════════════ -->
   <section class="section-pad section-pad--grey">
@@ -243,7 +238,7 @@
         </div>
       </div>
 
-      <div class="pg-why__grid">
+      <div class="pg-why__grid"> <!-- Value proposition cards -->
         @for (item of whyItems; track item.num) {
           <div class="pg-why__card">
             <div class="pg-why__card-num">{{ item.num }}</div>
@@ -255,7 +250,5 @@
     </div>
   </section>
 
-
-<!-- Footer-->>
-
+  <!-- Footer -->
 </div>
