@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PharmaGrid — Submitted Applications</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,500;0,600;1,500;1,600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    body { background: var(--off-white); }
+    .admin-wrap {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 48px 32px 80px;
+    }
+    .admin-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 28px;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+    .admin-header h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: 26px;
+      font-weight: 600;
+      color: var(--text);
+    }
+    .admin-header .back-link {
+      font-size: 13px;
+      color: var(--text-mid);
+      text-decoration: none;
+    }
+    .admin-header .back-link:hover { color: var(--teal); }
+    .admin-actions {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 24px;
+    }
+    .btn-secondary {
+      font-size: 13px;
+      font-weight: 500;
+      padding: 9px 18px;
+      border-radius: var(--radius);
+      border: 1px solid var(--border);
+      background: var(--white);
+      color: var(--text);
+      cursor: pointer;
+      transition: border-color 0.2s, color 0.2s;
+    }
+    .btn-secondary:hover { border-color: var(--teal); color: var(--teal); }
+    .btn-danger { color: #C0392B; }
+    .btn-danger:hover { border-color: #C0392B; color: #C0392B; }
+    .admin-count {
+      font-size: 12px;
+      color: var(--text-soft);
+      margin-bottom: 16px;
+    }
+    .app-list {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+    .app-card {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 20px 24px;
+      box-shadow: var(--shadow-sm);
+    }
+    .app-card-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 16px;
+      margin-bottom: 12px;
+    }
+    .app-brand {
+      font-size: 17px;
+      font-weight: 600;
+      color: var(--text);
+      font-family: 'Playfair Display', serif;
+    }
+    .app-date {
+      font-size: 11px;
+      color: var(--text-soft);
+      white-space: nowrap;
+    }
+    .app-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px 20px;
+      margin-bottom: 12px;
+    }
+    .app-field label {
+      display: block;
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--text-soft);
+      margin-bottom: 3px;
+    }
+    .app-field span {
+      font-size: 13px;
+      color: var(--text);
+    }
+    .app-message {
+      font-size: 13px;
+      color: var(--text-mid);
+      line-height: 1.6;
+      padding-top: 10px;
+      border-top: 1px solid var(--off-white);
+    }
+    .app-message.empty {
+      color: var(--text-soft);
+      font-style: italic;
+    }
+    .empty-state {
+      text-align: center;
+      padding: 80px 20px;
+      color: var(--text-soft);
+    }
+    .empty-state p:first-child {
+      font-size: 16px;
+      color: var(--text-mid);
+      margin-bottom: 6px;
+    }
+  </style>
+</head>
+<body>
+  <div class="admin-wrap">
+    <div class="admin-header">
+      <h1>Submitted Applications</h1>
+      <a href="index.html" class="back-link">← Back to site</a>
+    </div>
+
+    <div class="admin-actions">
+      <button class="btn-secondary" onclick="renderApps()">Refresh</button>
+      <button class="btn-secondary" onclick="exportCsv()">Export CSV</button>
+      <button class="btn-secondary btn-danger" onclick="clearApps()">Clear All</button>
+    </div>
+
+    <p class="admin-count" id="app-count"></p>
+    <div class="app-list" id="app-list"></div>
+  </div>
+
+  <script>
+    function getApps() {
+      return JSON.parse(localStorage.getItem('pharmagrid_applications') || '[]');
+    }
+
+    function formatDate(iso) {
+      const d = new Date(iso);
+      return d.toLocaleString(undefined, { dateStyle: 'medium', timeStyle: 'short' });
+    }
+
+    function escapeHtml(str) {
+      const div = document.createElement('div');
+      div.textContent = str || '';
+      return div.innerHTML;
+    }
+
+    function renderApps() {
+      const apps = getApps().slice().reverse();
+      const list = document.getElementById('app-list');
+      const count = document.getElementById('app-count');
+      count.textContent = apps.length + (apps.length === 1 ? ' application' : ' applications');
+
+      if (apps.length === 0) {
+        list.innerHTML = '<div class="empty-state"><p>No applications yet.</p><p>Submissions from the "Apply to join PharmaGrid" form on this device will show up here.</p></div>';
+        return;
+      }
+
+      list.innerHTML = apps.map(app => `
+        <div class="app-card">
+          <div class="app-card-top">
+            <span class="app-brand">${escapeHtml(app.brandName) || 'Unnamed brand'}</span>
+            <span class="app-date">${formatDate(app.submittedAt)}</span>
+          </div>
+          <div class="app-grid">
+            <div class="app-field"><label>Contact</label><span>${escapeHtml(app.yourName)}</span></div>
+            <div class="app-field"><label>Email</label><span>${escapeHtml(app.workEmail)}</span></div>
+            <div class="app-field"><label>Category</label><span>${escapeHtml(app.category)}</span></div>
+          </div>
+          <div class="app-message ${app.message ? '' : 'empty'}">${app.message ? escapeHtml(app.message) : 'No additional message provided.'}</div>
+        </div>
+      `).join('');
+    }
+
+    function exportCsv() {
+      const apps = getApps();
+      if (apps.length === 0) { alert('No applications to export.'); return; }
+
+      const headers = ['Submitted At', 'Brand Name', 'Your Name', 'Work Email', 'Category', 'Message'];
+      const rows = apps.map(a => [a.submittedAt, a.brandName, a.yourName, a.workEmail, a.category, a.message]);
+
+      const csv = [headers, ...rows]
+        .map(row => row.map(cell => `"${String(cell || '').replace(/"/g, '""')}"`).join(','))
+        .join('\r\n');
+
+      const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `pharmagrid-applications-${new Date().toISOString().slice(0, 10)}.csv`;
+      a.click();
+      URL.revokeObjectURL(url);
+    }
+
+    function clearApps() {
+      if (!confirm('Delete all saved applications from this browser? This cannot be undone.')) return;
+      localStorage.removeItem('pharmagrid_applications');
+      renderApps();
+    }
+
+    renderApps();
+  </script>
+</body>
+</html>
