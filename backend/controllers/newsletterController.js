@@ -1,7 +1,7 @@
 const db = require('../config/db');
 const { Resend } = require('resend');
 
-const resend = new Resend(process.env.RESEND_API_KEY);
+const resend = process.env.RESEND_API_KEY ? new Resend(process.env.RESEND_API_KEY) : null;
 
 const subscribe = async (req, res) => {
   try {
@@ -15,6 +15,10 @@ const subscribe = async (req, res) => {
     );
 
     // Send welcome email
+    if (!resend) {
+      console.warn('RESEND_API_KEY not set, skipping email');
+      return res.json({ message: 'Subscribed' });
+    }
     await resend.emails.send({
       from: 'PharmaGrid <newsletter@yourdomain.com>',
       to: email,
